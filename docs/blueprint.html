@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lean Blueprint · ClaimGraph · CKC</title>
+<meta name="description" content="CKC reconciles a Lean Blueprint's \leanok, the CKC commit history, and #print axioms onto one claim graph, surfacing where the three disagree.">
+<link rel="icon" type="image/png" href="assets/favicon.png">
+<link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+<link rel="stylesheet" href="assets/claimgraph.css">
+</head>
+<body>
+<nav class="nav"><div class="wrap">
+  <a class="home" href="index.html"><img class="brand" src="assets/logo.png" width="384" height="343" alt="">ClaimGraph</a>
+  <span class="sp"></span>
+  <a href="graph.html">Live graph</a>
+  <a href="how-it-works.html">How it works</a>
+  <a href="blueprint.html" class="here">Lean Blueprint</a>
+  <a class="ext" href="https://conventional-knowledge-commits.org/">Spec ↗</a>
+  <span class="navsep"></span>
+  <a class="gh" href="https://github.com/hotherio/claimgraph" aria-label="GitHub repository" title="GitHub repository"><svg viewBox="0 0 16 16" width="17" height="17" aria-hidden="true"><path fill="currentColor" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82a7.6 7.6 0 0 1 2-.27c.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg></a>
+</div></nav>
+
+<header class="hero"><div class="wrap">
+  <div class="tag">CKC × Lean Blueprint</div>
+  <h1>The cross-history honesty layer</h1>
+  <p class="lede">A <a href="https://github.com/PatrickMassot/leanblueprint">Lean Blueprint</a> is the
+  standard way to track a formalization. CKC does not replace it. CKC points <em>at</em> your
+  blueprint and reconciles it against two other sources of truth, surfacing exactly where they
+  disagree.</p>
+</div></header>
+
+<main class="prose"><div class="wrap">
+  <section>
+    <h2><span class="n">01</span>Three readings of one claim</h2>
+    <p>Every formalized claim is described three times, by three fallible sources:</p>
+    <div class="cols" style="grid-template-columns:1fr 1fr 1fr">
+      <div class="card"><h3>Blueprint <code>\leanok</code></h3><p>What the author <em>claims</em> is
+      formalized. A manual flag (even LeanArchitect's auto-flag is only <em>direct</em>, not
+      transitive). <code>checkdecls</code> never checks the kernel.</p></div>
+      <div class="card"><h3>Commit <code>Status:</code></h3><p>What the git <em>history</em>
+      recorded, over time. Append-only, and it can overclaim.</p></div>
+      <div class="card"><h3><code>#print axioms</code></h3><p>Kernel <em>reality</em>:
+      <code>clean</code> / <code>sorryAx</code> / <code>axiom</code>, read by
+      <code>axiom-report</code>. Ground truth, but silent on intent and history.</p></div>
+    </div>
+    <p>CKC unifies a claim's blueprint <code>\label</code>, its Lean FQN(s), and its registry slug onto
+    one node, attaches the three readings, computes the <strong>transitive</strong> effective status,
+    and classifies the agreement.</p>
+  </section>
+
+  <section>
+    <h2><span class="n">02</span>The discrepancy taxonomy</h2>
+    <p>The two categories in red are gaps a green blueprint graph hides:</p>
+<pre class="code">consistent             all three agree; effectively machine-checked
+<span class="brk">kernel-refutes-claim</span>   claimed/recorded proved, but the kernel says sorryAx / axiom
+<span class="brk">effective-gap</span>          itself clean &amp; claimed proved, but a DEPENDENCY is a hole
+undocumented           kernel-clean &amp; blueprint-proved, but no commit recorded it
+stale-blueprint        commit + kernel proved, but not marked \leanok
+paper-only             no Lean yet: a paper-level statement</pre>
+    <p>The headline is <code class="brk">effective-gap</code>: a node green in the blueprint and clean
+    in its own <code>#print axioms</code>, but transitively resting on an unproved step. Blueprint
+    green does not propagate; CKC's effective status does.</p>
+  </section>
+
+  <section>
+    <h2><span class="n">03</span>Reconciled, live</h2>
+    <p>The <a href="https://github.com/hotherio/paper-igl">paper-igl</a> formalization, reconciled
+    across all three sources. Node colour is effective status; a <span style="color:#9c3a34">red
+    double ring</span> marks a discrepancy. Click a claim to see its blueprint / history / kernel /
+    effective readings.</p>
+  </section>
+</div></main>
+
+<div class="board">
+  <div id="cy" aria-label="Reconciled ClaimGraph"></div>
+  <aside id="panel" class="panel">
+    <div class="legend">
+      <div class="tag">Effective status</div>
+      <ul class="swatches" id="status-legend"></ul>
+      <div class="tag">Agreement</div>
+      <ul class="swatches" id="agreement-legend"></ul>
+      <div class="tag">Relations</div>
+      <ul class="swatches" id="edge-legend"></ul>
+    </div>
+    <div id="detail" class="detail">
+      <p class="hint">Select a claim to compare its blueprint, history, and kernel readings.</p>
+    </div>
+  </aside>
+</div>
+
+<main class="prose"><div class="wrap">
+  <section>
+    <h2><span class="n">04</span>Run it on your blueprint</h2>
+    <p>Nothing to re-author. Point CKC at the blueprint you already keep:</p>
+<pre class="code"><span class="c"># import + ground a blueprint against the kernel</span>
+claimgraph blueprint blueprint/src/content.tex --project lean/
+
+<span class="c"># reconcile blueprint + commit history + kernel, and report disagreements</span>
+claimgraph reconcile blueprint/src/content.tex . --project lean/
+
+<span class="c"># a CI honesty gate: fail if anything is shown proved but is effectively open</span>
+claimgraph audit blueprint/src/content.tex --project lean/</pre>
+    <div class="callout"><b>Not a competitor.</b> Keep authoring your blueprint with
+    <code>leanblueprint</code> or LeanArchitect. CKC is the layer on top: it reconciles that blueprint
+    against the commit history and the kernel, and reports where author intent, recorded history, and
+    machine reality come apart.</div>
+
+    <div class="cta">
+      <a class="btn primary" href="graph.html">See the standalone graph →</a>
+      <a class="btn" href="https://conventional-knowledge-commits.org/proof-profile.html">The proof profile ↗</a>
+    </div>
+  </section>
+</div></main>
+
+<footer><div class="wrap">
+  Generated by <a href="https://github.com/hotherio/claimgraph">claimgraph</a> ·
+  part of <a href="https://conventional-knowledge-commits.org/">Conventional Knowledge Commits</a>.
+</div></footer>
+
+<script>window.CG_DATA = "assets/reconcile.json";</script>
+<script src="assets/vendor/cytoscape.min.js"></script>
+<script src="assets/claimgraph.js"></script>
+</body>
+</html>

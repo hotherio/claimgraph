@@ -12,25 +12,36 @@ SCHEMA_URL = (
 )
 
 
-def to_dict(graph: ClaimGraph) -> dict:
+def _node_dict(n) -> dict:
+    d = {
+        "id": n.id,
+        "kind": n.kind,
+        "statement": n.statement,
+        "status": n.status,
+        "effective_status": n.effective_status,
+        "in_question": n.in_question,
+        "weakest_dep": n.weakest_dep,
+    }
+    # reconciliation fields: emitted only when set, so commit-only graphs keep their shape.
+    if n.lean:
+        d["lean"] = n.lean
+    if n.aliases:
+        d["aliases"] = n.aliases
+    for fld in ("claimed", "asserted", "kernel", "agreement"):
+        val = getattr(n, fld)
+        if val is not None:
+            d[fld] = val
+    return d
+
+
+def to_dict(graph: ClaimGraph, sources: list[str] | None = None) -> dict:
+    meta = {"generator": "claimgraph", "spec_version": vocab()["spec_version"]}
+    if sources:
+        meta["sources"] = sources
     return {
         "$schema": SCHEMA_URL,
-        "meta": {
-            "generator": "claimgraph",
-            "spec_version": vocab()["spec_version"],
-        },
-        "nodes": [
-            {
-                "id": n.id,
-                "kind": n.kind,
-                "statement": n.statement,
-                "status": n.status,
-                "effective_status": n.effective_status,
-                "in_question": n.in_question,
-                "weakest_dep": n.weakest_dep,
-            }
-            for n in sorted(graph.nodes.values(), key=lambda n: n.id)
-        ],
+        "meta": meta,
+        "nodes": [_node_dict(n) for n in sorted(graph.nodes.values(), key=lambda n: n.id)],
         "edges": [
             {
                 "source": e.source,
@@ -43,5 +54,5 @@ def to_dict(graph: ClaimGraph) -> dict:
     }
 
 
-def to_json(graph: ClaimGraph, indent: int = 2) -> str:
-    return json.dumps(to_dict(graph), indent=indent, ensure_ascii=False)
+def to_json(graph: ClaimGraph, indent: int = 2, sources: list[str] | None = None) -> str:
+    return json.dumps(to_dict(graph, sources=sources), indent=indent, ensure_ascii=False)

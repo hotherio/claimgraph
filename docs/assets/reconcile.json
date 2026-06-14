@@ -1,0 +1,694 @@
+{
+  "$schema": "https://raw.githubusercontent.com/hotherio/claimgraph/main/schema/claimgraph.schema.json",
+  "meta": {
+    "generator": "claimgraph",
+    "spec_version": "0.1.0",
+    "sources": [
+      "blueprint",
+      "commits",
+      "kernel"
+    ]
+  },
+  "nodes": [
+    {
+      "id": "IGL.greensKernel",
+      "kind": "axiomatize",
+      "statement": "posit the elliptic Green's kernel operator",
+      "status": "math.axiomatised",
+      "effective_status": "math.axiomatised",
+      "in_question": false,
+      "weakest_dep": null,
+      "asserted": "math.axiomatised",
+      "agreement": "paper-only"
+    },
+    {
+      "id": "IGL.separableSource_hasCPRank",
+      "kind": "formalize",
+      "statement": "CP-rank sub-additivity, sub-multiplicativity, and rank-friendly differentiation",
+      "status": "math.machine-checked",
+      "effective_status": "math.machine-checked",
+      "in_question": false,
+      "weakest_dep": null,
+      "asserted": "math.machine-checked",
+      "agreement": "ungrounded"
+    },
+    {
+      "id": "cor:additive",
+      "kind": "theorem",
+      "statement": "Additive Green as $K=1$",
+      "status": "math.machine-checked",
+      "effective_status": "math.machine-checked",
+      "in_question": false,
+      "weakest_dep": null,
+      "lean": [
+        "IGL.additiveGreen_factorization"
+      ],
+      "aliases": [
+        "IGL.additiveGreen_factorization"
+      ],
+      "claimed": "math.machine-checked",
+      "asserted": "math.machine-checked",
+      "kernel": "math.machine-checked",
+      "agreement": "consistent"
+    },
+    {
+      "id": "cor:kan",
+      "kind": "theorem",
+      "statement": "KANs as $G=\\mathrm{Id}$",
+      "status": "math.machine-checked",
+      "effective_status": "math.machine-checked",
+      "in_question": false,
+      "weakest_dep": null,
+      "lean": [
+        "IGL.kan_reduction"
+      ],
+      "aliases": [
+        "IGL.kan_reduction"
+      ],
+      "claimed": "math.machine-checked",
+      "asserted": "math.machine-checked",
+      "kernel": "math.machine-checked",
+      "agreement": "consistent"
+    },
+    {
+      "id": "def:ansatz",
+      "kind": "definition",
+      "statement": "Target as Green's solution",
+      "status": "math.proved-informal",
+      "effective_status": "math.proved-informal",
+      "in_question": false,
+      "weakest_dep": null,
+      "agreement": "paper-only"
+    },
+    {
+      "id": "def:cp-rank",
+      "kind": "definition",
+      "statement": "CP-rank (upper bound)",
+      "status": "math.machine-checked",
+      "effective_status": "math.machine-checked",
+      "in_question": false,
+      "weakest_dep": null,
+      "lean": [
+        "IGL.HasCPRank"
+      ],
+      "aliases": [
+        "IGL.HasCPRank"
+      ],
+      "claimed": "math.machine-checked",
+      "asserted": "math.machine-checked",
+      "kernel": "math.machine-checked",
+      "agreement": "consistent"
+    },
+    {
+      "id": "def:igl-output",
+      "kind": "definition",
+      "statement": "IGL particular solution",
+      "status": "math.machine-checked",
+      "effective_status": "math.machine-checked",
+      "in_question": false,
+      "weakest_dep": null,
+      "lean": [
+        "IGL.iglParticular"
+      ],
+      "aliases": [
+        "IGL.iglParticular"
+      ],
+      "claimed": "math.machine-checked",
+      "asserted": "math.machine-checked",
+      "kernel": "math.machine-checked",
+      "agreement": "consistent"
+    },
+    {
+      "id": "def:metric",
+      "kind": "definition",
+      "statement": "Metric volume element",
+      "status": "math.proved-informal",
+      "effective_status": "math.proved-informal",
+      "in_question": false,
+      "weakest_dep": null,
+      "agreement": "paper-only"
+    },
+    {
+      "id": "def:nullspace",
+      "kind": "definition",
+      "statement": "Null-space polynomial term",
+      "status": "math.proved-informal",
+      "effective_status": "math.proved-informal",
+      "in_question": false,
+      "weakest_dep": null,
+      "agreement": "paper-only"
+    },
+    {
+      "id": "def:partial-integral",
+      "kind": "definition",
+      "statement": "1-D partial integral",
+      "status": "math.machine-checked",
+      "effective_status": "math.machine-checked",
+      "in_question": false,
+      "weakest_dep": null,
+      "lean": [
+        "IGL.partialIntegral"
+      ],
+      "aliases": [
+        "IGL.partialIntegral"
+      ],
+      "claimed": "math.machine-checked",
+      "asserted": "math.machine-checked",
+      "kernel": "math.machine-checked",
+      "agreement": "consistent"
+    },
+    {
+      "id": "def:separable-kernel",
+      "kind": "definition",
+      "statement": "Rank-$K$ separable kernel",
+      "status": "math.machine-checked",
+      "effective_status": "math.machine-checked",
+      "in_question": false,
+      "weakest_dep": null,
+      "lean": [
+        "IGL.separableKernel"
+      ],
+      "aliases": [
+        "IGL.separableKernel"
+      ],
+      "claimed": "math.machine-checked",
+      "asserted": "math.machine-checked",
+      "kernel": "math.machine-checked",
+      "agreement": "consistent"
+    },
+    {
+      "id": "def:separable-source",
+      "kind": "definition",
+      "statement": "Rank-$R$ separable source",
+      "status": "math.machine-checked",
+      "effective_status": "math.machine-checked",
+      "in_question": false,
+      "weakest_dep": null,
+      "lean": [
+        "IGL.separableSource"
+      ],
+      "aliases": [
+        "IGL.separableSource"
+      ],
+      "claimed": "math.machine-checked",
+      "asserted": "math.machine-checked",
+      "kernel": "math.machine-checked",
+      "agreement": "consistent"
+    },
+    {
+      "id": "master-formula",
+      "kind": "conjecture",
+      "statement": "The Green's integral factorises as a finite separable rank-K×R sum (the Master Formula).",
+      "status": "math.machine-checked",
+      "effective_status": "math.machine-checked",
+      "in_question": false,
+      "weakest_dep": null,
+      "asserted": "math.machine-checked",
+      "agreement": "ungrounded"
+    },
+    {
+      "id": "naive-separable",
+      "kind": "conjecture",
+      "statement": "On a curved chart the Green's kernel factorises separably as-is, with no metric compensation.",
+      "status": "math.disproved",
+      "effective_status": "math.disproved",
+      "in_question": false,
+      "weakest_dep": null,
+      "asserted": "math.disproved",
+      "agreement": "paper-only"
+    },
+    {
+      "id": "prop:expsum",
+      "kind": "theorem",
+      "statement": "Exponential-sum rank bound",
+      "status": "math.axiomatised",
+      "effective_status": "math.axiomatised",
+      "in_question": false,
+      "weakest_dep": null,
+      "lean": [
+        "IGL.expSumRank_logBound"
+      ],
+      "aliases": [
+        "IGL.expSumRank_logBound"
+      ],
+      "asserted": "math.axiomatised",
+      "kernel": "math.axiomatised",
+      "agreement": "consistent"
+    },
+    {
+      "id": "refute:naive-separable",
+      "kind": "refute",
+      "statement": "the rank-1 counterexample blocks naive separable factorization",
+      "status": null,
+      "effective_status": null,
+      "in_question": false,
+      "weakest_dep": null,
+      "agreement": "paper-only"
+    },
+    {
+      "id": "thm:barrier-if",
+      "kind": "theorem",
+      "statement": "Separability barrier — sufficiency (``if'')",
+      "status": "math.machine-checked",
+      "effective_status": "math.proved-informal",
+      "in_question": false,
+      "weakest_dep": "def:metric",
+      "lean": [
+        "IGL.barrier_if_factorization"
+      ],
+      "aliases": [
+        "IGL.barrier_if_factorization"
+      ],
+      "claimed": "math.machine-checked",
+      "asserted": "math.machine-checked",
+      "kernel": "math.machine-checked",
+      "agreement": "effective-gap"
+    },
+    {
+      "id": "thm:barrier-only-if",
+      "kind": "theorem",
+      "statement": "Separability barrier — necessity (witness)",
+      "status": "math.machine-checked",
+      "effective_status": "math.proved-informal",
+      "in_question": false,
+      "weakest_dep": "def:metric",
+      "lean": [
+        "IGL.barrierWitness_not_rank_one"
+      ],
+      "aliases": [
+        "IGL.barrierWitness_not_rank_one"
+      ],
+      "claimed": "math.machine-checked",
+      "asserted": "math.machine-checked",
+      "kernel": "math.machine-checked",
+      "agreement": "effective-gap"
+    },
+    {
+      "id": "thm:compensation",
+      "kind": "theorem",
+      "statement": "Compensation restores separability",
+      "status": "math.proved-informal",
+      "effective_status": "math.proved-informal",
+      "in_question": false,
+      "weakest_dep": null,
+      "agreement": "paper-only"
+    },
+    {
+      "id": "thm:cp-rank-add",
+      "kind": "theorem",
+      "statement": "Sub-additivity of CP-rank",
+      "status": "math.machine-checked",
+      "effective_status": "math.machine-checked",
+      "in_question": false,
+      "weakest_dep": null,
+      "lean": [
+        "IGL.HasCPRank.add"
+      ],
+      "aliases": [
+        "IGL.HasCPRank.add"
+      ],
+      "claimed": "math.machine-checked",
+      "asserted": "math.machine-checked",
+      "kernel": "math.machine-checked",
+      "agreement": "consistent"
+    },
+    {
+      "id": "thm:cp-rank-mul",
+      "kind": "theorem",
+      "statement": "Sub-multiplicativity of CP-rank",
+      "status": "math.machine-checked",
+      "effective_status": "math.machine-checked",
+      "in_question": false,
+      "weakest_dep": null,
+      "lean": [
+        "IGL.HasCPRank.mul"
+      ],
+      "aliases": [
+        "IGL.HasCPRank.mul"
+      ],
+      "claimed": "math.machine-checked",
+      "asserted": "math.machine-checked",
+      "kernel": "math.machine-checked",
+      "agreement": "consistent"
+    },
+    {
+      "id": "thm:diff-rank-friendly",
+      "kind": "theorem",
+      "statement": "Differentiation is rank-friendly",
+      "status": "math.machine-checked",
+      "effective_status": "math.machine-checked",
+      "in_question": false,
+      "weakest_dep": null,
+      "lean": [
+        "IGL.applyCoordOp_hasCPRank"
+      ],
+      "aliases": [
+        "IGL.applyCoordOp_hasCPRank"
+      ],
+      "claimed": "math.machine-checked",
+      "asserted": "math.machine-checked",
+      "kernel": "math.machine-checked",
+      "agreement": "consistent"
+    },
+    {
+      "id": "thm:exp-neg-sum",
+      "kind": "theorem",
+      "statement": "Additive eigenvalues become a product",
+      "status": "math.machine-checked",
+      "effective_status": "math.machine-checked",
+      "in_question": false,
+      "weakest_dep": null,
+      "lean": [
+        "IGL.exp_neg_sum_eigs"
+      ],
+      "aliases": [
+        "IGL.exp_neg_sum_eigs"
+      ],
+      "claimed": "math.machine-checked",
+      "asserted": "math.machine-checked",
+      "kernel": "math.machine-checked",
+      "agreement": "consistent"
+    },
+    {
+      "id": "thm:fubini-dfold",
+      "kind": "theorem",
+      "statement": "$d$-fold separable factorization",
+      "status": "math.machine-checked",
+      "effective_status": "math.machine-checked",
+      "in_question": false,
+      "weakest_dep": null,
+      "lean": [
+        "IGL.fubini_dfold"
+      ],
+      "aliases": [
+        "IGL.fubini_dfold"
+      ],
+      "claimed": "math.machine-checked",
+      "asserted": "math.machine-checked",
+      "kernel": "math.machine-checked",
+      "agreement": "consistent"
+    },
+    {
+      "id": "thm:fubini-rank1",
+      "kind": "theorem",
+      "statement": "Rank-1 / 2-factor factorization",
+      "status": "math.machine-checked",
+      "effective_status": "math.machine-checked",
+      "in_question": false,
+      "weakest_dep": null,
+      "lean": [
+        "igl_separable_factorization"
+      ],
+      "aliases": [
+        "igl_separable_factorization"
+      ],
+      "claimed": "math.machine-checked",
+      "asserted": "math.machine-checked",
+      "kernel": "math.machine-checked",
+      "agreement": "consistent"
+    },
+    {
+      "id": "thm:gauge",
+      "kind": "theorem",
+      "statement": "Gauge / coordinate invariance",
+      "status": "math.machine-checked",
+      "effective_status": "math.proved-informal",
+      "in_question": false,
+      "weakest_dep": "def:ansatz",
+      "lean": [
+        "IGL.gauge_invariance"
+      ],
+      "aliases": [
+        "IGL.gauge_invariance"
+      ],
+      "claimed": "math.machine-checked",
+      "asserted": "math.machine-checked",
+      "kernel": "math.machine-checked",
+      "agreement": "effective-gap"
+    },
+    {
+      "id": "thm:master-formula",
+      "kind": "theorem",
+      "statement": "Master Formula",
+      "status": "math.machine-checked",
+      "effective_status": "math.machine-checked",
+      "in_question": false,
+      "weakest_dep": null,
+      "lean": [
+        "IGL.fubini_factorization"
+      ],
+      "aliases": [
+        "IGL.fubini_factorization"
+      ],
+      "claimed": "math.machine-checked",
+      "asserted": "math.machine-checked",
+      "kernel": "math.machine-checked",
+      "agreement": "consistent"
+    },
+    {
+      "id": "thm:nullspace",
+      "kind": "theorem",
+      "statement": "Null-space characterisation",
+      "status": "math.proved-informal",
+      "effective_status": "math.proved-informal",
+      "in_question": false,
+      "weakest_dep": null,
+      "agreement": "paper-only"
+    },
+    {
+      "id": "thm:spectral-factor",
+      "kind": "theorem",
+      "statement": "Spectral factorized integral",
+      "status": "math.machine-checked",
+      "effective_status": "math.machine-checked",
+      "in_question": false,
+      "weakest_dep": null,
+      "lean": [
+        "IGL.spectral_factorization"
+      ],
+      "aliases": [
+        "IGL.spectral_factorization"
+      ],
+      "claimed": "math.machine-checked",
+      "asserted": "math.machine-checked",
+      "kernel": "math.machine-checked",
+      "agreement": "consistent"
+    },
+    {
+      "id": "thm:varpro",
+      "kind": "theorem",
+      "statement": "Envelope-theorem gradient",
+      "status": "math.proved-informal",
+      "effective_status": "math.proved-informal",
+      "in_question": false,
+      "weakest_dep": null,
+      "agreement": "paper-only"
+    }
+  ],
+  "edges": [
+    {
+      "source": "def:igl-output",
+      "target": "def:separable-source",
+      "relation": "Depends-On",
+      "breaking": false
+    },
+    {
+      "source": "def:igl-output",
+      "target": "def:separable-kernel",
+      "relation": "Depends-On",
+      "breaking": false
+    },
+    {
+      "source": "def:igl-output",
+      "target": "def:partial-integral",
+      "relation": "Depends-On",
+      "breaking": false
+    },
+    {
+      "source": "thm:fubini-dfold",
+      "target": "thm:fubini-rank1",
+      "relation": "Depends-On",
+      "breaking": false
+    },
+    {
+      "source": "thm:master-formula",
+      "target": "def:separable-source",
+      "relation": "Depends-On",
+      "breaking": false
+    },
+    {
+      "source": "thm:master-formula",
+      "target": "def:separable-kernel",
+      "relation": "Depends-On",
+      "breaking": false
+    },
+    {
+      "source": "thm:master-formula",
+      "target": "def:partial-integral",
+      "relation": "Depends-On",
+      "breaking": false
+    },
+    {
+      "source": "thm:master-formula",
+      "target": "def:igl-output",
+      "relation": "Depends-On",
+      "breaking": false
+    },
+    {
+      "source": "thm:master-formula",
+      "target": "thm:fubini-dfold",
+      "relation": "Depends-On",
+      "breaking": false
+    },
+    {
+      "source": "cor:kan",
+      "target": "thm:master-formula",
+      "relation": "Depends-On",
+      "breaking": false
+    },
+    {
+      "source": "cor:kan",
+      "target": "def:igl-output",
+      "relation": "Depends-On",
+      "breaking": false
+    },
+    {
+      "source": "cor:additive",
+      "target": "thm:master-formula",
+      "relation": "Depends-On",
+      "breaking": false
+    },
+    {
+      "source": "thm:spectral-factor",
+      "target": "thm:exp-neg-sum",
+      "relation": "Depends-On",
+      "breaking": false
+    },
+    {
+      "source": "thm:spectral-factor",
+      "target": "thm:fubini-dfold",
+      "relation": "Depends-On",
+      "breaking": false
+    },
+    {
+      "source": "thm:gauge",
+      "target": "def:ansatz",
+      "relation": "Depends-On",
+      "breaking": false
+    },
+    {
+      "source": "thm:cp-rank-add",
+      "target": "def:cp-rank",
+      "relation": "Depends-On",
+      "breaking": false
+    },
+    {
+      "source": "thm:cp-rank-mul",
+      "target": "def:cp-rank",
+      "relation": "Depends-On",
+      "breaking": false
+    },
+    {
+      "source": "thm:diff-rank-friendly",
+      "target": "def:cp-rank",
+      "relation": "Depends-On",
+      "breaking": false
+    },
+    {
+      "source": "thm:diff-rank-friendly",
+      "target": "def:separable-source",
+      "relation": "Depends-On",
+      "breaking": false
+    },
+    {
+      "source": "thm:barrier-if",
+      "target": "def:metric",
+      "relation": "Depends-On",
+      "breaking": false
+    },
+    {
+      "source": "thm:barrier-if",
+      "target": "thm:fubini-dfold",
+      "relation": "Depends-On",
+      "breaking": false
+    },
+    {
+      "source": "thm:barrier-only-if",
+      "target": "def:cp-rank",
+      "relation": "Depends-On",
+      "breaking": false
+    },
+    {
+      "source": "thm:barrier-only-if",
+      "target": "def:metric",
+      "relation": "Depends-On",
+      "breaking": false
+    },
+    {
+      "source": "thm:compensation",
+      "target": "thm:barrier-if",
+      "relation": "Depends-On",
+      "breaking": false
+    },
+    {
+      "source": "thm:compensation",
+      "target": "thm:master-formula",
+      "relation": "Depends-On",
+      "breaking": false
+    },
+    {
+      "source": "thm:compensation",
+      "target": "thm:cp-rank-mul",
+      "relation": "Depends-On",
+      "breaking": false
+    },
+    {
+      "source": "thm:compensation",
+      "target": "thm:cp-rank-add",
+      "relation": "Depends-On",
+      "breaking": false
+    },
+    {
+      "source": "prop:expsum",
+      "target": "def:separable-kernel",
+      "relation": "Depends-On",
+      "breaking": false
+    },
+    {
+      "source": "thm:varpro",
+      "target": "def:igl-output",
+      "relation": "Depends-On",
+      "breaking": false
+    },
+    {
+      "source": "thm:nullspace",
+      "target": "def:nullspace",
+      "relation": "Depends-On",
+      "breaking": false
+    },
+    {
+      "source": "def:separable-source",
+      "target": "master-formula",
+      "relation": "Closes",
+      "breaking": false
+    },
+    {
+      "source": "def:separable-source",
+      "target": "thm:fubini-rank1",
+      "relation": "Depends-On",
+      "breaking": false
+    },
+    {
+      "source": "cor:additive",
+      "target": "thm:fubini-dfold",
+      "relation": "Depends-On",
+      "breaking": false
+    },
+    {
+      "source": "refute:naive-separable",
+      "target": "naive-separable",
+      "relation": "Disproves",
+      "breaking": true
+    }
+  ]
+}
