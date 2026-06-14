@@ -8,21 +8,25 @@ kernel), compute the transitive effective status, and classify where the reading
 from __future__ import annotations
 
 from .blueprint import MC
-from .graph import compute
+from .graph import compute, compute_coverage
 from .model import ClaimGraph, Edge, Node
 
 # The discrepancy taxonomy. Order matters only for documentation; classify() returns one.
 CATEGORIES = (
     "consistent",            # the readings agree and the claim is effectively machine-checked
     "kernel-refutes-claim",  # a human source claims proved, but #print axioms says sorryAx / axiom
-    "effective-gap",         # node itself clean & claimed proved, but a DEPENDENCY breaks it
+    "blueprint-incomplete",  # kernel-clean & claimed proved, but it \\uses an UNFORMALIZED concept
     "undocumented",          # kernel-clean & blueprint-proved, but no commit ever recorded it
     "stale-blueprint",       # commit machine-checked & kernel clean, but not \\leanok
     "paper-only",            # no Lean, no kernel: a paper-level statement
     "ungrounded",            # kernel unavailable: claimed vs asserted only
 )
 
-GAP_CATEGORIES = frozenset({"kernel-refutes-claim", "effective-gap"})
+# A genuine *validity* gap: a claim shown proved that the kernel says is not. This is the honest
+# CI-failing set. `blueprint-incomplete` is a *coverage* signal (a warning), not a validity gap:
+# the theorem is machine-checked; the blueprint just links it to an unformalized concept.
+GAP_CATEGORIES = frozenset({"kernel-refutes-claim"})
+COVERAGE_CATEGORIES = frozenset({"blueprint-incomplete"})
 
 
 def _union_find(ids: set[str]):
@@ -112,7 +116,14 @@ def reconcile(blueprint: ClaimGraph, commits: ClaimGraph) -> ClaimGraph:
 
 
 def classify(n: Node, with_commits: bool) -> str:
-    """Assign one discrepancy category to a reconciled node."""
+    """Assign one discrepancy category to a reconciled node.
+
+    Validity and coverage are kept apart. ``kernel-refutes-claim`` is the only *validity* gap (a
+    claim shown proved that ``#print axioms`` contradicts). ``blueprint-incomplete`` is a *coverage*
+    signal: the node is machine-checked, but its ``\\uses`` closure includes an unformalized concept
+    (``blueprint_complete is False``). It is driven by coverage, never by ``effective_status`` -- so a
+    kernel-clean theorem is never reported as a validity gap merely for citing a prose definition.
+    """
     claimed_mc = n.claimed == MC
     asserted_mc = n.asserted == MC
     has_lean = bool(n.lean)
@@ -127,8 +138,8 @@ def classify(n: Node, with_commits: bool) -> str:
     kernel_mc = n.kernel == MC
     if (claimed_mc or asserted_mc) and not kernel_mc:
         return "kernel-refutes-claim"
-    if kernel_mc and claimed_mc and n.effective_status != MC:
-        return "effective-gap"
+    if kernel_mc and claimed_mc and n.blueprint_complete is False:
+        return "blueprint-incomplete"
     if with_commits and kernel_mc and claimed_mc and n.asserted is None:
         return "undocumented"
     if with_commits and kernel_mc and asserted_mc and n.claimed is None:
@@ -137,16 +148,23 @@ def classify(n: Node, with_commits: bool) -> str:
 
 
 def compute_agreement(graph: ClaimGraph, with_commits: bool) -> ClaimGraph:
-    """Compute effective status, then classify every node into the discrepancy taxonomy."""
+    """Compute validity (effective status) and coverage, then classify every node."""
     compute(graph)
+    compute_coverage(graph)
     for n in graph.nodes.values():
         n.agreement = classify(n, with_commits)
     return graph
 
 
-def audit(graph: ClaimGraph) -> list[Node]:
-    """Nodes whose readings disagree in a way that matters: claimed-but-not-really-proved."""
+def audit(graph: ClaimGraph, strict: bool = False) -> list[Node]:
+    """Nodes whose readings disagree in a way that matters.
+
+    By default this is the *validity* gaps only (``kernel-refutes-claim``): a claim shown proved
+    that the kernel refutes. With ``strict=True`` it also returns ``blueprint-incomplete`` coverage
+    gaps (claims that ``\\uses`` unformalized concepts).
+    """
+    gate = GAP_CATEGORIES | COVERAGE_CATEGORIES if strict else GAP_CATEGORIES
     return sorted(
-        (n for n in graph.nodes.values() if n.agreement in GAP_CATEGORIES),
+        (n for n in graph.nodes.values() if n.agreement in gate),
         key=lambda n: n.id,
     )

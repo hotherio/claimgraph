@@ -1,0 +1,27 @@
+% An illustrative Lean-Blueprint-style overlay for the machine-checked Four Colour Theorem
+% (Gonthier & Werner, Coq, 2005). Reconcile it with four-color.commits to line the blueprint's
+% \leanok claims up against the CKC commit history. The kernel column is not run here (the proof
+% is in Coq), so this is a two-source view: blueprint vs commits.
+
+\begin{definition}[Planar map and proper colouring]\label{def:planar-colouring}
+  \lean{FourColor.map}\leanok
+  A planar map and a proper colouring: adjacent regions receive distinct colours.
+\end{definition}
+
+\begin{theorem}[Unavoidable set]\label{thm:unavoidable}
+  \lean{FourColor.unavoidable}\leanok
+  \uses{def:planar-colouring}
+  Every planar triangulation contains one of a fixed finite set of configurations.
+\end{theorem}
+
+\begin{theorem}[Reducibility]\label{thm:reducible}
+  \lean{FourColor.reducible}\leanok
+  \uses{def:planar-colouring}
+  No configuration in the unavoidable set can appear in a minimal counterexample.
+\end{theorem}
+
+\begin{theorem}[Four Colour Theorem]\label{thm:four-color}
+  \lean{FourColor.four_color_theorem}\leanok
+  \uses{thm:unavoidable,thm:reducible}
+  Every planar map is four-colourable, kernel-checked end to end.
+\end{theorem}

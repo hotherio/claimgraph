@@ -22,7 +22,8 @@
       ],
       "claimed": "math.machine-checked",
       "kernel": "math.machine-checked",
-      "agreement": "consistent"
+      "agreement": "consistent",
+      "blueprint_complete": true
     },
     {
       "id": "lem:helper",
@@ -37,29 +38,32 @@
       ],
       "claimed": "math.machine-checked",
       "kernel": "math.open",
-      "agreement": "kernel-refutes-claim"
+      "agreement": "kernel-refutes-claim",
+      "blueprint_complete": true
     },
     {
       "id": "thm:bridge",
       "kind": "theorem",
       "statement": "Bridge whose Lean proof is clean",
       "status": "math.machine-checked",
-      "effective_status": "math.proved-informal",
+      "effective_status": "math.machine-checked",
       "in_question": false,
-      "weakest_dep": "thm:informal-step",
+      "weakest_dep": null,
       "lean": [
         "Demo.bridge"
       ],
       "claimed": "math.machine-checked",
       "kernel": "math.machine-checked",
-      "agreement": "effective-gap"
+      "agreement": "blueprint-incomplete",
+      "blueprint_complete": false,
+      "uses_gap": "thm:informal-step"
     },
     {
       "id": "thm:informal-step",
       "kind": "theorem",
       "statement": "Informal step, not formalized",
-      "status": "math.proved-informal",
-      "effective_status": "math.proved-informal",
+      "status": null,
+      "effective_status": null,
       "in_question": false,
       "weakest_dep": null,
       "agreement": "paper-only"
@@ -77,26 +81,27 @@
       ],
       "claimed": "math.machine-checked",
       "kernel": "math.open",
-      "agreement": "kernel-refutes-claim"
+      "agreement": "kernel-refutes-claim",
+      "blueprint_complete": true
     }
   ],
   "edges": [
     {
       "source": "lem:helper",
       "target": "def:base",
-      "relation": "Depends-On",
+      "relation": "Uses",
       "breaking": false
     },
     {
       "source": "thm:main",
       "target": "lem:helper",
-      "relation": "Depends-On",
+      "relation": "Uses",
       "breaking": false
     },
     {
       "source": "thm:bridge",
       "target": "thm:informal-step",
-      "relation": "Depends-On",
+      "relation": "Uses",
       "breaking": false
     }
   ]

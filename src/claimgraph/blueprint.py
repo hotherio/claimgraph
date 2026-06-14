@@ -206,9 +206,14 @@ def blueprint_graph(nodes: list[BlueprintNode], kernel: dict[str, str] | None = 
         elif bn.lean:
             n.status = OPEN
         else:
-            n.status = PROVED_INFORMAL
+            # A prose-only node (no \lean): a paper-level concept with no formal obligation. It is
+            # NOT "proved-informal" (a definition is not a proof), and -- crucially -- it must not
+            # drag a kernel-clean user's validity down, so we leave its status unset.
+            n.status = None
+        # `\uses` is a COVERAGE edge, not a validity dependency (see model.COVERAGE_RELATIONS):
+        # an expository "built on that concept" link, the authority on validity is the kernel.
         for dep in bn.uses:
-            g.edges.append(Edge(source=bn.label, target=dep, relation="Depends-On"))
+            g.edges.append(Edge(source=bn.label, target=dep, relation="Uses"))
         for tgt in bn.proves:
             g.edges.append(Edge(source=bn.label, target=tgt, relation="Proves"))
     return g

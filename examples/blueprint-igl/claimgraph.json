@@ -49,7 +49,8 @@
       "claimed": "math.machine-checked",
       "asserted": "math.machine-checked",
       "kernel": "math.machine-checked",
-      "agreement": "consistent"
+      "agreement": "consistent",
+      "blueprint_complete": true
     },
     {
       "id": "cor:kan",
@@ -68,14 +69,15 @@
       "claimed": "math.machine-checked",
       "asserted": "math.machine-checked",
       "kernel": "math.machine-checked",
-      "agreement": "consistent"
+      "agreement": "consistent",
+      "blueprint_complete": true
     },
     {
       "id": "def:ansatz",
       "kind": "definition",
       "statement": "Target as Green's solution",
-      "status": "math.proved-informal",
-      "effective_status": "math.proved-informal",
+      "status": null,
+      "effective_status": null,
       "in_question": false,
       "weakest_dep": null,
       "agreement": "paper-only"
@@ -97,7 +99,8 @@
       "claimed": "math.machine-checked",
       "asserted": "math.machine-checked",
       "kernel": "math.machine-checked",
-      "agreement": "consistent"
+      "agreement": "consistent",
+      "blueprint_complete": true
     },
     {
       "id": "def:igl-output",
@@ -116,14 +119,15 @@
       "claimed": "math.machine-checked",
       "asserted": "math.machine-checked",
       "kernel": "math.machine-checked",
-      "agreement": "consistent"
+      "agreement": "consistent",
+      "blueprint_complete": true
     },
     {
       "id": "def:metric",
       "kind": "definition",
       "statement": "Metric volume element",
-      "status": "math.proved-informal",
-      "effective_status": "math.proved-informal",
+      "status": null,
+      "effective_status": null,
       "in_question": false,
       "weakest_dep": null,
       "agreement": "paper-only"
@@ -132,8 +136,8 @@
       "id": "def:nullspace",
       "kind": "definition",
       "statement": "Null-space polynomial term",
-      "status": "math.proved-informal",
-      "effective_status": "math.proved-informal",
+      "status": null,
+      "effective_status": null,
       "in_question": false,
       "weakest_dep": null,
       "agreement": "paper-only"
@@ -155,7 +159,8 @@
       "claimed": "math.machine-checked",
       "asserted": "math.machine-checked",
       "kernel": "math.machine-checked",
-      "agreement": "consistent"
+      "agreement": "consistent",
+      "blueprint_complete": true
     },
     {
       "id": "def:separable-kernel",
@@ -174,7 +179,8 @@
       "claimed": "math.machine-checked",
       "asserted": "math.machine-checked",
       "kernel": "math.machine-checked",
-      "agreement": "consistent"
+      "agreement": "consistent",
+      "blueprint_complete": true
     },
     {
       "id": "def:separable-source",
@@ -193,7 +199,8 @@
       "claimed": "math.machine-checked",
       "asserted": "math.machine-checked",
       "kernel": "math.machine-checked",
-      "agreement": "consistent"
+      "agreement": "consistent",
+      "blueprint_complete": true
     },
     {
       "id": "master-formula",
@@ -233,7 +240,8 @@
       ],
       "asserted": "math.axiomatised",
       "kernel": "math.axiomatised",
-      "agreement": "consistent"
+      "agreement": "consistent",
+      "blueprint_complete": true
     },
     {
       "id": "refute:naive-separable",
@@ -250,9 +258,9 @@
       "kind": "theorem",
       "statement": "Separability barrier — sufficiency (``if'')",
       "status": "math.machine-checked",
-      "effective_status": "math.proved-informal",
+      "effective_status": "math.machine-checked",
       "in_question": false,
-      "weakest_dep": "def:metric",
+      "weakest_dep": null,
       "lean": [
         "IGL.barrier_if_factorization"
       ],
@@ -262,16 +270,18 @@
       "claimed": "math.machine-checked",
       "asserted": "math.machine-checked",
       "kernel": "math.machine-checked",
-      "agreement": "effective-gap"
+      "agreement": "blueprint-incomplete",
+      "blueprint_complete": false,
+      "uses_gap": "def:metric"
     },
     {
       "id": "thm:barrier-only-if",
       "kind": "theorem",
       "statement": "Separability barrier — necessity (witness)",
       "status": "math.machine-checked",
-      "effective_status": "math.proved-informal",
+      "effective_status": "math.machine-checked",
       "in_question": false,
-      "weakest_dep": "def:metric",
+      "weakest_dep": null,
       "lean": [
         "IGL.barrierWitness_not_rank_one"
       ],
@@ -281,14 +291,16 @@
       "claimed": "math.machine-checked",
       "asserted": "math.machine-checked",
       "kernel": "math.machine-checked",
-      "agreement": "effective-gap"
+      "agreement": "blueprint-incomplete",
+      "blueprint_complete": false,
+      "uses_gap": "def:metric"
     },
     {
       "id": "thm:compensation",
       "kind": "theorem",
       "statement": "Compensation restores separability",
-      "status": "math.proved-informal",
-      "effective_status": "math.proved-informal",
+      "status": null,
+      "effective_status": null,
       "in_question": false,
       "weakest_dep": null,
       "agreement": "paper-only"
@@ -310,7 +322,8 @@
       "claimed": "math.machine-checked",
       "asserted": "math.machine-checked",
       "kernel": "math.machine-checked",
-      "agreement": "consistent"
+      "agreement": "consistent",
+      "blueprint_complete": true
     },
     {
       "id": "thm:cp-rank-mul",
@@ -329,7 +342,8 @@
       "claimed": "math.machine-checked",
       "asserted": "math.machine-checked",
       "kernel": "math.machine-checked",
-      "agreement": "consistent"
+      "agreement": "consistent",
+      "blueprint_complete": true
     },
     {
       "id": "thm:diff-rank-friendly",
@@ -348,7 +362,8 @@
       "claimed": "math.machine-checked",
       "asserted": "math.machine-checked",
       "kernel": "math.machine-checked",
-      "agreement": "consistent"
+      "agreement": "consistent",
+      "blueprint_complete": true
     },
     {
       "id": "thm:exp-neg-sum",
@@ -367,7 +382,8 @@
       "claimed": "math.machine-checked",
       "asserted": "math.machine-checked",
       "kernel": "math.machine-checked",
-      "agreement": "consistent"
+      "agreement": "consistent",
+      "blueprint_complete": true
     },
     {
       "id": "thm:fubini-dfold",
@@ -386,7 +402,8 @@
       "claimed": "math.machine-checked",
       "asserted": "math.machine-checked",
       "kernel": "math.machine-checked",
-      "agreement": "consistent"
+      "agreement": "consistent",
+      "blueprint_complete": true
     },
     {
       "id": "thm:fubini-rank1",
@@ -405,16 +422,17 @@
       "claimed": "math.machine-checked",
       "asserted": "math.machine-checked",
       "kernel": "math.machine-checked",
-      "agreement": "consistent"
+      "agreement": "consistent",
+      "blueprint_complete": true
     },
     {
       "id": "thm:gauge",
       "kind": "theorem",
       "statement": "Gauge / coordinate invariance",
       "status": "math.machine-checked",
-      "effective_status": "math.proved-informal",
+      "effective_status": "math.machine-checked",
       "in_question": false,
-      "weakest_dep": "def:ansatz",
+      "weakest_dep": null,
       "lean": [
         "IGL.gauge_invariance"
       ],
@@ -424,7 +442,9 @@
       "claimed": "math.machine-checked",
       "asserted": "math.machine-checked",
       "kernel": "math.machine-checked",
-      "agreement": "effective-gap"
+      "agreement": "blueprint-incomplete",
+      "blueprint_complete": false,
+      "uses_gap": "def:ansatz"
     },
     {
       "id": "thm:master-formula",
@@ -443,14 +463,15 @@
       "claimed": "math.machine-checked",
       "asserted": "math.machine-checked",
       "kernel": "math.machine-checked",
-      "agreement": "consistent"
+      "agreement": "consistent",
+      "blueprint_complete": true
     },
     {
       "id": "thm:nullspace",
       "kind": "theorem",
       "statement": "Null-space characterisation",
-      "status": "math.proved-informal",
-      "effective_status": "math.proved-informal",
+      "status": null,
+      "effective_status": null,
       "in_question": false,
       "weakest_dep": null,
       "agreement": "paper-only"
@@ -472,14 +493,15 @@
       "claimed": "math.machine-checked",
       "asserted": "math.machine-checked",
       "kernel": "math.machine-checked",
-      "agreement": "consistent"
+      "agreement": "consistent",
+      "blueprint_complete": true
     },
     {
       "id": "thm:varpro",
       "kind": "theorem",
       "statement": "Envelope-theorem gradient",
-      "status": "math.proved-informal",
-      "effective_status": "math.proved-informal",
+      "status": null,
+      "effective_status": null,
       "in_question": false,
       "weakest_dep": null,
       "agreement": "paper-only"
@@ -489,180 +511,186 @@
     {
       "source": "def:igl-output",
       "target": "def:separable-source",
-      "relation": "Depends-On",
+      "relation": "Uses",
       "breaking": false
     },
     {
       "source": "def:igl-output",
       "target": "def:separable-kernel",
-      "relation": "Depends-On",
+      "relation": "Uses",
       "breaking": false
     },
     {
       "source": "def:igl-output",
       "target": "def:partial-integral",
-      "relation": "Depends-On",
+      "relation": "Uses",
       "breaking": false
     },
     {
       "source": "thm:fubini-dfold",
       "target": "thm:fubini-rank1",
-      "relation": "Depends-On",
+      "relation": "Uses",
       "breaking": false
     },
     {
       "source": "thm:master-formula",
       "target": "def:separable-source",
-      "relation": "Depends-On",
+      "relation": "Uses",
       "breaking": false
     },
     {
       "source": "thm:master-formula",
       "target": "def:separable-kernel",
-      "relation": "Depends-On",
+      "relation": "Uses",
       "breaking": false
     },
     {
       "source": "thm:master-formula",
       "target": "def:partial-integral",
-      "relation": "Depends-On",
+      "relation": "Uses",
       "breaking": false
     },
     {
       "source": "thm:master-formula",
       "target": "def:igl-output",
-      "relation": "Depends-On",
+      "relation": "Uses",
       "breaking": false
     },
     {
       "source": "thm:master-formula",
       "target": "thm:fubini-dfold",
-      "relation": "Depends-On",
+      "relation": "Uses",
       "breaking": false
     },
     {
       "source": "cor:kan",
       "target": "thm:master-formula",
-      "relation": "Depends-On",
+      "relation": "Uses",
       "breaking": false
     },
     {
       "source": "cor:kan",
       "target": "def:igl-output",
-      "relation": "Depends-On",
+      "relation": "Uses",
       "breaking": false
     },
     {
       "source": "cor:additive",
       "target": "thm:master-formula",
-      "relation": "Depends-On",
+      "relation": "Uses",
       "breaking": false
     },
     {
       "source": "thm:spectral-factor",
       "target": "thm:exp-neg-sum",
-      "relation": "Depends-On",
+      "relation": "Uses",
       "breaking": false
     },
     {
       "source": "thm:spectral-factor",
       "target": "thm:fubini-dfold",
-      "relation": "Depends-On",
+      "relation": "Uses",
       "breaking": false
     },
     {
       "source": "thm:gauge",
       "target": "def:ansatz",
-      "relation": "Depends-On",
+      "relation": "Uses",
       "breaking": false
     },
     {
       "source": "thm:cp-rank-add",
       "target": "def:cp-rank",
-      "relation": "Depends-On",
+      "relation": "Uses",
       "breaking": false
     },
     {
       "source": "thm:cp-rank-mul",
       "target": "def:cp-rank",
-      "relation": "Depends-On",
+      "relation": "Uses",
       "breaking": false
     },
     {
       "source": "thm:diff-rank-friendly",
       "target": "def:cp-rank",
-      "relation": "Depends-On",
+      "relation": "Uses",
       "breaking": false
     },
     {
       "source": "thm:diff-rank-friendly",
       "target": "def:separable-source",
-      "relation": "Depends-On",
+      "relation": "Uses",
       "breaking": false
     },
     {
       "source": "thm:barrier-if",
       "target": "def:metric",
-      "relation": "Depends-On",
+      "relation": "Uses",
       "breaking": false
     },
     {
       "source": "thm:barrier-if",
       "target": "thm:fubini-dfold",
-      "relation": "Depends-On",
+      "relation": "Uses",
       "breaking": false
     },
     {
       "source": "thm:barrier-only-if",
       "target": "def:cp-rank",
-      "relation": "Depends-On",
+      "relation": "Uses",
       "breaking": false
     },
     {
       "source": "thm:barrier-only-if",
       "target": "def:metric",
-      "relation": "Depends-On",
+      "relation": "Uses",
       "breaking": false
     },
     {
       "source": "thm:compensation",
       "target": "thm:barrier-if",
-      "relation": "Depends-On",
+      "relation": "Uses",
       "breaking": false
     },
     {
       "source": "thm:compensation",
       "target": "thm:master-formula",
-      "relation": "Depends-On",
+      "relation": "Uses",
       "breaking": false
     },
     {
       "source": "thm:compensation",
       "target": "thm:cp-rank-mul",
-      "relation": "Depends-On",
+      "relation": "Uses",
       "breaking": false
     },
     {
       "source": "thm:compensation",
       "target": "thm:cp-rank-add",
-      "relation": "Depends-On",
+      "relation": "Uses",
       "breaking": false
     },
     {
       "source": "prop:expsum",
       "target": "def:separable-kernel",
-      "relation": "Depends-On",
+      "relation": "Uses",
       "breaking": false
     },
     {
       "source": "thm:varpro",
       "target": "def:igl-output",
-      "relation": "Depends-On",
+      "relation": "Uses",
       "breaking": false
     },
     {
       "source": "thm:nullspace",
       "target": "def:nullspace",
+      "relation": "Uses",
+      "breaking": false
+    },
+    {
+      "source": "def:separable-source",
+      "target": "thm:fubini-rank1",
       "relation": "Depends-On",
       "breaking": false
     },
@@ -673,14 +701,26 @@
       "breaking": false
     },
     {
-      "source": "def:separable-source",
-      "target": "thm:fubini-rank1",
+      "source": "cor:additive",
+      "target": "thm:master-formula",
       "relation": "Depends-On",
       "breaking": false
     },
     {
       "source": "cor:additive",
       "target": "thm:fubini-dfold",
+      "relation": "Depends-On",
+      "breaking": false
+    },
+    {
+      "source": "thm:barrier-if",
+      "target": "thm:fubini-dfold",
+      "relation": "Depends-On",
+      "breaking": false
+    },
+    {
+      "source": "thm:barrier-only-if",
+      "target": "def:cp-rank",
       "relation": "Depends-On",
       "breaking": false
     },

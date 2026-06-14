@@ -33,14 +33,16 @@
   // reconcile mode: a node carries three readings (blueprint / history / kernel) + an agreement.
   const AGREEMENT = {
     "consistent": ["#8fae82", "consistent"],
-    "kernel-refutes-claim": ["#9c3a34", "kernel refutes claim"],
-    "effective-gap": ["#9c3a34", "effective gap (rests on a hole)"],
+    "kernel-refutes-claim": ["#9c3a34", "kernel refutes claim (validity gap)"],
+    "blueprint-incomplete": ["#bd9a55", "blueprint-incomplete (uses an unformalized concept)"],
     "undocumented": ["#bd9a55", "undocumented"],
     "stale-blueprint": ["#5b6b78", "stale blueprint"],
     "paper-only": ["#b6ad9b", "paper only"],
     "ungrounded": ["#7d749e", "ungrounded"],
   };
-  const GAP = new Set(["kernel-refutes-claim", "effective-gap"]);
+  // Only a validity gap (kernel refutes a claim) is a hard "red ring" failure. blueprint-incomplete
+  // is a coverage warning: the theorem is machine-checked, it just \uses an unformalized concept.
+  const GAP = new Set(["kernel-refutes-claim"]);
   let RECONCILE = false;
 
   const edgeColor = (r) => BREAK.has(r) ? "#9c3a34" : PROVE.has(r) ? "#8fae82" : r === "Supersedes" ? "#dcc085" : "#6b7280";
@@ -70,7 +72,7 @@
     const demoted = eff && d.status && eff !== d.status;
     if (RECONCILE) {
       const [c, label] = AGREEMENT[d.agreement] || ["#6b7280", d.agreement || "?"];
-      const via = (d.agreement === "effective-gap" && d.weakest_dep) ? ` <span class="muted">← ${d.weakest_dep}</span>` : "";
+      const via = (d.agreement === "blueprint-incomplete" && d.uses_gap) ? ` <span class="muted">uses ${d.uses_gap}</span>` : "";
       el.innerHTML = `
         <h2>${d.id}</h2>
         <div class="kind">${d.kind || "claim"}</div>
@@ -131,6 +133,7 @@
         kind: n.kind, inq: !!n.in_question, weakest_dep: n.weakest_dep,
         effective_status: n.effective_status,
         claimed: n.claimed, asserted: n.asserted, kernel: n.kernel, agreement: n.agreement || null,
+        uses_gap: n.uses_gap || null, blueprint_complete: n.blueprint_complete,
       } });
     }
     const depOut = new Map(), depIn = new Map();
@@ -159,8 +162,10 @@
           "width": 20, "height": 20, "border-width": 1.4, "border-color": "rgba(0,0,0,.45)",
         } },
         { selector: "node[?inq]", style: { "border-color": "#9c3a34", "border-width": 2, "border-style": "dashed" } },
-        { selector: 'node[agreement = "kernel-refutes-claim"], node[agreement = "effective-gap"]',
+        { selector: 'node[agreement = "kernel-refutes-claim"]',
           style: { "border-color": "#9c3a34", "border-width": 3.4, "border-style": "double" } },
+        { selector: 'node[agreement = "blueprint-incomplete"]',
+          style: { "border-color": "#bd9a55", "border-width": 2.6, "border-style": "dashed" } },
         { selector: "edge", style: {
           "width": 1.6, "curve-style": "bezier", "target-arrow-shape": "triangle", "arrow-scale": 0.85,
           "line-color": (e) => edgeColor(e.data("relation")),

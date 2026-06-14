@@ -51,24 +51,32 @@
 
   <section>
     <h2><span class="n">02</span>The discrepancy taxonomy</h2>
-    <p>The two categories in red are gaps a green blueprint graph hides:</p>
-<pre class="code">consistent             all three agree; effectively machine-checked
-<span class="brk">kernel-refutes-claim</span>   claimed/recorded proved, but the kernel says sorryAx / axiom
-<span class="brk">effective-gap</span>          itself clean &amp; claimed proved, but a DEPENDENCY is a hole
+    <p>CKC keeps two questions apart. <strong>Validity</strong> &mdash; does the claim hold? &mdash; is
+    decided by the kernel. <strong>Coverage</strong> &mdash; is every concept it is built on actually
+    formalized? &mdash; is decided by the <code>\uses</code> graph. They are orthogonal:</p>
+<pre class="code">consistent             all readings agree; machine-checked, fully covered
+<span class="brk">kernel-refutes-claim</span>   VALIDITY gap: claimed/recorded proved, but the kernel says sorryAx / axiom
+<span class="warn">blueprint-incomplete</span>   COVERAGE gap: machine-checked, but it \uses an UNFORMALIZED concept
 undocumented           kernel-clean &amp; blueprint-proved, but no commit recorded it
 stale-blueprint        commit + kernel proved, but not marked \leanok
 paper-only             no Lean yet: a paper-level statement</pre>
-    <p>The headline is <code class="brk">effective-gap</code>: a node green in the blueprint and clean
-    in its own <code>#print axioms</code>, but transitively resting on an unproved step. Blueprint
-    green does not propagate; CKC's effective status does.</p>
+    <p>Only <code class="brk">kernel-refutes-claim</code> is a real validity gap (the honesty gate
+    fails on it). <code class="warn">blueprint-incomplete</code> is a coverage signal, not a hole: the
+    theorem is genuinely machine-checked &mdash; <code>#print axioms</code> already certifies its full
+    logical closure &mdash; it just <code>\uses</code> a concept the blueprint never formalized. A
+    <code>\uses</code> to a prose definition is expository, not a logical dependency, so it never drags
+    a clean theorem's validity down.</p>
   </section>
 
   <section>
-    <h2><span class="n">03</span>Reconciled, live</h2>
-    <p>The <a href="https://github.com/hotherio/paper-igl">paper-igl</a> formalization, reconciled
-    across all three sources. Node colour is effective status; a <span style="color:#9c3a34">red
-    double ring</span> marks a discrepancy. Click a claim to see its blueprint / history / kernel /
-    effective readings.</p>
+    <h2><span class="n">03</span>Reconciled: the Four Colour Theorem</h2>
+    <p>An illustrative blueprint for the machine-checked <a
+    href="https://en.wikipedia.org/wiki/Four_color_theorem">Four Colour Theorem</a> (Gonthier &amp;
+    Werner, Coq, 2005), reconciled against its <a href="graph.html">CKC commit history</a> &mdash; from
+    Guthrie's conjecture through Kempe's and Tait's refuted proofs to the kernel-checked result. This
+    is a <strong>two-source</strong> view: blueprint <code>\leanok</code> vs commit <code>Status:</code>.
+    The kernel column is left <em>ungrounded</em> here (the proof is in Coq; no <code>#print axioms</code>
+    was run). Node colour is effective status; click a claim to compare its readings.</p>
   </section>
 </div></main>
 
@@ -99,8 +107,10 @@ claimgraph blueprint blueprint/src/content.tex --project lean/
 <span class="c"># reconcile blueprint + commit history + kernel, and report disagreements</span>
 claimgraph reconcile blueprint/src/content.tex . --project lean/
 
-<span class="c"># a CI honesty gate: fail if anything is shown proved but is effectively open</span>
-claimgraph audit blueprint/src/content.tex --project lean/</pre>
+<span class="c"># a CI honesty gate: fail if the kernel refutes a claim shown proved (a validity gap)</span>
+claimgraph audit blueprint/src/content.tex --project lean/
+<span class="c"># --strict also fails on coverage gaps (machine-checked, but uses an unformalized concept)</span>
+claimgraph audit blueprint/src/content.tex --project lean/ --strict</pre>
     <div class="callout"><b>Not a competitor.</b> Keep authoring your blueprint with
     <code>leanblueprint</code> or LeanArchitect. CKC is the layer on top: it reconciles that blueprint
     against the commit history and the kernel, and reports where author intent, recorded history, and

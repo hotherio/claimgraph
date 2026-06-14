@@ -27,7 +27,7 @@ def _node_dict(n) -> dict:
         d["lean"] = n.lean
     if n.aliases:
         d["aliases"] = n.aliases
-    for fld in ("claimed", "asserted", "kernel", "agreement"):
+    for fld in ("claimed", "asserted", "kernel", "agreement", "blueprint_complete", "uses_gap"):
         val = getattr(n, fld)
         if val is not None:
             d[fld] = val

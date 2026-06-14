@@ -80,8 +80,16 @@
         },
         "agreement": {
           "type": ["string", "null"],
-          "enum": ["consistent", "kernel-refutes-claim", "effective-gap", "undocumented", "stale-blueprint", "paper-only", "ungrounded", null],
-          "description": "Cross-history reconciliation category (where the three readings agree or disagree)."
+          "enum": ["consistent", "kernel-refutes-claim", "blueprint-incomplete", "undocumented", "stale-blueprint", "paper-only", "ungrounded", null],
+          "description": "Cross-history reconciliation category. kernel-refutes-claim is a validity gap; blueprint-incomplete is a coverage gap (machine-checked but uses an unformalized concept)."
+        },
+        "blueprint_complete": {
+          "type": ["boolean", "null"],
+          "description": "Blueprint coverage: true iff every concept this claim \\uses is modelled in Lean. null when coverage does not apply (a prose-only node). Orthogonal to validity."
+        },
+        "uses_gap": {
+          "type": ["string", "null"],
+          "description": "An example node in the \\uses closure that has no Lean formalization, when blueprint_complete is false."
         }
       },
       "additionalProperties": true
@@ -97,6 +105,7 @@
           "enum": [
             "Depends-On",
             "Assumes",
+            "Uses",
             "Proves",
             "Closes",
             "Refutes",
