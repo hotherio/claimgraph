@@ -1,0 +1,76 @@
+conjecture(pnt): the primes thin out like x over log x
+
+Gauss and Legendre, from tables of primes, conjecture that the number of primes
+below x is asymptotic to x divided by the natural logarithm of x.
+
+Status: math.conjectured
+---
+proof(chebyshev): the count is of the right order
+
+Chebyshev proves that the prime count is bounded above and below by constant
+multiples of x over log x, but cannot pin the constant to one.
+
+Status: math.proved-informal
+---
+proof(zeta-nonvanishing): the zeta function has no zero on the line Re(s) = 1
+
+The Riemann zeta function does not vanish on the edge of the critical strip. This
+analytic fact is exactly what an asymptotic count needs.
+
+Status: math.proved-informal
+---
+proof(hadamard): an analytic proof via the zeta function
+
+Hadamard derives the asymptotic law from the non-vanishing of zeta on the line,
+using complex analysis.
+
+Status: math.proved-informal
+Depends-On: zeta-nonvanishing
+Closes: conjecture:pnt
+---
+proof(de-la-vallee-poussin): an independent analytic proof the same year
+
+De la Vallee Poussin proves the theorem independently, also from the zeta
+non-vanishing, with sharper error terms.
+
+Status: math.proved-informal
+Depends-On: zeta-nonvanishing
+Closes: conjecture:pnt
+---
+proof(erdos-selberg): an elementary proof with no complex analysis
+
+Erdos and Selberg prove the theorem by real-variable methods alone, resting on
+none of the zeta machinery.
+
+Status: math.proved-informal
+Closes: conjecture:pnt
+Cites: Erdos and Selberg, 1949
+---
+formalize(pnt): a kernel-checked proof in Isabelle
+
+Avigad and collaborators formalise the elementary proof in Isabelle, so the
+asymptotic law is checked by the kernel.
+
+Formal-Statement: isabelle:PNT.prime_number_theorem
+Status: math.machine-checked
+Verified-By: Isabelle
+Closes: conjecture:pnt
+Cites: Avigad et al. 2007
+---
+conjecture(rh): every non-trivial zero of zeta lies on the critical line
+
+The Riemann hypothesis: all non-trivial zeros of the zeta function have real part
+one half. Still open.
+
+Status: math.conjectured
+---
+proof(pnt-error-rh): on the Riemann hypothesis, a near-optimal error term
+
+If the Riemann hypothesis holds, the difference between the prime count and the
+logarithmic integral is bounded by the square root of x times log x. The argument
+is complete, but it rests on an open conjecture.
+
+Status: math.proved-informal
+Depends-On: pnt
+Assumes: rh
+

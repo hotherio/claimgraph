@@ -1,0 +1,140 @@
+{
+  "$schema": "https://raw.githubusercontent.com/hotherio/claimgraph/main/schema/claimgraph.schema.json",
+  "meta": {
+    "generator": "claimgraph",
+    "spec_version": "0.1.0"
+  },
+  "nodes": [
+    {
+      "id": "PNT.prime_number_theorem",
+      "kind": "formalize",
+      "statement": "a kernel-checked proof in Isabelle",
+      "status": "math.machine-checked",
+      "effective_status": "math.machine-checked",
+      "in_question": false,
+      "weakest_dep": null
+    },
+    {
+      "id": "chebyshev",
+      "kind": "theorem",
+      "statement": "Chebyshev's bounds: the prime count is of the order x over log x, up to constants.",
+      "status": "math.proved-informal",
+      "effective_status": "math.proved-informal",
+      "in_question": false,
+      "weakest_dep": null
+    },
+    {
+      "id": "de-la-vallee-poussin",
+      "kind": "theorem",
+      "statement": "De la Vallee Poussin's independent analytic proof, with error bounds.",
+      "status": "math.proved-informal",
+      "effective_status": "math.proved-informal",
+      "in_question": false,
+      "weakest_dep": null
+    },
+    {
+      "id": "erdos-selberg",
+      "kind": "theorem",
+      "statement": "The Erdos-Selberg elementary proof, using no complex analysis.",
+      "status": "math.proved-informal",
+      "effective_status": "math.proved-informal",
+      "in_question": false,
+      "weakest_dep": null
+    },
+    {
+      "id": "hadamard",
+      "kind": "theorem",
+      "statement": "Hadamard's analytic proof of the prime number theorem.",
+      "status": "math.proved-informal",
+      "effective_status": "math.proved-informal",
+      "in_question": false,
+      "weakest_dep": null
+    },
+    {
+      "id": "pnt",
+      "kind": "conjecture",
+      "statement": "The number of primes below x is asymptotic to x divided by the natural logarithm of x.",
+      "status": "math.machine-checked",
+      "effective_status": "math.machine-checked",
+      "in_question": false,
+      "weakest_dep": null
+    },
+    {
+      "id": "pnt-error-rh",
+      "kind": "theorem",
+      "statement": "On the Riemann hypothesis, the prime-counting error term is O(sqrt(x) log x).",
+      "status": "math.proved-informal",
+      "effective_status": "math.conjectured",
+      "in_question": false,
+      "weakest_dep": "rh"
+    },
+    {
+      "id": "rh",
+      "kind": "conjecture",
+      "statement": "Every non-trivial zero of the Riemann zeta function has real part one half. Open.",
+      "status": "math.conjectured",
+      "effective_status": "math.conjectured",
+      "in_question": false,
+      "weakest_dep": null
+    },
+    {
+      "id": "zeta-nonvanishing",
+      "kind": "lemma",
+      "statement": "The Riemann zeta function does not vanish on the line Re(s) = 1.",
+      "status": "math.proved-informal",
+      "effective_status": "math.proved-informal",
+      "in_question": false,
+      "weakest_dep": null
+    }
+  ],
+  "edges": [
+    {
+      "source": "hadamard",
+      "target": "pnt",
+      "relation": "Closes",
+      "breaking": false
+    },
+    {
+      "source": "hadamard",
+      "target": "zeta-nonvanishing",
+      "relation": "Depends-On",
+      "breaking": false
+    },
+    {
+      "source": "de-la-vallee-poussin",
+      "target": "pnt",
+      "relation": "Closes",
+      "breaking": false
+    },
+    {
+      "source": "de-la-vallee-poussin",
+      "target": "zeta-nonvanishing",
+      "relation": "Depends-On",
+      "breaking": false
+    },
+    {
+      "source": "erdos-selberg",
+      "target": "pnt",
+      "relation": "Closes",
+      "breaking": false
+    },
+    {
+      "source": "PNT.prime_number_theorem",
+      "target": "pnt",
+      "relation": "Closes",
+      "breaking": false
+    },
+    {
+      "source": "pnt-error-rh",
+      "target": "rh",
+      "relation": "Assumes",
+      "breaking": false
+    },
+    {
+      "source": "pnt-error-rh",
+      "target": "pnt",
+      "relation": "Depends-On",
+      "breaking": false
+    }
+  ]
+}

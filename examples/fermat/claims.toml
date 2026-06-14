@@ -1,0 +1,29 @@
+[claims.flt]
+kind      = "conjecture"
+statement = "There are no positive integers a, b, c with a^n + b^n = c^n for any integer n greater than two."
+created   = "1637-01-01"
+
+[claims.modularity]
+kind      = "conjecture"
+statement = "Every elliptic curve over the rationals is modular (the Taniyama-Shimura-Weil conjecture)."
+created   = "1955-01-01"
+
+[claims.frey-curve]
+kind      = "finding"
+statement = "A counterexample to Fermat would yield a semistable elliptic curve incompatible with modularity."
+created   = "1985-01-01"
+
+[claims.ribet]
+kind      = "theorem"
+statement = "Serre's epsilon conjecture: the Frey curve is not modular, so modularity implies Fermat."
+created   = "1986-01-01"
+
+[claims.wiles-1993]
+kind      = "finding"
+statement = "Wiles's 1993 proof of semistable modularity, later found to have a gap in the Euler-system step."
+created   = "1993-06-23"
+
+[claims.taylor-wiles]
+kind      = "theorem"
+statement = "The Taylor-Wiles patching argument completes the proof of semistable modularity."
+created   = "1994-10-01"
