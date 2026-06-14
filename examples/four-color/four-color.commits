@@ -1,0 +1,130 @@
+conjecture(four-color): four colours suffice to colour any planar map
+
+Francis Guthrie, colouring a map of English counties, notices that four colours
+always seem to be enough. The claim: every planar map is four-colourable.
+
+Status: math.conjectured
+---
+proof(kempe-chains): the two-colour Kempe-chain interchange
+
+A maximal subgraph in two of the colours can be recoloured by swapping those two
+colours along it, freeing structure elsewhere. A valid, reusable lemma.
+
+Status: math.proved-informal
+---
+proof(kempe): a Kempe-chain argument four-colours every planar map
+
+Alfred Kempe reduces to cubic maps, removes a vertex, and frees a colour by
+interchanging two Kempe chains.
+
+Status: math.proved-informal
+Depends-On: kempe-chains
+Closes: conjecture:four-color
+---
+proof(tait): reduce four-colouring to edge-three-colouring of cubic maps
+
+Peter Guthrie Tait gives an independent argument via edge colourings of cubic
+planar graphs.
+
+Status: math.proved-informal
+Closes: conjecture:four-color
+---
+refute(kempe)!: two Kempe chains can cross, and the interchange fails
+
+Percy Heawood exhibits a map where the two chains Kempe recolours independently
+in fact share a vertex, so the recolouring is not well defined.
+
+Status: math.disproved
+Disproves: kempe
+BREAKING CHANGE: Kempe's four-colour proof is withdrawn; the conjecture is open again.
+---
+proof(five-color): the Kempe-chain method does prove five colours suffice
+
+Heawood salvages the technique: for five colours a single chain interchange is
+enough, and it is sound. The Five Colour Theorem stands.
+
+Status: math.proved-informal
+Depends-On: kempe-chains
+---
+refute(tait)!: the Petersen graph has no edge-three-colouring
+
+Tait's reduction assumed every cubic planar bridgeless graph is edge-three-
+colourable; the Petersen graph is a counterexample to the general claim.
+
+Status: math.disproved
+Disproves: tait
+BREAKING CHANGE: Tait's four-colour proof is withdrawn.
+---
+axiomatize~(unavoidability): an unavoidable set of configurations exists
+
+Discharging shows every planar triangulation must contain one of a fixed finite
+set of configurations. The 1976 discharging search was run by computer.
+
+Status: math.axiomatised
+AXIOM: unavoidability (discharging verified by an unaudited 1976 program)
+Cites: Appel & Haken 1976, Illinois J. Math.
+---
+axiomatize~(reducibility): each configuration in the set is reducible
+
+No configuration in the unavoidable set can appear in a minimal counterexample.
+Checked, one configuration at a time, by computer.
+
+Status: math.axiomatised
+AXIOM: reducibility (1834 configurations checked by an unaudited 1976 program)
+Cites: Appel & Haken 1976, Illinois J. Math.
+---
+proof(appel-haken): the Four Colour Theorem, modulo the computer checks
+
+A minimal counterexample would contain a reducible configuration, which it cannot.
+The argument is sound; its trusted base is the two computer searches.
+
+Status: math.axiomatised
+Assumes: unavoidability
+Assumes: reducibility
+Closes: conjecture:four-color
+---
+proof(rsst): a smaller, cleaner proof with 633 configurations
+
+Robertson, Sanders, Seymour, and Thomas rebuild the proof with a shorter
+discharging rule and far fewer configurations. Still computer-assisted.
+
+Status: math.axiomatised
+Assumes: unavoidability
+Assumes: reducibility
+Supersedes: appel-haken
+Closes: conjecture:four-color
+---
+formalize(reducibility): a kernel-checked reducibility test in Coq
+
+Gonthier and Werner formalise the reducibility check so the kernel, not an
+external program, verifies every configuration.
+
+Formal-Statement: rocq:FourColor.reducible
+Status: math.machine-checked
+Axioms: none beyond Coq's
+Verified-By: Coq 8.0
+Proves: reducibility
+---
+formalize(unavoidability): a kernel-checked unavoidable set in Coq
+
+The discharging argument is formalised, so unavoidability is checked by the
+kernel as well.
+
+Formal-Statement: rocq:FourColor.unavoidable
+Status: math.machine-checked
+Verified-By: Coq 8.0
+Proves: unavoidability
+---
+formalize(four-color): a fully machine-checked Four Colour Theorem in Coq
+
+With both lemmas kernel-checked, the whole proof has no trusted computer program
+left. The theorem is machine-checked end to end.
+
+Formal-Statement: rocq:FourColor.four_color_theorem
+Status: math.machine-checked
+Axioms: propositional extensionality
+Verified-By: Coq 8.0
+Depends-On: FourColor.reducible
+Depends-On: FourColor.unavoidable
+Supersedes: rsst
+Closes: conjecture:four-color

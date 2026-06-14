@@ -52,20 +52,20 @@
     <h2><span class="n">03</span>Where the information comes from</h2>
     <p>The information lives in commit-message <strong>footers</strong> (git trailers). A commit
     asserts a claim, sets its status, and relates it to others:</p>
-<pre class="commit">formalize(master-formula): close the d-fold factorization and the Master Formula
+<pre class="commit">formalize(four-color): a fully machine-checked Four Colour Theorem in Coq
 
-<span class="tok">Lean:</span> IGL.fubini_factorization, IGL.separableKernel, IGL.partialIntegral
+<span class="tok">Formal-Statement:</span> rocq:FourColor.four_color_theorem
 <span class="st">Status:</span> math.machine-checked
-<span class="rel">Depends-On:</span> igl_separable_factorization
-<span class="rel">Closes:</span> conjecture:master-formula</pre>
+<span class="rel">Depends-On:</span> FourColor.reducible
+<span class="rel">Closes:</span> conjecture:four-color</pre>
     <p>Relations like <code>Depends-On</code> and <code>Assumes</code> form the dependency graph that
     everything propagates over. The rest are events. A breaking event uses <code>!</code> or
     <code>BREAKING&nbsp;CHANGE:</code> and knocks the target down:</p>
-<pre class="commit">refute(naive-separable)<span class="brk">!</span>: the rank-1 counterexample blocks naive separable factorization
+<pre class="commit">refute(kempe)<span class="brk">!</span>: two Kempe chains can cross, and the interchange fails
 
 <span class="st">Status:</span> math.disproved
-<span class="rel">Disproves:</span> conjecture:naive-separable
-<span class="brk">BREAKING CHANGE:</span> conjecture:naive-separable is withdrawn; curved-chart factorization needs metric compensation.</pre>
+<span class="rel">Disproves:</span> kempe
+<span class="brk">BREAKING CHANGE:</span> Kempe's four-colour proof is withdrawn; the conjecture is open again.</pre>
     <p>The <code>claims.toml</code> registry supplies only the human statement and kind for slug-named
     claims. Even its <code>status</code> field is a <em>cache</em>. The tool recomputes it and never
     trusts it as the source of truth.</p>
@@ -80,19 +80,20 @@
         <h3>Effective status</h3>
         <p>The minimum status over a claim and its transitive <code>Depends-On</code>/<code>Assumes</code>
         closure. It reports the same thing as Lean's <code>#print&nbsp;axioms</code>.</p>
-        <p>A <span class="pill mc">machine-checked</span> theorem that rests on the cited axiom
-        <code>IGL.expSumRank_logBound</code> <span class="pill ax">axiomatised</span> carries
-        <span class="pill ax">axiomatised</span> as its effective status, the way
-        <code>#print&nbsp;axioms</code> reports a cited axiom downstream.</p>
+        <p>The Four Colour Theorem's 1976 proof <code>Assumes</code> two computer-checked lemmas
+        <span class="pill ax">axiomatised</span>, so its effective status was
+        <span class="pill ax">axiomatised</span>: proved, but only if you trust the programs.
+        Gonthier's 2005 Coq formalization discharged them, promoting it to
+        <span class="pill mc">machine-checked</span>.</p>
       </div>
       <div class="card">
         <h3>Affected claims</h3>
         <p>Given a claim, every dependent a refutation or retraction would put <em>in&nbsp;question</em>.
         Run it before a breaking change to see what you are about to disturb.</p>
-        <p>When <code>naive-separable</code> <span class="pill dis">disproved</span> was refuted,
-        every claim that <code>Depends-On</code> it would be flagged
-        <span class="pill pi">in&nbsp;question</span>. In paper-igl nothing did, so the refutation
-        stayed contained. That answer comes from the edges, not from a list you keep by hand.</p>
+        <p>When Kempe's 1879 proof <span class="pill dis">disproved</span> was refuted, every claim
+        that <code>Depends-On</code> it would be flagged <span class="pill pi">in&nbsp;question</span>.
+        Nothing correct did, so the flaw stayed contained and the Five Colour Theorem, which rests on
+        the valid chain lemma, stood. That answer comes from the edges, not from a list you keep by hand.</p>
       </div>
     </div>
     <div class="callout"><b>Append-only.</b> A status only ever moves through a <em>new</em> commit,
@@ -112,12 +113,13 @@ claimgraph build /path/to/repo --claims claims.toml -o claimgraph.json
 claimgraph status --claims claims.toml
 
 <span class="c"># what a refutation would affect, and a claim's effective status</span>
-claimgraph affected conjecture:naive-separable
-claimgraph effective IGL.fubini_factorization</pre>
-    <div class="callout"><b>Note.</b> The live graph is built from the real
-    <a href="https://github.com/hotherio/paper-igl">paper-igl</a> repository, the formalized
-    Intrinsic Green's Learning development. Re-running <code>claimgraph build</code> after new
-    commits regenerates it.</div>
+claimgraph affected kempe
+claimgraph effective four-color</pre>
+    <div class="callout"><b>Note.</b> The live graph is a hand-authored CKC history of the Four
+    Colour Theorem, from the 1852 conjecture to Gonthier's 2005 Coq proof, chosen because it
+    exercises every state: conjectured, a refuted proof, a computer-checked (assumed) step, and a
+    machine-checked formalization. Pointed at a real repository, <code>claimgraph build</code>
+    rebuilds the graph from actual commits.</div>
 
     <div class="cta">
       <a class="btn primary" href="index.html">Open the live graph →</a>

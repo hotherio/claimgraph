@@ -63,3 +63,36 @@ def test_output_validates_against_schema(graph):
     jsonschema = pytest.importorskip("jsonschema")
     schema = json.loads(SCHEMA.read_text())
     jsonschema.validate(to_dict(graph), schema)
+
+
+# --- the Four Colour Theorem showcase fixture -----------------------------------------------------
+
+FOUR_COLOR = Path(__file__).resolve().parent.parent / "examples" / "four-color"
+
+
+@pytest.fixture(scope="module")
+def fct():
+    return build(
+        fixture=str(FOUR_COLOR / "four-color.commits"),
+        claims=str(FOUR_COLOR / "claims.toml"),
+    )
+
+
+def test_fct_final_theorem_machine_checked(fct):
+    assert fct.nodes["four-color"].status == "math.machine-checked"
+
+
+def test_fct_refuted_proofs_are_disproved(fct):
+    assert fct.nodes["kempe"].status == "math.disproved"
+    assert fct.nodes["tait"].status == "math.disproved"
+
+
+def test_fct_computer_assisted_proof_is_axiomatised(fct):
+    assert fct.nodes["appel-haken"].status == "math.axiomatised"
+
+
+def test_fct_proof_commits_assert_their_scope(fct):
+    """A proof(...) that Closes/Assumes other claims must still assert its own scoped claim,
+    not collapse into a synthetic 'proof:<scope>' event node."""
+    assert "appel-haken" in fct.nodes and "rsst" in fct.nodes
+    assert not any(nid.startswith("proof:") for nid in fct.nodes)
