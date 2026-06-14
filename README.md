@@ -8,7 +8,7 @@ graph those footers describe and answers the questions the spec is built around:
 
 - **What is proved vs. assumed vs. open?** — the *effective status* of each claim, the minimum over
   its transitive `Depends-On` / `Assumes` closure (the same thing Lean's `#print axioms` surfaces).
-- **What breaks if a claim falls?** — the *blast radius*: every dependent a refutation or retraction
+- **What breaks if a claim falls?** — the *affected claims*: every dependent a refutation or retraction
   would put *in question*.
 
 It reuses the CKC commit parser and the single-source-of-truth vocabulary from
@@ -31,8 +31,8 @@ claimgraph build /path/to/repo --claims claims.toml -o claimgraph.json
 # The honest dashboard: claims grouped by effective status
 claimgraph status --claims claims.toml
 
-# What depends on a claim (run before a breaking change)
-claimgraph blast-radius conjecture:naive-separable
+# What a refutation of a claim would put in question (its dependents)
+claimgraph affected conjecture:naive-separable
 
 # Why a claim's effective status differs from what it asserts
 claimgraph effective IGL.approxError
@@ -51,7 +51,7 @@ claimgraph status -f examples/igl/igl.commits -c examples/igl/claims.toml
 [`docs/`](docs/) is a static, dependency-free viewer (vendored
 [Cytoscape.js](https://js.cytoscape.org/)) served at
 **https://claimgraph.conventional-knowledge-commits.org/**. Node colour is effective status; edge style is the
-relation. Click a claim to trace what it rests on; click a broken claim to light up its blast radius.
+relation. Click a claim to trace what it rests on; click a broken claim to highlight the claims it affects.
 
 Regenerate the demo data after changing the fixture:
 

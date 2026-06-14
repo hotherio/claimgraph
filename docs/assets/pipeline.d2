@@ -2,10 +2,10 @@ vars: {
   d2-config: {
     layout-engine: elk
     theme-id: 0
-    pad: 28
+    pad: 26
   }
 }
-direction: right
+direction: down
 
 classes: {
   input:   { style: { fill: "#abc1d2"; stroke: "#5b6b78"; font-color: "#11202b"; border-radius: 7 } }
@@ -16,14 +16,9 @@ classes: {
   note:    { shape: text; style: { font-size: 13; font-color: "#6b7280"; italic: true } }
 }
 
-title: "How claimgraph builds the ClaimGraph" {
-  near: top-center
-  shape: text
-  style: { font-size: 24; bold: true; font-color: "#1a1a1a" }
-}
-
 sources: "Sources — the git history is the database" {
-  style: { fill: "#fbf9f3"; stroke: "#d8d0c0"; font-color: "#6b7280"; font-size: 14 }
+  direction: right
+  style: { fill: "#fbf9f3"; stroke: "#d8d0c0"; font-color: "#6b7280"; font-size: 13 }
   git: "git log\ncommit footers" { class: input; shape: page }
   registry: "claims.toml\nstatements · kinds" { class: input; shape: page }
 }
@@ -36,22 +31,23 @@ footers: |md
   `Disproves:` · `Refutes:`
 | { class: note }
 
-parse:   "parse\nckc-lint" { class: proc }
-build:   "build graph\nnodes + edges" { class: proc }
-json:    "claimgraph.json\n⟂ JSON Schema" { class: data; shape: document }
-viewer:  "Cytoscape\nviewer" { class: view }
+parse:   "parse · ckc-lint" { class: proc }
+build:   "build graph — claims + relations" { class: proc }
 
 compute: "compute — derived from the edges, never stored" {
-  style: { fill: "#eef3ee"; stroke: "#b9cbb0"; font-color: "#4a5a42"; font-size: 14 }
-  eff: "effective status\nmin over Depends-On / Assumes closure" { class: compute }
-  inq: "in question\na dependency was refuted" { class: compute }
-  blast: "blast radius\nwhat breaks if a claim falls" { class: compute }
+  style: { fill: "#eef3ee"; stroke: "#b9cbb0"; font-color: "#4a5a42"; font-size: 13 }
+  eff:   "effective status\nweakest link in the Depends-On / Assumes closure" { class: compute }
+  inq:   "in question\na dependency was refuted" { class: compute }
+  aff:   "affected claims\nwhat a refutation would put in question" { class: compute }
 }
+
+json:    "claimgraph.json  ⟂ JSON Schema" { class: data; shape: document }
+viewer:  "Cytoscape viewer" { class: view }
 
 sources.git -> parse: "log --reverse"
 sources.registry -> build: "seed nodes"
 footers -> parse: { style: { stroke: "#9c9384"; stroke-dash: 4 } }
 parse -> build: "Commit{footers}"
-build -> compute: "claims + relations"
+build -> compute
 compute -> json: "emit"
 json -> viewer: "fetch()"

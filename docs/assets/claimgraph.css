@@ -17,12 +17,19 @@ code{background:#f1ece1;padding:1px 5px;border-radius:3px;font-size:.9em}
 
 .nav{border-bottom:1px solid var(--rule);background:#fbf9f3}
 .nav .wrap{display:flex;flex-wrap:wrap;gap:4px 20px;align-items:center;padding:12px 24px;font-size:14px}
-.nav .home{font-weight:500;border:0;color:var(--ink)}
+.nav .home{font-weight:500;border:0;color:var(--ink);display:inline-flex;align-items:center;gap:8px}
 .nav .home:hover{color:var(--danger)}
+.nav .home .brand{height:28px;width:auto;display:block}
 .nav .sp{flex:1}
 .nav a{border:0;color:var(--muted)}
 .nav a:hover{color:var(--ink)}
+.nav a.here{color:var(--ink);border-bottom:1.5px solid var(--ochre)}
 .nav a.ext{color:var(--slate);border-bottom:1px solid var(--rule-2)}
+.nav a.ext:hover{color:var(--ink);border-color:var(--ink)}
+.nav .navsep{width:1px;height:15px;background:var(--rule-2)}
+.nav a.gh{border:0;color:var(--muted);display:inline-flex;align-items:center;padding:0}
+.nav a.gh:hover{color:var(--ink)}
+.nav a.gh svg{display:block}
 
 .hero{border-bottom:1px solid var(--rule);background:#fbf9f3}
 .hero .wrap{padding:26px 24px 30px}
@@ -115,3 +122,22 @@ pre.commit .st{color:#5d7e4f;font-weight:600}
 .btn.primary:hover{background:#9bba8d;border-color:var(--ink)}
 
 @media (max-width:680px){ .cols{grid-template-columns:1fr} }
+
+/* ── landing page ───────────────────────────────────────────────────── */
+.lhero{border-bottom:1px solid var(--rule);background:#fbf9f3;text-align:center}
+.lhero .wrap{max-width:800px;padding:56px 24px 46px}
+.lhero-logo{height:88px;width:auto;margin:0 auto 20px;display:block}
+.lhero h1{font-weight:500;font-size:40px;line-height:1.08;margin:4px 0 16px}
+.llede{font-size:16px;color:#3a3a3a;margin:0 auto 26px;max-width:660px;line-height:1.6}
+.cta.lcta{justify-content:center}
+
+.specband{background:#f1ece1;border-bottom:1px solid var(--rule)}
+.specband .wrap{max-width:1000px;display:flex;flex-wrap:wrap;gap:14px 24px;
+  align-items:center;justify-content:space-between;padding:16px 24px;font-size:13.5px;color:#3a352c}
+.specband b{color:var(--ink)}
+.specband .btn{white-space:nowrap}
+
+.features{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin:32px 0 8px}
+.features .card h3{margin:0 0 7px;font-size:15px}
+.features .card p{margin:0;font-size:13px;color:#33312c}
+@media (max-width:720px){ .features{grid-template-columns:1fr} }
