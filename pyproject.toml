@@ -25,7 +25,7 @@ dependencies = [
 dev = ["pytest>=8", "jsonschema>=4"]
 
 [project.urls]
-Homepage = "https://hotherio.github.io/claimgraph/"
+Homepage = "https://claimgraph.conventional-knowledge-commits.org/"
 Repository = "https://github.com/hotherio/claimgraph"
 Spec = "https://conventional-knowledge-commits.org/"
 
