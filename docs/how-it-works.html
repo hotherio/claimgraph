@@ -52,19 +52,20 @@
     <h2><span class="n">03</span>Where the information comes from</h2>
     <p>The information lives in commit-message <strong>footers</strong> (git trailers). A commit
     asserts a claim, sets its status, and relates it to others:</p>
-<pre class="commit">formalize(rank-bound-use): bound the approximation error using the exp-sum rank
+<pre class="commit">formalize(master-formula): close the d-fold factorization and the Master Formula
 
-<span class="tok">Lean:</span> IGL.approxError
+<span class="tok">Lean:</span> IGL.fubini_factorization, IGL.separableKernel, IGL.partialIntegral
 <span class="st">Status:</span> math.machine-checked
-<span class="rel">Depends-On:</span> IGL.expSumRank_logBound</pre>
+<span class="rel">Depends-On:</span> igl_separable_factorization
+<span class="rel">Closes:</span> conjecture:master-formula</pre>
     <p>Relations like <code>Depends-On</code> and <code>Assumes</code> form the dependency graph that
     everything propagates over. The rest are events. A breaking event uses <code>!</code> or
     <code>BREAKING&nbsp;CHANGE:</code> and knocks the target down:</p>
-<pre class="commit">refute(separability)<span class="brk">!</span>: a counterexample blocks naive separable factorization
+<pre class="commit">refute(naive-separable)<span class="brk">!</span>: the rank-1 counterexample blocks naive separable factorization
 
-<span class="rel">Disproves:</span> conjecture:naive-separable
 <span class="st">Status:</span> math.disproved
-<span class="brk">BREAKING CHANGE:</span> conjecture:naive-separable is withdrawn; compensation depends on it.</pre>
+<span class="rel">Disproves:</span> conjecture:naive-separable
+<span class="brk">BREAKING CHANGE:</span> conjecture:naive-separable is withdrawn; curved-chart factorization needs metric compensation.</pre>
     <p>The <code>claims.toml</code> registry supplies only the human statement and kind for slug-named
     claims. Even its <code>status</code> field is a <em>cache</em>. The tool recomputes it and never
     trusts it as the source of truth.</p>
@@ -79,18 +80,19 @@
         <h3>Effective status</h3>
         <p>The minimum status over a claim and its transitive <code>Depends-On</code>/<code>Assumes</code>
         closure. It reports the same thing as Lean's <code>#print&nbsp;axioms</code>.</p>
-        <p><code>IGL.approxError</code> asserts <span class="pill mc">machine-checked</span>, but
-        <code>Depends-On</code> the cited axiom <code>IGL.expSumRank_logBound</code>
-        <span class="pill ax">axiomatised</span>, so its effective status is
-        <span class="pill ax">axiomatised</span>.</p>
+        <p>A <span class="pill mc">machine-checked</span> theorem that rests on the cited axiom
+        <code>IGL.expSumRank_logBound</code> <span class="pill ax">axiomatised</span> carries
+        <span class="pill ax">axiomatised</span> as its effective status, the way
+        <code>#print&nbsp;axioms</code> reports a cited axiom downstream.</p>
       </div>
       <div class="card">
         <h3>Affected claims</h3>
         <p>Given a claim, every dependent a refutation or retraction would put <em>in&nbsp;question</em>.
         Run it before a breaking change to see what you are about to disturb.</p>
-        <p>Refuting <code>conjecture:naive-separable</code> <span class="pill dis">disproved</span>
-        flags <code>IGL.compensatedFactorization</code> as <span class="pill pi">in&nbsp;question</span>.
-        That list comes from the edges, not from a file you keep updated.</p>
+        <p>When <code>naive-separable</code> <span class="pill dis">disproved</span> was refuted,
+        every claim that <code>Depends-On</code> it would be flagged
+        <span class="pill pi">in&nbsp;question</span>. In paper-igl nothing did, so the refutation
+        stayed contained. That answer comes from the edges, not from a list you keep by hand.</p>
       </div>
     </div>
     <div class="callout"><b>Append-only.</b> A status only ever moves through a <em>new</em> commit,
@@ -103,18 +105,19 @@
 <pre class="code"><span class="c"># install (pulls in the ckc-lint parser)</span>
 pip install git+https://github.com/hotherio/claimgraph.git
 
-<span class="c"># reconstruct the graph from a repo's history</span>
+<span class="c"># build the graph from a repo's history</span>
 claimgraph build /path/to/repo --claims claims.toml -o claimgraph.json
 
 <span class="c"># claims grouped by effective status</span>
 claimgraph status --claims claims.toml
 
-<span class="c"># what a refutation would affect · why a status differs from what it asserts</span>
+<span class="c"># what a refutation would affect, and a claim's effective status</span>
 claimgraph affected conjecture:naive-separable
-claimgraph effective IGL.approxError</pre>
-    <div class="callout"><b>Note.</b> This site is currently a frozen demo of the canonical IGL
-    example shipped with the tool. Pointed at a live repository (in CI or on a schedule), the same
-    <code>claimgraph build</code> regenerates the graph from real commits.</div>
+claimgraph effective IGL.fubini_factorization</pre>
+    <div class="callout"><b>Note.</b> The live graph is built from the real
+    <a href="https://github.com/hotherio/paper-igl">paper-igl</a> repository, the formalized
+    Intrinsic Green's Learning development. Re-running <code>claimgraph build</code> after new
+    commits regenerates it.</div>
 
     <div class="cta">
       <a class="btn primary" href="index.html">Open the live graph →</a>

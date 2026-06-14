@@ -1,4 +1,4 @@
-/* claimgraph viewer — render claimgraph.json with Cytoscape, on the CKC palette.
+/* claimgraph viewer: render claimgraph.json with Cytoscape, on the CKC palette.
  * Node fill = effective status; edge style = relation. Click a claim to trace its dependency
  * closure; click a broken claim to light up its blast radius. */
 (() => {
@@ -63,7 +63,7 @@
         <dt>Asserted status</dt><dd>${pill(d.status)}</dd>
         <dt>Effective status</dt><dd>${pill(eff)}${demoted ? ` <span class="muted">← ${d.weakest_dep}</span>` : ""}</dd>
       </dl>
-      ${d.in_question ? `<div class="flag">In question — a dependency was refuted or retracted.</div>` : ""}
+      ${d.in_question ? `<div class="flag">In question: a dependency was refuted or retracted.</div>` : ""}
     `;
   }
 
@@ -122,7 +122,9 @@
         { selector: "node.blast", style: { "border-color": "#9c3a34", "border-width": 2.8 } },
         { selector: "edge.blast", style: { "line-color": "#9c3a34", "target-arrow-color": "#9c3a34", "width": 3, "line-style": "solid", "opacity": 1 } },
       ],
-      layout: { name: "breadthfirst", directed: true, padding: 40, spacingFactor: 1.3, avoidOverlap: true, fit: true },
+      layout: { name: "cose", padding: 40, animate: false, fit: true,
+        nodeRepulsion: 9000, idealEdgeLength: 95, componentSpacing: 110, gravity: 0.3,
+        nodeDimensionsIncludeLabels: true },
     });
 
     const refit = () => cy.fit(cy.elements(), 40);

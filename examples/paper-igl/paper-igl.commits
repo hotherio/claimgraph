@@ -1,0 +1,146 @@
+chore: initialize repository
+---
+docs: add the Intrinsic Green's Learning manuscript
+
+The seminal IGL paper (LaTeX). IGL models a target on a manifold as the solution of a
+linear PDE whose source is learned from data and integrated against a Green's kernel; an
+encoder discovers a chart on which source and kernel decompose, giving a finite separable
+Master Formula with cost linear in the intrinsic dimension.
+
+Cites: Quemy 2026, Intrinsic Green's Learning
+---
+conjecture(master-formula): the Green's integral factorises as a finite separable rank-K×R sum
+
+Claim-ID: conjecture:master-formula
+Status: math.conjectured
+---
+conjecture(naive-separable): a curved-chart Green's kernel factorises separably without metric compensation
+
+On a curved chart the integral carries a metric volume factor √|g|. This conjectures the
+kernel still factorises separably as-is, with no compensation: the naive position the
+separability-barrier analysis later tests.
+
+Claim-ID: conjecture:naive-separable
+Status: math.conjectured
+---
+axiomatize~(green-kernel): posit the elliptic Green's kernel operator
+
+Mathlib has no elliptic-PDE Green's-function theory, so the kernel G with u = G*f solving
+Lu = f is posited per operator as a cited axiom rather than constructed.
+
+Lean: IGL.greensKernel
+Status: math.axiomatised
+AXIOM: IGL.greensKernel (elliptic Green's kernel; posited per operator, absent from Mathlib)
+---
+axiomatize~(exp-sum): cite the logarithmic exponential-sum rank bound
+
+The separable rank K needed to approximate an elliptic Green's kernel to accuracy ε is
+O(log 1/ε), independent of dimension (Braess–Hackbusch exponential sums). Mathlib has no
+exp-sum approximation theory, so it is posited as a cited axiom.
+
+Lean: IGL.expSumRank_logBound
+Status: math.axiomatised
+AXIOM: IGL.expSumRank_logBound (separable rank K = O(log 1/ε), dimension-independent)
+Cites: Braess & Hackbusch 2005, Numer. Math.
+---
+formalize(rank1): the rank-1 two-factor separable factorization
+
+Lean: igl_separable_factorization
+Status: math.machine-checked
+Axioms: propext, Classical.choice, Quot.sound
+Verified-By: Lean 4.30.0; Mathlib v4.30.0
+---
+formalize(master-formula): close the d-fold factorization and the Master Formula
+
+A rank-R separable source and rank-K separable kernel collapse the d-dimensional Green's
+integral to the finite sum ∑_{k,r} γ_k w_r ∏_j I_{k,r,j} via Fubini: the O(N^d) → O(KRd)
+reduction.
+
+Lean: IGL.separableSource, IGL.separableKernel, IGL.partialIntegral, IGL.iglParticular, IGL.fubini_dfold, IGL.fubini_factorization
+Status: math.machine-checked
+Axioms: propext, Classical.choice, Quot.sound
+Verified-By: Lean 4.30.0; Mathlib v4.30.0
+Depends-On: igl_separable_factorization
+Closes: conjecture:master-formula
+---
+formalize(corollaries): the KAN and Additive-Green reductions and gauge invariance
+
+K=1 gives the Additive-Green case; the identity-kernel limit gives the Kolmogorov–Arnold
+form; and the prediction integral is invariant under any measure-preserving reparametrisation.
+
+Lean: IGL.additiveGreen_factorization, IGL.kan_reduction, IGL.gauge_invariance
+Status: math.machine-checked
+Axioms: propext, Classical.choice, Quot.sound
+Verified-By: Lean 4.30.0; Mathlib v4.30.0
+Depends-On: IGL.fubini_factorization, IGL.fubini_dfold
+---
+formalize(spectral): the spectral factorized integral
+
+The exponential-sum surrogate turns additive eigenvalue coupling into a product, after which
+the multi-index mode sum factorizes across axes: the discrete analogue of the Master Formula.
+
+Lean: IGL.exp_neg_sum_eigs, IGL.spectral_factorization
+Status: math.machine-checked
+Axioms: propext, Classical.choice, Quot.sound
+Verified-By: Lean 4.30.0; Mathlib v4.30.0
+---
+formalize(cp-rank): CP-rank sub-additivity, sub-multiplicativity, and rank-friendly differentiation
+
+A constructive CP-rank predicate with rank(f+g) ≤ rank f + rank g, rank(f·g) ≤ rank f · rank g,
+and a separable operator mapping a rank-R source to rank ≤ R·d.
+
+Lean: IGL.HasCPRank, IGL.separableSource_hasCPRank, IGL.HasCPRank.add, IGL.HasCPRank.mul, IGL.applyCoordOp_hasCPRank
+Status: math.machine-checked
+Axioms: propext, Classical.choice, Quot.sound
+Verified-By: Lean 4.30.0; Mathlib v4.30.0
+---
+formalize(barrier-if): the separability barrier, sufficiency direction
+
+If the metric factor is itself separable, √|g|(ζ)=∏_j χ_j(ζ_j), the compensated Green's
+integral still factorizes into d one-dimensional integrals: the metric is absorbed
+axis-by-axis and the barrier does not appear.
+
+Lean: IGL.barrier_if_factorization
+Status: math.machine-checked
+Axioms: propext, Classical.choice, Quot.sound
+Verified-By: Lean 4.30.0; Mathlib v4.30.0
+Depends-On: IGL.fubini_dfold
+---
+formalize(barrier-onlyif): a degree-2 metric is not rank-1: the barrier's necessity witness
+
+A machine-checked counterexample: the metric factor 1 + ζ₀ζ₁ on ℝ² is not rank-1 (not of
+product form a(ζ₀)·b(ζ₁)). This is the rigorous core of the separability barrier's necessity
+direction; the general converse needs genericity hypotheses and is left informal.
+
+Lean: IGL.barrierWitness_not_rank_one
+Status: math.machine-checked
+Axioms: propext, Classical.choice, Quot.sound
+Verified-By: Lean 4.30.0; Mathlib v4.30.0
+Depends-On: IGL.HasCPRank
+---
+refute(naive-separable)!: the rank-1 counterexample blocks naive separable factorization
+
+The machine-checked witness IGL.barrierWitness_not_rank_one exhibits a metric factor that is
+not rank-1, so a single separable kernel cannot absorb it. The naive-separable conjecture is
+therefore false: curved-chart factorization requires metric compensation.
+
+Status: math.disproved
+Disproves: conjecture:naive-separable
+Cites: IGL.barrierWitness_not_rank_one
+BREAKING CHANGE: conjecture:naive-separable is withdrawn; curved-chart factorization needs metric compensation.
+---
+docs: natural-language proof blueprint, dependency graph, and ledger
+
+Prose proofs for each formalized result with \lean/\leanok/\uses annotations, the standalone
+PDF, and the RESEARCH.md formalization ledger.
+---
+docs: document the vendored Lean formalization in the README
+
+Point the README at lean/: the kernel-checked theorems, the single cited axiom (the
+exponential-sum bound), and the build command.
+---
+chore: refresh the claims.toml status cache from the graph
+
+Regenerated by `claimgraph build`: master-formula is now machine-checked (closed by
+IGL.fubini_factorization at formalize(master-formula)); naive-separable is disproved.
+The cache is derived from the commit graph, not a source of truth.

@@ -25,7 +25,7 @@ Requires Python 3.13+. The CKC parser (`ckc-lint`) is pulled in automatically.
 ## Use
 
 ```bash
-# Reconstruct the graph from a repo's history and write claimgraph.json
+# Build the graph from a repo's history and write claimgraph.json
 claimgraph build /path/to/repo --claims claims.toml -o claimgraph.json
 
 # Claims grouped by effective status
@@ -34,16 +34,20 @@ claimgraph status --claims claims.toml
 # What a refutation of a claim would put in question (its dependents)
 claimgraph affected conjecture:naive-separable
 
-# Why a claim's effective status differs from what it asserts
-claimgraph effective IGL.approxError
+# A claim's effective status and the weakest dependency behind it
+claimgraph effective IGL.fubini_factorization
 ```
 
 Every command accepts `--from-fixture FILE` to read commit messages from a file instead of git,
-which is handy for demos and tests. See [`examples/igl/`](examples/igl/) for the worked example from the
-spec.
+which is handy for demos and tests.
+
+The main example is [`examples/paper-igl/`](examples/paper-igl/): the real ClaimGraph of
+[hotherio/paper-igl](https://github.com/hotherio/paper-igl), the formalized Intrinsic Green's
+Learning development, vendored as a commit fixture so it rebuilds without the upstream repo. A
+smaller synthetic fixture lives in [`examples/igl/`](examples/igl/) for the unit tests.
 
 ```bash
-claimgraph status -f examples/igl/igl.commits -c examples/igl/claims.toml
+claimgraph status -f examples/paper-igl/paper-igl.commits -c examples/paper-igl/claims.toml
 ```
 
 ## The web viewer
@@ -53,10 +57,10 @@ claimgraph status -f examples/igl/igl.commits -c examples/igl/claims.toml
 **https://claimgraph.conventional-knowledge-commits.org/**. Node colour is effective status; edge style is the
 relation. Click a claim to trace what it rests on; click a broken claim to highlight the claims it affects.
 
-Regenerate the demo data after changing the fixture:
+The viewer is seeded with the paper-igl graph. Regenerate it from the vendored fixture:
 
 ```bash
-claimgraph build -f examples/igl/igl.commits -c examples/igl/claims.toml -o docs/assets/claimgraph.json
+claimgraph build -f examples/paper-igl/paper-igl.commits -c examples/paper-igl/claims.toml -o docs/assets/claimgraph.json
 ```
 
 ## Output

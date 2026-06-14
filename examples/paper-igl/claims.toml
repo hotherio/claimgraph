@@ -1,0 +1,18 @@
+# claims.toml: the CKC claim registry for paper-igl.
+#
+# One entry per slugged claim. The slug (table key) is what commit footers reference as
+# `conjecture:<slug>`. `status` is a CACHE of the effective status computed from the commit
+# graph by `claimgraph build`; regenerate it, don't treat it as the source of truth.
+
+[claims.master-formula]
+kind      = "conjecture"
+statement = "The Green's integral factorises as a finite separable rank-K×R sum (the Master Formula)."
+status    = "math.machine-checked"
+lean      = "IGL.fubini_factorization"
+created   = "2026-06-14"
+
+[claims.naive-separable]
+kind      = "conjecture"
+statement = "On a curved chart the Green's kernel factorises separably as-is, with no metric compensation."
+status    = "math.disproved"
+created   = "2026-06-14"
