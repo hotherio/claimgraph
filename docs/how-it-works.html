@@ -36,6 +36,9 @@
     <code>claims.toml</code>). An <strong>edge</strong> is a relation between claims, written as a
     git-trailer footer in a commit message. There is no separate database. <strong>The commit
     history is the source of truth</strong>, and the graph is built from it on demand.</p>
+    <p>The relation footers and status values are defined in the
+    <a href="https://conventional-knowledge-commits.org/0.1.0/en/claimgraph.html">CKC spec</a>; this
+    page shows what the tool builds from them.</p>
   </section>
 
   <section>
@@ -59,8 +62,9 @@
 <span class="rel">Depends-On:</span> FourColor.reducible
 <span class="rel">Closes:</span> conjecture:four-color</pre>
     <p>Relations like <code>Depends-On</code> and <code>Assumes</code> form the dependency graph that
-    everything propagates over. The rest are events. A breaking event uses <code>!</code> or
-    <code>BREAKING&nbsp;CHANGE:</code> and knocks the target down:</p>
+    everything propagates over. The rest are events. (The full footer vocabulary lives in the
+    <a href="https://conventional-knowledge-commits.org/0.1.0/en/claimgraph.html">spec</a>.) A breaking
+    event uses <code>!</code> or <code>BREAKING&nbsp;CHANGE:</code> and knocks the target down:</p>
 <pre class="commit">refute(kempe)<span class="brk">!</span>: two Kempe chains can cross, and the interchange fails
 
 <span class="st">Status:</span> math.disproved
@@ -79,7 +83,8 @@
       <div class="card">
         <h3>Effective status</h3>
         <p>The minimum status over a claim and its transitive <code>Depends-On</code>/<code>Assumes</code>
-        closure. It reports the same thing as Lean's <code>#print&nbsp;axioms</code>.</p>
+        closure, <a href="https://conventional-knowledge-commits.org/0.1.0/en/claimgraph.html">as the
+        spec defines it</a>. It reports the same thing as Lean's <code>#print&nbsp;axioms</code>.</p>
         <p>The Four Colour Theorem's 1976 proof <code>Assumes</code> two computer-checked lemmas
         <span class="pill ax">axiomatised</span>, so its effective status was
         <span class="pill ax">axiomatised</span>: proved, but only if you trust the programs.
@@ -123,7 +128,7 @@ claimgraph effective four-color</pre>
 
     <div class="cta">
       <a class="btn primary" href="index.html">Open the live graph →</a>
-      <a class="btn" href="https://conventional-knowledge-commits.org/impact-graph.html">Read the spec</a>
+      <a class="btn" href="https://conventional-knowledge-commits.org/0.1.0/en/claimgraph.html">Read the spec</a>
     </div>
   </section>
 
