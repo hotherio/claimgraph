@@ -23,25 +23,25 @@
   <div class="tag">Conventional Knowledge Commits</div>
   <h1>How the ClaimGraph works</h1>
   <p class="lede">CKC records knowledge claims and how they depend on each other as ordinary git
-  commits. <b>claimgraph</b> reads that history back and reconstructs the graph — then computes the
-  two things you actually want to know: what is really proved, and what breaks if a claim falls.</p>
+  commits. <b>claimgraph</b> reads that history back and rebuilds the graph, then computes the two
+  things you want to know: what is really proved, and what breaks if a claim falls.</p>
 </div></header>
 
 <main class="prose"><div class="wrap">
 
   <section>
     <h2><span class="n">01</span>The idea</h2>
-    <p>A <strong>node</strong> is a claim — a theorem, lemma, definition, conjecture, or empirical
+    <p>A <strong>node</strong> is a claim: a theorem, lemma, definition, conjecture, or empirical
     finding, named by a stable identifier (a Lean fully-qualified name, or a slug in
     <code>claims.toml</code>). An <strong>edge</strong> is a relation between claims, written as a
-    git-trailer footer in a commit message. There is no separate database: <strong>the commit
-    history is the source of truth</strong>, and the graph is reconstructed from it on demand.</p>
+    git-trailer footer in a commit message. There is no separate database. <strong>The commit
+    history is the source of truth</strong>, and the graph is built from it on demand.</p>
   </section>
 
   <section>
     <h2><span class="n">02</span>The pipeline</h2>
     <p>Every <code>claimgraph build</code> walks the commits oldest-first, builds the claims and
-    relations, then derives the views and serializes them. Nothing downstream is hand-maintained.</p>
+    relations, then derives the views and serializes them. Nothing downstream is maintained by hand.</p>
     <figure class="diagram">
       <a href="assets/pipeline.svg"><img src="assets/pipeline.svg" alt="claimgraph pipeline: git log and claims.toml are parsed by ckc-lint, built into a graph of claims and relations, the derived views are computed, emitted to claimgraph.json, and rendered by the Cytoscape viewer"></a>
       <figcaption>git history → parse (ckc-lint) → build graph → compute derived views → claimgraph.json → viewer. Click to enlarge.</figcaption>
@@ -50,14 +50,14 @@
 
   <section>
     <h2><span class="n">03</span>Where the information comes from</h2>
-    <p>The signal lives entirely in commit-message <strong>footers</strong> (git trailers). A commit
+    <p>The information lives in commit-message <strong>footers</strong> (git trailers). A commit
     asserts a claim, sets its status, and relates it to others:</p>
 <pre class="commit">formalize(rank-bound-use): bound the approximation error using the exp-sum rank
 
 <span class="tok">Lean:</span> IGL.approxError
 <span class="st">Status:</span> math.machine-checked
 <span class="rel">Depends-On:</span> IGL.expSumRank_logBound</pre>
-    <p>Relations like <code>Depends-On</code> and <code>Assumes</code> form the dependency graph
+    <p>Relations like <code>Depends-On</code> and <code>Assumes</code> form the dependency graph that
     everything propagates over. The rest are events. A breaking event uses <code>!</code> or
     <code>BREAKING&nbsp;CHANGE:</code> and knocks the target down:</p>
 <pre class="commit">refute(separability)<span class="brk">!</span>: a counterexample blocks naive separable factorization
@@ -66,22 +66,22 @@
 <span class="st">Status:</span> math.disproved
 <span class="brk">BREAKING CHANGE:</span> conjecture:naive-separable is withdrawn; compensation depends on it.</pre>
     <p>The <code>claims.toml</code> registry supplies only the human statement and kind for slug-named
-    claims. Even its <code>status</code> field is a <em>cache</em> — claimgraph recomputes it and
-    never trusts it as the source of truth.</p>
+    claims. Even its <code>status</code> field is a <em>cache</em>. The tool recomputes it and never
+    trusts it as the source of truth.</p>
   </section>
 
   <section>
     <h2><span class="n">04</span>What gets computed, not stored</h2>
-    <p>Two views are derived from the edges every build. They are never written into the history —
-    that is the whole point: they stay honest because they are recomputed.</p>
+    <p>Two views are derived from the edges on every build. They are never written into the history.
+    Recomputing them each time is what keeps them accurate.</p>
     <div class="cols">
       <div class="card">
         <h3>Effective status</h3>
         <p>The minimum status over a claim and its transitive <code>Depends-On</code>/<code>Assumes</code>
-        closure — the same thing Lean's <code>#print&nbsp;axioms</code> surfaces.</p>
+        closure. It reports the same thing as Lean's <code>#print&nbsp;axioms</code>.</p>
         <p><code>IGL.approxError</code> asserts <span class="pill mc">machine-checked</span>, but
         <code>Depends-On</code> the cited axiom <code>IGL.expSumRank_logBound</code>
-        <span class="pill ax">axiomatised</span> — so its effective status is
+        <span class="pill ax">axiomatised</span>, so its effective status is
         <span class="pill ax">axiomatised</span>.</p>
       </div>
       <div class="card">
@@ -89,24 +89,24 @@
         <p>Given a claim, every dependent a refutation or retraction would put <em>in&nbsp;question</em>.
         Run it before a breaking change to see what you are about to disturb.</p>
         <p>Refuting <code>conjecture:naive-separable</code> <span class="pill dis">disproved</span>
-        flags <code>IGL.compensatedFactorization</code> <span class="pill pi">in&nbsp;question</span>,
-        without anyone maintaining that list by hand.</p>
+        flags <code>IGL.compensatedFactorization</code> as <span class="pill pi">in&nbsp;question</span>.
+        That list comes from the edges, not from a file you keep updated.</p>
       </div>
     </div>
     <div class="callout"><b>Append-only.</b> A status only ever moves through a <em>new</em> commit,
-    never a rewrite. History is the ledger; the dashboard is a projection of it.</div>
+    never a rewrite. History is the ledger. The dashboard is read off it.</div>
   </section>
 
   <section>
     <h2><span class="n">05</span>Run it yourself</h2>
-    <p>The same engine behind this site runs as a CLI on any CKC repository:</p>
+    <p>The tool that built this site runs as a CLI on any CKC repository:</p>
 <pre class="code"><span class="c"># install (pulls in the ckc-lint parser)</span>
 pip install git+https://github.com/hotherio/claimgraph.git
 
 <span class="c"># reconstruct the graph from a repo's history</span>
 claimgraph build /path/to/repo --claims claims.toml -o claimgraph.json
 
-<span class="c"># the honest dashboard, grouped by effective status</span>
+<span class="c"># claims grouped by effective status</span>
 claimgraph status --claims claims.toml
 
 <span class="c"># what a refutation would affect · why a status differs from what it asserts</span>

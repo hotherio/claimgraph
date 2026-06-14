@@ -1,4 +1,4 @@
-"""claimgraph — build and visualize the CKC ClaimGraph from git history."""
+"""claimgraph: build and visualize the CKC ClaimGraph from git history."""
 from __future__ import annotations
 
 from .build import build_graph, load_registry, read_fixture, read_git

@@ -1,6 +1,6 @@
 """Turn a stream of CKC commits (+ the claims.toml registry) into a ClaimGraph.
 
-Commit parsing and the CKC vocabulary are reused from ``ckc_lint`` — the single source of truth —
+Commit parsing and the CKC vocabulary are reused from ``ckc_lint`` (the single source of truth),
 so this module only adds the graph-specific logic: identity reconciliation, status assignment, and
 edge construction.
 """
