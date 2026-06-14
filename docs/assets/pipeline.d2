@@ -1,0 +1,57 @@
+vars: {
+  d2-config: {
+    layout-engine: elk
+    theme-id: 0
+    pad: 28
+  }
+}
+direction: right
+
+classes: {
+  input:   { style: { fill: "#abc1d2"; stroke: "#5b6b78"; font-color: "#11202b"; border-radius: 7 } }
+  proc:    { style: { fill: "#e4d4ba"; stroke: "#9a8761"; font-color: "#2a2113"; border-radius: 7 } }
+  compute: { style: { fill: "#a9c39c"; stroke: "#6f8a62"; font-color: "#1a2416"; border-radius: 7; bold: true } }
+  data:    { style: { fill: "#dcc085"; stroke: "#a8884e"; font-color: "#2a2113"; border-radius: 7 } }
+  view:    { style: { fill: "#b9b2d2"; stroke: "#7d749e"; font-color: "#1f1b2b"; border-radius: 7 } }
+  note:    { shape: text; style: { font-size: 13; font-color: "#6b7280"; italic: true } }
+}
+
+title: "How claimgraph builds the ClaimGraph" {
+  near: top-center
+  shape: text
+  style: { font-size: 24; bold: true; font-color: "#1a1a1a" }
+}
+
+sources: "Sources — the git history is the database" {
+  style: { fill: "#fbf9f3"; stroke: "#d8d0c0"; font-color: "#6b7280"; font-size: 14 }
+  git: "git log\ncommit footers" { class: input; shape: page }
+  registry: "claims.toml\nstatements · kinds" { class: input; shape: page }
+}
+
+footers: |md
+  **footers carry the signal**
+
+  `Status: math.machine-checked`
+  `Depends-On:` · `Closes:` · `Lean:`
+  `Disproves:` · `Refutes:`
+| { class: note }
+
+parse:   "parse\nckc-lint" { class: proc }
+build:   "build graph\nnodes + edges" { class: proc }
+json:    "claimgraph.json\n⟂ JSON Schema" { class: data; shape: document }
+viewer:  "Cytoscape\nviewer" { class: view }
+
+compute: "compute — derived from the edges, never stored" {
+  style: { fill: "#eef3ee"; stroke: "#b9cbb0"; font-color: "#4a5a42"; font-size: 14 }
+  eff: "effective status\nmin over Depends-On / Assumes closure" { class: compute }
+  inq: "in question\na dependency was refuted" { class: compute }
+  blast: "blast radius\nwhat breaks if a claim falls" { class: compute }
+}
+
+sources.git -> parse: "log --reverse"
+sources.registry -> build: "seed nodes"
+footers -> parse: { style: { stroke: "#9c9384"; stroke-dash: 4 } }
+parse -> build: "Commit{footers}"
+build -> compute: "claims + relations"
+compute -> json: "emit"
+json -> viewer: "fetch()"
