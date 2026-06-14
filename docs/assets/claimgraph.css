@@ -99,6 +99,9 @@ pre.commit .tok{color:var(--slate);font-weight:600}
 pre.commit .rel{color:#7a5cab;font-weight:600}
 pre.commit .brk{color:var(--danger);font-weight:600}
 pre.commit .st{color:#5d7e4f;font-weight:600}
+/* inline taxonomy emphasis: a real validity gap (red) vs a coverage warning (ochre) */
+.brk{color:var(--danger);font-weight:600}
+.warn{color:#9a7a1e;font-weight:600}
 
 /* callout */
 .callout{background:#f0f3ee;border:1px solid #cdd9c6;border-radius:6px;padding:13px 16px;

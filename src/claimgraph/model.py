@@ -15,8 +15,14 @@ from ckc_lint.data import vocab
 # Terminal states: a claim shown false / not reproduced. These drive breakage, not the ladder min.
 BROKEN: frozenset[str] = frozenset({"math.disproved", "sci.not-replicated", "sci.falsified"})
 
-# Edge relations that mean "A's truth rests on B": the closure we minimise over.
+# Edge relations that mean "A's truth rests on B": the closure we minimise *validity* over.
+# Kept deliberately small: only genuine logical dependencies. A blueprint `\uses` is NOT here.
 DEPENDENCY_RELATIONS: frozenset[str] = frozenset({"Depends-On", "Assumes"})
+
+# A blueprint `\uses` edge: a structural/expository link ("this claim is built on that concept"),
+# used for *blueprint coverage*, NOT for validity. A theorem that `\uses` an unformalized definition
+# is coverage-incomplete, not unproved -- the kernel (#print axioms) is the authority on validity.
+COVERAGE_RELATIONS: frozenset[str] = frozenset({"Uses"})
 
 # Relations that, on a breaking commit, knock B down and put B's dependents in question.
 BREAKING_RELATIONS: frozenset[str] = frozenset(
@@ -68,6 +74,10 @@ class Node:
     effective_status: str | None = None
     in_question: bool = False
     weakest_dep: str | None = None  # the node that set the effective status, if weaker than self
+    # blueprint coverage (orthogonal to validity): is every concept this claim `\uses` modelled in
+    # Lean? None = not a formalized claim (coverage N/A); False = uses an unformalized (prose) node.
+    blueprint_complete: bool | None = None
+    uses_gap: str | None = None  # an example unformalized node in the `\uses` closure, if any
     commits: list[str] = field(default_factory=list)  # commit hashes that asserted this node
 
     # cross-history reconciliation (blueprint x commits x kernel); all optional.

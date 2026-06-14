@@ -65,6 +65,33 @@ def test_output_validates_against_schema(graph):
     jsonschema.validate(to_dict(graph), schema)
 
 
+def test_commit_only_graph_has_no_coverage_fields(graph):
+    """A commit-only graph (no blueprint) must keep its shape: no blueprint_complete / uses_gap /
+    lean / agreement keys are emitted, so existing consumers are byte-unchanged."""
+    d = to_dict(graph)
+    for node in d["nodes"]:
+        assert "blueprint_complete" not in node
+        assert "uses_gap" not in node
+        assert "agreement" not in node
+    assert all(e["relation"] != "Uses" for e in d["edges"])
+
+
+def test_compute_coverage_separates_prose_uses_from_validity():
+    """A \\uses to a prose (Lean-less) node lowers coverage but not validity."""
+    from claimgraph.graph import compute, compute_coverage
+    from claimgraph.model import ClaimGraph, Edge
+
+    g = ClaimGraph()
+    thm = g.node("thm:t"); thm.lean = ["X.t"]; thm.status = "math.machine-checked"
+    g.node("def:prose")  # no lean: a prose concept
+    g.edges.append(Edge(source="thm:t", target="def:prose", relation="Uses"))
+    compute(g); compute_coverage(g)
+    assert g.nodes["thm:t"].effective_status == "math.machine-checked"  # validity untouched
+    assert g.nodes["thm:t"].blueprint_complete is False                  # coverage incomplete
+    assert g.nodes["thm:t"].uses_gap == "def:prose"
+    assert g.nodes["def:prose"].blueprint_complete is None               # coverage N/A for prose
+
+
 # --- the Four Colour Theorem showcase fixture -----------------------------------------------------
 
 FOUR_COLOR = Path(__file__).resolve().parent.parent / "examples" / "four-color"

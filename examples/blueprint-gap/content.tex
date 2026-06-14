@@ -1,5 +1,12 @@
-% A tiny blueprint that exercises the two honesty gaps a green graph can hide.
+% A tiny blueprint that exercises the reconciliation taxonomy.
 % Pair it with axioms.txt (a saved axiom-report) -- no Lean build needed.
+%
+% Two DISTINCT things a green blueprint can hide, kept apart by the reconciler:
+%   - a VALIDITY gap (kernel-refutes-claim): \leanok but #print axioms shows sorryAx
+%       -> lem:helper, and thm:main which really inherits the hole.
+%   - a COVERAGE gap (blueprint-incomplete): the Lean proof is genuinely clean, but the
+%       blueprint \uses an unformalized concept -> thm:bridge. This is NOT a validity gap;
+%       the theorem stays machine-checked. It is a documentation/faithfulness signal.
 
 \begin{definition}[Base]\label{def:base}
   \lean{Demo.base}\leanok

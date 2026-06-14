@@ -5,17 +5,29 @@ closure is taken over ``Depends-On`` / ``Assumes`` edges only; the other relatio
 """
 from __future__ import annotations
 
-from .model import BROKEN, DEPENDENCY_RELATIONS, ClaimGraph, Node, status_key
+from .model import (
+    BROKEN,
+    COVERAGE_RELATIONS,
+    DEPENDENCY_RELATIONS,
+    ClaimGraph,
+    Node,
+    status_key,
+)
+
+
+def _adjacency(graph: ClaimGraph, relations: frozenset[str]) -> dict[str, set[str]]:
+    """node id -> the set of nodes it points to over the given relations."""
+    adj: dict[str, set[str]] = {nid: set() for nid in graph.nodes}
+    for edge in graph.edges:
+        if edge.relation in relations:
+            adj.setdefault(edge.source, set()).add(edge.target)
+            adj.setdefault(edge.target, set())  # ensure target is a known key
+    return adj
 
 
 def _dependency_adjacency(graph: ClaimGraph) -> dict[str, set[str]]:
     """node id -> the set of nodes it directly Depends-On / Assumes."""
-    adj: dict[str, set[str]] = {nid: set() for nid in graph.nodes}
-    for edge in graph.edges:
-        if edge.relation in DEPENDENCY_RELATIONS:
-            adj.setdefault(edge.source, set()).add(edge.target)
-            adj.setdefault(edge.target, set())  # ensure target is a known key
-    return adj
+    return _adjacency(graph, DEPENDENCY_RELATIONS)
 
 
 def _closure(start: str, adj: dict[str, set[str]]) -> set[str]:
@@ -57,6 +69,29 @@ def compute(graph: ClaimGraph) -> ClaimGraph:
             (graph.nodes.get(d).status if graph.nodes.get(d) else None) in BROKEN
             for d in closure
         )
+    return graph
+
+
+def compute_coverage(graph: ClaimGraph) -> ClaimGraph:
+    """Fill in ``blueprint_complete`` / ``uses_gap`` for every node.
+
+    Coverage is *blueprint completeness* (is every concept a claim ``\\uses`` modelled in Lean), which
+    is orthogonal to validity (the kernel / ``Depends-On`` closure). A node is "modelled" iff it has a
+    Lean FQN; a prose-only used node (no ``\\lean``) makes its users coverage-incomplete. This never
+    touches a node's validity ``effective_status`` -- a kernel-clean theorem stays machine-checked
+    even when it ``\\uses`` an unformalized definition.
+    """
+    adj = _adjacency(graph, COVERAGE_RELATIONS)
+    for nid, node in graph.nodes.items():
+        if not node.lean:  # not a formalized claim; coverage does not apply
+            node.blueprint_complete = None
+            node.uses_gap = None
+            continue
+        unformalized = sorted(
+            d for d in _closure(nid, adj) if d in graph.nodes and not graph.nodes[d].lean
+        )
+        node.blueprint_complete = not unformalized
+        node.uses_gap = unformalized[0] if unformalized else None
     return graph
 
 

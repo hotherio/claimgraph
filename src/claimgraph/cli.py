@@ -130,7 +130,10 @@ def _ground(tex: str, project: Optional[str], axiom_report: Optional[str], axiom
     return bp.blueprint_graph(nodes, kernel), kernel
 
 
-_GAP_COLOR = {"kernel-refutes-claim": typer.colors.RED, "effective-gap": typer.colors.RED}
+_GAP_COLOR = {
+    "kernel-refutes-claim": typer.colors.RED,     # a real validity gap
+    "blueprint-incomplete": typer.colors.YELLOW,  # a coverage warning, not a validity gap
+}
 
 
 def _print_agreement(graph) -> int:
@@ -142,10 +145,11 @@ def _print_agreement(graph) -> int:
         nodes = sorted(groups[cat], key=lambda n: n.id)
         typer.secho(f"{cat}  ({len(nodes)})", bold=True, fg=_GAP_COLOR.get(cat))
         for n in nodes:
-            via = f"  ← {n.weakest_dep}" if (cat == "effective-gap" and n.weakest_dep) else ""
+            via = (f"  uses unformalized {n.uses_gap}"
+                   if (cat == "blueprint-incomplete" and n.uses_gap) else "")
             typer.echo(f"    {n.id}  [claimed={n.claimed} asserted={n.asserted} kernel={n.kernel}"
                        f" → effective={n.effective_status}]{via}")
-        if cat in ("kernel-refutes-claim", "effective-gap"):
+        if cat == "kernel-refutes-claim":  # only validity gaps are honesty failures
             gaps += len(nodes)
     return gaps
 
@@ -203,13 +207,20 @@ app.command(name="reconcile")(reconcile_cmd)
 def audit(
     tex: str = typer.Argument(..., help="Blueprint content.tex (or blueprintJson)."),
     repo: Optional[str] = typer.Option(None, "--repo", help="Also reconcile against this repo's commits."),
+    strict: bool = typer.Option(
+        False, "--strict", help="Also fail on blueprint-incomplete (uses unformalized concepts)."
+    ),
     fixture: Optional[str] = FixtureOpt,
     claims: Optional[str] = ClaimsOpt,
     project: Optional[str] = ProjectOpt,
     axiom_report: Optional[str] = AxiomReportOpt,
     axioms_file: Optional[str] = AxiomsFileOpt,
 ) -> None:
-    """Honesty gate: fail if any claim is shown proved but is effectively open/axiomatised."""
+    """Honesty gate: fail if a claim is shown proved but the kernel refutes it (a validity gap).
+
+    With --strict, also fail on coverage gaps (blueprint-incomplete: a machine-checked claim whose
+    \\uses closure includes an unformalized concept).
+    """
     bp_graph, _ = _ground(tex, project, axiom_report, axioms_file)
     if repo or fixture:
         from .build import build_graph, read_fixture
@@ -218,15 +229,18 @@ def audit(
         compute_agreement(graph, with_commits=True)
     else:
         graph = compute_agreement(bp_graph, with_commits=False)
-    gaps = audit_graph(graph)
+    gaps = audit_graph(graph, strict=strict)
     if not gaps:
-        typer.secho("ok: no honesty gaps (every claimed-proved node is effectively machine-checked).",
-                    fg=typer.colors.GREEN)
+        msg = "ok: no honesty gaps" + (" or coverage gaps" if strict else "") + "."
+        typer.secho(msg, fg=typer.colors.GREEN)
         raise typer.Exit()
-    typer.secho(f"{len(gaps)} honesty gap(s):", bold=True, fg=typer.colors.RED)
+    typer.secho(f"{len(gaps)} gap(s):", bold=True, fg=typer.colors.RED)
     for n in gaps:
-        via = f"  ← {n.weakest_dep}" if n.weakest_dep else ""
-        typer.echo(f"    {n.agreement}: {n.id}  (claimed proved, kernel-effective {n.effective_status}){via}")
+        if n.agreement == "kernel-refutes-claim":
+            typer.echo(f"    {n.agreement}: {n.id}  (claimed proved, kernel says {n.kernel})")
+        else:
+            via = f"  ← {n.uses_gap}" if n.uses_gap else ""
+            typer.echo(f"    {n.agreement}: {n.id}  (machine-checked, but uses an unformalized concept){via}")
     raise typer.Exit(code=1)
 
 

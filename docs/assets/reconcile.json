@@ -5,15 +5,14 @@
     "spec_version": "0.1.0",
     "sources": [
       "blueprint",
-      "commits",
-      "kernel"
+      "commits"
     ]
   },
   "nodes": [
     {
-      "id": "IGL.greensKernel",
-      "kind": "axiomatize",
-      "statement": "posit the elliptic Green's kernel operator",
+      "id": "appel-haken",
+      "kind": "proof",
+      "statement": "the Four Colour Theorem, modulo the computer checks",
       "status": "math.axiomatised",
       "effective_status": "math.axiomatised",
       "in_question": false,
@@ -22,9 +21,38 @@
       "agreement": "paper-only"
     },
     {
-      "id": "IGL.separableSource_hasCPRank",
-      "kind": "formalize",
-      "statement": "CP-rank sub-additivity, sub-multiplicativity, and rank-friendly differentiation",
+      "id": "def:planar-colouring",
+      "kind": "definition",
+      "statement": "Planar map and proper colouring",
+      "status": "math.machine-checked",
+      "effective_status": "math.machine-checked",
+      "in_question": false,
+      "weakest_dep": null,
+      "lean": [
+        "FourColor.map"
+      ],
+      "aliases": [
+        "FourColor.map"
+      ],
+      "claimed": "math.machine-checked",
+      "agreement": "ungrounded",
+      "blueprint_complete": true
+    },
+    {
+      "id": "five-color",
+      "kind": "finding",
+      "statement": "The Five Colour Theorem: every planar map is five-colourable, by a sound Kempe-chain argument.",
+      "status": "math.proved-informal",
+      "effective_status": "math.proved-informal",
+      "in_question": false,
+      "weakest_dep": null,
+      "asserted": "math.proved-informal",
+      "agreement": "paper-only"
+    },
+    {
+      "id": "four-color",
+      "kind": "conjecture",
+      "statement": "Every planar map can be coloured with four colours so that no two adjacent regions share a colour.",
       "status": "math.machine-checked",
       "effective_status": "math.machine-checked",
       "in_question": false,
@@ -33,183 +61,9 @@
       "agreement": "ungrounded"
     },
     {
-      "id": "cor:additive",
-      "kind": "theorem",
-      "statement": "Additive Green as $K=1$",
-      "status": "math.machine-checked",
-      "effective_status": "math.machine-checked",
-      "in_question": false,
-      "weakest_dep": null,
-      "lean": [
-        "IGL.additiveGreen_factorization"
-      ],
-      "aliases": [
-        "IGL.additiveGreen_factorization"
-      ],
-      "claimed": "math.machine-checked",
-      "asserted": "math.machine-checked",
-      "kernel": "math.machine-checked",
-      "agreement": "consistent"
-    },
-    {
-      "id": "cor:kan",
-      "kind": "theorem",
-      "statement": "KANs as $G=\\mathrm{Id}$",
-      "status": "math.machine-checked",
-      "effective_status": "math.machine-checked",
-      "in_question": false,
-      "weakest_dep": null,
-      "lean": [
-        "IGL.kan_reduction"
-      ],
-      "aliases": [
-        "IGL.kan_reduction"
-      ],
-      "claimed": "math.machine-checked",
-      "asserted": "math.machine-checked",
-      "kernel": "math.machine-checked",
-      "agreement": "consistent"
-    },
-    {
-      "id": "def:ansatz",
-      "kind": "definition",
-      "statement": "Target as Green's solution",
-      "status": "math.proved-informal",
-      "effective_status": "math.proved-informal",
-      "in_question": false,
-      "weakest_dep": null,
-      "agreement": "paper-only"
-    },
-    {
-      "id": "def:cp-rank",
-      "kind": "definition",
-      "statement": "CP-rank (upper bound)",
-      "status": "math.machine-checked",
-      "effective_status": "math.machine-checked",
-      "in_question": false,
-      "weakest_dep": null,
-      "lean": [
-        "IGL.HasCPRank"
-      ],
-      "aliases": [
-        "IGL.HasCPRank"
-      ],
-      "claimed": "math.machine-checked",
-      "asserted": "math.machine-checked",
-      "kernel": "math.machine-checked",
-      "agreement": "consistent"
-    },
-    {
-      "id": "def:igl-output",
-      "kind": "definition",
-      "statement": "IGL particular solution",
-      "status": "math.machine-checked",
-      "effective_status": "math.machine-checked",
-      "in_question": false,
-      "weakest_dep": null,
-      "lean": [
-        "IGL.iglParticular"
-      ],
-      "aliases": [
-        "IGL.iglParticular"
-      ],
-      "claimed": "math.machine-checked",
-      "asserted": "math.machine-checked",
-      "kernel": "math.machine-checked",
-      "agreement": "consistent"
-    },
-    {
-      "id": "def:metric",
-      "kind": "definition",
-      "statement": "Metric volume element",
-      "status": "math.proved-informal",
-      "effective_status": "math.proved-informal",
-      "in_question": false,
-      "weakest_dep": null,
-      "agreement": "paper-only"
-    },
-    {
-      "id": "def:nullspace",
-      "kind": "definition",
-      "statement": "Null-space polynomial term",
-      "status": "math.proved-informal",
-      "effective_status": "math.proved-informal",
-      "in_question": false,
-      "weakest_dep": null,
-      "agreement": "paper-only"
-    },
-    {
-      "id": "def:partial-integral",
-      "kind": "definition",
-      "statement": "1-D partial integral",
-      "status": "math.machine-checked",
-      "effective_status": "math.machine-checked",
-      "in_question": false,
-      "weakest_dep": null,
-      "lean": [
-        "IGL.partialIntegral"
-      ],
-      "aliases": [
-        "IGL.partialIntegral"
-      ],
-      "claimed": "math.machine-checked",
-      "asserted": "math.machine-checked",
-      "kernel": "math.machine-checked",
-      "agreement": "consistent"
-    },
-    {
-      "id": "def:separable-kernel",
-      "kind": "definition",
-      "statement": "Rank-$K$ separable kernel",
-      "status": "math.machine-checked",
-      "effective_status": "math.machine-checked",
-      "in_question": false,
-      "weakest_dep": null,
-      "lean": [
-        "IGL.separableKernel"
-      ],
-      "aliases": [
-        "IGL.separableKernel"
-      ],
-      "claimed": "math.machine-checked",
-      "asserted": "math.machine-checked",
-      "kernel": "math.machine-checked",
-      "agreement": "consistent"
-    },
-    {
-      "id": "def:separable-source",
-      "kind": "definition",
-      "statement": "Rank-$R$ separable source",
-      "status": "math.machine-checked",
-      "effective_status": "math.machine-checked",
-      "in_question": false,
-      "weakest_dep": null,
-      "lean": [
-        "IGL.separableSource"
-      ],
-      "aliases": [
-        "IGL.separableSource"
-      ],
-      "claimed": "math.machine-checked",
-      "asserted": "math.machine-checked",
-      "kernel": "math.machine-checked",
-      "agreement": "consistent"
-    },
-    {
-      "id": "master-formula",
-      "kind": "conjecture",
-      "statement": "The Green's integral factorises as a finite separable rank-K×R sum (the Master Formula).",
-      "status": "math.machine-checked",
-      "effective_status": "math.machine-checked",
-      "in_question": false,
-      "weakest_dep": null,
-      "asserted": "math.machine-checked",
-      "agreement": "ungrounded"
-    },
-    {
-      "id": "naive-separable",
-      "kind": "conjecture",
-      "statement": "On a curved chart the Green's kernel factorises separably as-is, with no metric compensation.",
+      "id": "kempe",
+      "kind": "finding",
+      "statement": "Kempe's 1879 four-colour argument (later shown to fail when two Kempe chains cross).",
       "status": "math.disproved",
       "effective_status": "math.disproved",
       "in_question": false,
@@ -218,27 +72,31 @@
       "agreement": "paper-only"
     },
     {
-      "id": "prop:expsum",
-      "kind": "theorem",
-      "statement": "Exponential-sum rank bound",
-      "status": "math.axiomatised",
-      "effective_status": "math.axiomatised",
+      "id": "kempe-chains",
+      "kind": "definition",
+      "statement": "The two-colour Kempe-chain interchange: a maximal two-coloured subgraph can be recoloured by swapping its colours.",
+      "status": "math.proved-informal",
+      "effective_status": "math.proved-informal",
       "in_question": false,
       "weakest_dep": null,
-      "lean": [
-        "IGL.expSumRank_logBound"
-      ],
-      "aliases": [
-        "IGL.expSumRank_logBound"
-      ],
-      "asserted": "math.axiomatised",
-      "kernel": "math.axiomatised",
-      "agreement": "consistent"
+      "asserted": "math.proved-informal",
+      "agreement": "paper-only"
     },
     {
-      "id": "refute:naive-separable",
+      "id": "reducibility",
+      "kind": "finding",
+      "statement": "Each configuration in the unavoidable set is reducible: it cannot appear in a minimal counterexample.",
+      "status": "math.machine-checked",
+      "effective_status": "math.machine-checked",
+      "in_question": false,
+      "weakest_dep": null,
+      "asserted": "math.machine-checked",
+      "agreement": "ungrounded"
+    },
+    {
+      "id": "refute:kempe",
       "kind": "refute",
-      "statement": "the rank-1 counterexample blocks naive separable factorization",
+      "statement": "two Kempe chains can cross, and the interchange fails",
       "status": null,
       "effective_status": null,
       "in_question": false,
@@ -246,449 +104,244 @@
       "agreement": "paper-only"
     },
     {
-      "id": "thm:barrier-if",
-      "kind": "theorem",
-      "statement": "Separability barrier — sufficiency (``if'')",
-      "status": "math.machine-checked",
-      "effective_status": "math.proved-informal",
-      "in_question": false,
-      "weakest_dep": "def:metric",
-      "lean": [
-        "IGL.barrier_if_factorization"
-      ],
-      "aliases": [
-        "IGL.barrier_if_factorization"
-      ],
-      "claimed": "math.machine-checked",
-      "asserted": "math.machine-checked",
-      "kernel": "math.machine-checked",
-      "agreement": "effective-gap"
-    },
-    {
-      "id": "thm:barrier-only-if",
-      "kind": "theorem",
-      "statement": "Separability barrier — necessity (witness)",
-      "status": "math.machine-checked",
-      "effective_status": "math.proved-informal",
-      "in_question": false,
-      "weakest_dep": "def:metric",
-      "lean": [
-        "IGL.barrierWitness_not_rank_one"
-      ],
-      "aliases": [
-        "IGL.barrierWitness_not_rank_one"
-      ],
-      "claimed": "math.machine-checked",
-      "asserted": "math.machine-checked",
-      "kernel": "math.machine-checked",
-      "agreement": "effective-gap"
-    },
-    {
-      "id": "thm:compensation",
-      "kind": "theorem",
-      "statement": "Compensation restores separability",
-      "status": "math.proved-informal",
-      "effective_status": "math.proved-informal",
+      "id": "refute:tait",
+      "kind": "refute",
+      "statement": "the Petersen graph has no edge-three-colouring",
+      "status": null,
+      "effective_status": null,
       "in_question": false,
       "weakest_dep": null,
       "agreement": "paper-only"
     },
     {
-      "id": "thm:cp-rank-add",
-      "kind": "theorem",
-      "statement": "Sub-additivity of CP-rank",
-      "status": "math.machine-checked",
-      "effective_status": "math.machine-checked",
+      "id": "rsst",
+      "kind": "proof",
+      "statement": "a smaller, cleaner proof with 633 configurations",
+      "status": "math.axiomatised",
+      "effective_status": "math.axiomatised",
       "in_question": false,
       "weakest_dep": null,
-      "lean": [
-        "IGL.HasCPRank.add"
-      ],
-      "aliases": [
-        "IGL.HasCPRank.add"
-      ],
-      "claimed": "math.machine-checked",
-      "asserted": "math.machine-checked",
-      "kernel": "math.machine-checked",
-      "agreement": "consistent"
-    },
-    {
-      "id": "thm:cp-rank-mul",
-      "kind": "theorem",
-      "statement": "Sub-multiplicativity of CP-rank",
-      "status": "math.machine-checked",
-      "effective_status": "math.machine-checked",
-      "in_question": false,
-      "weakest_dep": null,
-      "lean": [
-        "IGL.HasCPRank.mul"
-      ],
-      "aliases": [
-        "IGL.HasCPRank.mul"
-      ],
-      "claimed": "math.machine-checked",
-      "asserted": "math.machine-checked",
-      "kernel": "math.machine-checked",
-      "agreement": "consistent"
-    },
-    {
-      "id": "thm:diff-rank-friendly",
-      "kind": "theorem",
-      "statement": "Differentiation is rank-friendly",
-      "status": "math.machine-checked",
-      "effective_status": "math.machine-checked",
-      "in_question": false,
-      "weakest_dep": null,
-      "lean": [
-        "IGL.applyCoordOp_hasCPRank"
-      ],
-      "aliases": [
-        "IGL.applyCoordOp_hasCPRank"
-      ],
-      "claimed": "math.machine-checked",
-      "asserted": "math.machine-checked",
-      "kernel": "math.machine-checked",
-      "agreement": "consistent"
-    },
-    {
-      "id": "thm:exp-neg-sum",
-      "kind": "theorem",
-      "statement": "Additive eigenvalues become a product",
-      "status": "math.machine-checked",
-      "effective_status": "math.machine-checked",
-      "in_question": false,
-      "weakest_dep": null,
-      "lean": [
-        "IGL.exp_neg_sum_eigs"
-      ],
-      "aliases": [
-        "IGL.exp_neg_sum_eigs"
-      ],
-      "claimed": "math.machine-checked",
-      "asserted": "math.machine-checked",
-      "kernel": "math.machine-checked",
-      "agreement": "consistent"
-    },
-    {
-      "id": "thm:fubini-dfold",
-      "kind": "theorem",
-      "statement": "$d$-fold separable factorization",
-      "status": "math.machine-checked",
-      "effective_status": "math.machine-checked",
-      "in_question": false,
-      "weakest_dep": null,
-      "lean": [
-        "IGL.fubini_dfold"
-      ],
-      "aliases": [
-        "IGL.fubini_dfold"
-      ],
-      "claimed": "math.machine-checked",
-      "asserted": "math.machine-checked",
-      "kernel": "math.machine-checked",
-      "agreement": "consistent"
-    },
-    {
-      "id": "thm:fubini-rank1",
-      "kind": "theorem",
-      "statement": "Rank-1 / 2-factor factorization",
-      "status": "math.machine-checked",
-      "effective_status": "math.machine-checked",
-      "in_question": false,
-      "weakest_dep": null,
-      "lean": [
-        "igl_separable_factorization"
-      ],
-      "aliases": [
-        "igl_separable_factorization"
-      ],
-      "claimed": "math.machine-checked",
-      "asserted": "math.machine-checked",
-      "kernel": "math.machine-checked",
-      "agreement": "consistent"
-    },
-    {
-      "id": "thm:gauge",
-      "kind": "theorem",
-      "statement": "Gauge / coordinate invariance",
-      "status": "math.machine-checked",
-      "effective_status": "math.proved-informal",
-      "in_question": false,
-      "weakest_dep": "def:ansatz",
-      "lean": [
-        "IGL.gauge_invariance"
-      ],
-      "aliases": [
-        "IGL.gauge_invariance"
-      ],
-      "claimed": "math.machine-checked",
-      "asserted": "math.machine-checked",
-      "kernel": "math.machine-checked",
-      "agreement": "effective-gap"
-    },
-    {
-      "id": "thm:master-formula",
-      "kind": "theorem",
-      "statement": "Master Formula",
-      "status": "math.machine-checked",
-      "effective_status": "math.machine-checked",
-      "in_question": false,
-      "weakest_dep": null,
-      "lean": [
-        "IGL.fubini_factorization"
-      ],
-      "aliases": [
-        "IGL.fubini_factorization"
-      ],
-      "claimed": "math.machine-checked",
-      "asserted": "math.machine-checked",
-      "kernel": "math.machine-checked",
-      "agreement": "consistent"
-    },
-    {
-      "id": "thm:nullspace",
-      "kind": "theorem",
-      "statement": "Null-space characterisation",
-      "status": "math.proved-informal",
-      "effective_status": "math.proved-informal",
-      "in_question": false,
-      "weakest_dep": null,
+      "asserted": "math.axiomatised",
       "agreement": "paper-only"
     },
     {
-      "id": "thm:spectral-factor",
+      "id": "tait",
+      "kind": "finding",
+      "statement": "Tait's 1880 reduction of four-colouring to edge-three-colouring of cubic planar maps (later refuted).",
+      "status": "math.disproved",
+      "effective_status": "math.disproved",
+      "in_question": false,
+      "weakest_dep": null,
+      "asserted": "math.disproved",
+      "agreement": "paper-only"
+    },
+    {
+      "id": "thm:four-color",
       "kind": "theorem",
-      "statement": "Spectral factorized integral",
+      "statement": "Four Colour Theorem",
       "status": "math.machine-checked",
       "effective_status": "math.machine-checked",
       "in_question": false,
       "weakest_dep": null,
       "lean": [
-        "IGL.spectral_factorization"
+        "FourColor.four_color_theorem"
       ],
       "aliases": [
-        "IGL.spectral_factorization"
+        "FourColor.four_color_theorem"
       ],
       "claimed": "math.machine-checked",
       "asserted": "math.machine-checked",
-      "kernel": "math.machine-checked",
-      "agreement": "consistent"
+      "agreement": "ungrounded",
+      "blueprint_complete": true
     },
     {
-      "id": "thm:varpro",
+      "id": "thm:reducible",
       "kind": "theorem",
-      "statement": "Envelope-theorem gradient",
-      "status": "math.proved-informal",
-      "effective_status": "math.proved-informal",
+      "statement": "Reducibility",
+      "status": "math.machine-checked",
+      "effective_status": "math.machine-checked",
       "in_question": false,
       "weakest_dep": null,
-      "agreement": "paper-only"
+      "lean": [
+        "FourColor.reducible"
+      ],
+      "aliases": [
+        "FourColor.reducible"
+      ],
+      "claimed": "math.machine-checked",
+      "asserted": "math.machine-checked",
+      "agreement": "ungrounded",
+      "blueprint_complete": true
+    },
+    {
+      "id": "thm:unavoidable",
+      "kind": "theorem",
+      "statement": "Unavoidable set",
+      "status": "math.machine-checked",
+      "effective_status": "math.machine-checked",
+      "in_question": false,
+      "weakest_dep": null,
+      "lean": [
+        "FourColor.unavoidable"
+      ],
+      "aliases": [
+        "FourColor.unavoidable"
+      ],
+      "claimed": "math.machine-checked",
+      "asserted": "math.machine-checked",
+      "agreement": "ungrounded",
+      "blueprint_complete": true
+    },
+    {
+      "id": "unavoidability",
+      "kind": "finding",
+      "statement": "Every planar triangulation contains one of a fixed finite (unavoidable) set of configurations.",
+      "status": "math.machine-checked",
+      "effective_status": "math.machine-checked",
+      "in_question": false,
+      "weakest_dep": null,
+      "asserted": "math.machine-checked",
+      "agreement": "ungrounded"
     }
   ],
   "edges": [
     {
-      "source": "def:igl-output",
-      "target": "def:separable-source",
+      "source": "thm:unavoidable",
+      "target": "def:planar-colouring",
+      "relation": "Uses",
+      "breaking": false
+    },
+    {
+      "source": "thm:reducible",
+      "target": "def:planar-colouring",
+      "relation": "Uses",
+      "breaking": false
+    },
+    {
+      "source": "thm:four-color",
+      "target": "thm:unavoidable",
+      "relation": "Uses",
+      "breaking": false
+    },
+    {
+      "source": "thm:four-color",
+      "target": "thm:reducible",
+      "relation": "Uses",
+      "breaking": false
+    },
+    {
+      "source": "kempe",
+      "target": "kempe-chains",
       "relation": "Depends-On",
       "breaking": false
     },
     {
-      "source": "def:igl-output",
-      "target": "def:separable-kernel",
-      "relation": "Depends-On",
-      "breaking": false
-    },
-    {
-      "source": "def:igl-output",
-      "target": "def:partial-integral",
-      "relation": "Depends-On",
-      "breaking": false
-    },
-    {
-      "source": "thm:fubini-dfold",
-      "target": "thm:fubini-rank1",
-      "relation": "Depends-On",
-      "breaking": false
-    },
-    {
-      "source": "thm:master-formula",
-      "target": "def:separable-source",
-      "relation": "Depends-On",
-      "breaking": false
-    },
-    {
-      "source": "thm:master-formula",
-      "target": "def:separable-kernel",
-      "relation": "Depends-On",
-      "breaking": false
-    },
-    {
-      "source": "thm:master-formula",
-      "target": "def:partial-integral",
-      "relation": "Depends-On",
-      "breaking": false
-    },
-    {
-      "source": "thm:master-formula",
-      "target": "def:igl-output",
-      "relation": "Depends-On",
-      "breaking": false
-    },
-    {
-      "source": "thm:master-formula",
-      "target": "thm:fubini-dfold",
-      "relation": "Depends-On",
-      "breaking": false
-    },
-    {
-      "source": "cor:kan",
-      "target": "thm:master-formula",
-      "relation": "Depends-On",
-      "breaking": false
-    },
-    {
-      "source": "cor:kan",
-      "target": "def:igl-output",
-      "relation": "Depends-On",
-      "breaking": false
-    },
-    {
-      "source": "cor:additive",
-      "target": "thm:master-formula",
-      "relation": "Depends-On",
-      "breaking": false
-    },
-    {
-      "source": "thm:spectral-factor",
-      "target": "thm:exp-neg-sum",
-      "relation": "Depends-On",
-      "breaking": false
-    },
-    {
-      "source": "thm:spectral-factor",
-      "target": "thm:fubini-dfold",
-      "relation": "Depends-On",
-      "breaking": false
-    },
-    {
-      "source": "thm:gauge",
-      "target": "def:ansatz",
-      "relation": "Depends-On",
-      "breaking": false
-    },
-    {
-      "source": "thm:cp-rank-add",
-      "target": "def:cp-rank",
-      "relation": "Depends-On",
-      "breaking": false
-    },
-    {
-      "source": "thm:cp-rank-mul",
-      "target": "def:cp-rank",
-      "relation": "Depends-On",
-      "breaking": false
-    },
-    {
-      "source": "thm:diff-rank-friendly",
-      "target": "def:cp-rank",
-      "relation": "Depends-On",
-      "breaking": false
-    },
-    {
-      "source": "thm:diff-rank-friendly",
-      "target": "def:separable-source",
-      "relation": "Depends-On",
-      "breaking": false
-    },
-    {
-      "source": "thm:barrier-if",
-      "target": "def:metric",
-      "relation": "Depends-On",
-      "breaking": false
-    },
-    {
-      "source": "thm:barrier-if",
-      "target": "thm:fubini-dfold",
-      "relation": "Depends-On",
-      "breaking": false
-    },
-    {
-      "source": "thm:barrier-only-if",
-      "target": "def:cp-rank",
-      "relation": "Depends-On",
-      "breaking": false
-    },
-    {
-      "source": "thm:barrier-only-if",
-      "target": "def:metric",
-      "relation": "Depends-On",
-      "breaking": false
-    },
-    {
-      "source": "thm:compensation",
-      "target": "thm:barrier-if",
-      "relation": "Depends-On",
-      "breaking": false
-    },
-    {
-      "source": "thm:compensation",
-      "target": "thm:master-formula",
-      "relation": "Depends-On",
-      "breaking": false
-    },
-    {
-      "source": "thm:compensation",
-      "target": "thm:cp-rank-mul",
-      "relation": "Depends-On",
-      "breaking": false
-    },
-    {
-      "source": "thm:compensation",
-      "target": "thm:cp-rank-add",
-      "relation": "Depends-On",
-      "breaking": false
-    },
-    {
-      "source": "prop:expsum",
-      "target": "def:separable-kernel",
-      "relation": "Depends-On",
-      "breaking": false
-    },
-    {
-      "source": "thm:varpro",
-      "target": "def:igl-output",
-      "relation": "Depends-On",
-      "breaking": false
-    },
-    {
-      "source": "thm:nullspace",
-      "target": "def:nullspace",
-      "relation": "Depends-On",
-      "breaking": false
-    },
-    {
-      "source": "def:separable-source",
-      "target": "master-formula",
+      "source": "kempe",
+      "target": "four-color",
       "relation": "Closes",
       "breaking": false
     },
     {
-      "source": "def:separable-source",
-      "target": "thm:fubini-rank1",
-      "relation": "Depends-On",
+      "source": "tait",
+      "target": "four-color",
+      "relation": "Closes",
       "breaking": false
     },
     {
-      "source": "cor:additive",
-      "target": "thm:fubini-dfold",
-      "relation": "Depends-On",
-      "breaking": false
-    },
-    {
-      "source": "refute:naive-separable",
-      "target": "naive-separable",
+      "source": "refute:kempe",
+      "target": "kempe",
       "relation": "Disproves",
       "breaking": true
+    },
+    {
+      "source": "five-color",
+      "target": "kempe-chains",
+      "relation": "Depends-On",
+      "breaking": false
+    },
+    {
+      "source": "refute:tait",
+      "target": "tait",
+      "relation": "Disproves",
+      "breaking": true
+    },
+    {
+      "source": "appel-haken",
+      "target": "unavoidability",
+      "relation": "Assumes",
+      "breaking": false
+    },
+    {
+      "source": "appel-haken",
+      "target": "reducibility",
+      "relation": "Assumes",
+      "breaking": false
+    },
+    {
+      "source": "appel-haken",
+      "target": "four-color",
+      "relation": "Closes",
+      "breaking": false
+    },
+    {
+      "source": "rsst",
+      "target": "unavoidability",
+      "relation": "Assumes",
+      "breaking": false
+    },
+    {
+      "source": "rsst",
+      "target": "reducibility",
+      "relation": "Assumes",
+      "breaking": false
+    },
+    {
+      "source": "rsst",
+      "target": "appel-haken",
+      "relation": "Supersedes",
+      "breaking": false
+    },
+    {
+      "source": "rsst",
+      "target": "four-color",
+      "relation": "Closes",
+      "breaking": false
+    },
+    {
+      "source": "thm:reducible",
+      "target": "reducibility",
+      "relation": "Proves",
+      "breaking": false
+    },
+    {
+      "source": "thm:unavoidable",
+      "target": "unavoidability",
+      "relation": "Proves",
+      "breaking": false
+    },
+    {
+      "source": "thm:four-color",
+      "target": "thm:reducible",
+      "relation": "Depends-On",
+      "breaking": false
+    },
+    {
+      "source": "thm:four-color",
+      "target": "thm:unavoidable",
+      "relation": "Depends-On",
+      "breaking": false
+    },
+    {
+      "source": "thm:four-color",
+      "target": "rsst",
+      "relation": "Supersedes",
+      "breaking": false
+    },
+    {
+      "source": "thm:four-color",
+      "target": "four-color",
+      "relation": "Closes",
+      "breaking": false
     }
   ]
 }
