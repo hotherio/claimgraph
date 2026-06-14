@@ -1,0 +1,31 @@
+% A tiny blueprint that exercises the two honesty gaps a green graph can hide.
+% Pair it with axioms.txt (a saved axiom-report) -- no Lean build needed.
+
+\begin{definition}[Base]\label{def:base}
+  \lean{Demo.base}\leanok
+  A fully formalized base definition.
+\end{definition}
+
+\begin{lemma}[Helper marked done but still open]\label{lem:helper}
+  \lean{Demo.helper}\leanok
+  \uses{def:base}
+  The author marked this formalized, but the Lean proof still has a hole.
+\end{lemma}
+
+\begin{theorem}[Main result resting on the helper]\label{thm:main}
+  \lean{Demo.main}\leanok
+  \uses{lem:helper}
+  Green in the blueprint, but its kernel axioms inherit the helper's hole.
+\end{theorem}
+
+\begin{theorem}[Bridge whose Lean proof is clean]\label{thm:bridge}
+  \lean{Demo.bridge}\leanok
+  \uses{thm:informal-step}
+  The Lean proof is genuinely clean, yet the blueprint declares it rests on an
+  unformalized step.
+\end{theorem}
+
+\begin{lemma}[Informal step, not formalized]\label{thm:informal-step}
+  A paper-level statement that the bridge declares it uses, with no Lean
+  declaration of its own.
+\end{lemma}

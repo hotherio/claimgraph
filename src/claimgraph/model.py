@@ -63,12 +63,20 @@ class Node:
     id: str
     kind: str | None = None  # conjecture | finding | definition | theorem | ...
     statement: str | None = None
-    status: str | None = None  # asserted status, from the latest commit that set one
+    status: str | None = None  # the working status effective_status is computed from
     # computed views (not stored in the source of truth):
     effective_status: str | None = None
     in_question: bool = False
     weakest_dep: str | None = None  # the node that set the effective status, if weaker than self
     commits: list[str] = field(default_factory=list)  # commit hashes that asserted this node
+
+    # cross-history reconciliation (blueprint x commits x kernel); all optional.
+    lean: list[str] = field(default_factory=list)  # Lean FQN(s) for this claim
+    aliases: list[str] = field(default_factory=list)  # other ids this node was merged from
+    claimed: str | None = None  # blueprint reading (\leanok / \mathlibok)
+    asserted: str | None = None  # commit-history reading (latest commit Status:)
+    kernel: str | None = None  # kernel reading (#print axioms, via axiom-report)
+    agreement: str | None = None  # reconciliation category (see reconcile.py)
 
     @property
     def broken(self) -> bool:

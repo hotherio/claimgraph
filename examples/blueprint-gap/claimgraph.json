@@ -1,0 +1,103 @@
+{
+  "$schema": "https://raw.githubusercontent.com/hotherio/claimgraph/main/schema/claimgraph.schema.json",
+  "meta": {
+    "generator": "claimgraph",
+    "spec_version": "0.1.0",
+    "sources": [
+      "blueprint",
+      "kernel"
+    ]
+  },
+  "nodes": [
+    {
+      "id": "def:base",
+      "kind": "definition",
+      "statement": "Base",
+      "status": "math.machine-checked",
+      "effective_status": "math.machine-checked",
+      "in_question": false,
+      "weakest_dep": null,
+      "lean": [
+        "Demo.base"
+      ],
+      "claimed": "math.machine-checked",
+      "kernel": "math.machine-checked",
+      "agreement": "consistent"
+    },
+    {
+      "id": "lem:helper",
+      "kind": "theorem",
+      "statement": "Helper marked done but still open",
+      "status": "math.open",
+      "effective_status": "math.open",
+      "in_question": false,
+      "weakest_dep": null,
+      "lean": [
+        "Demo.helper"
+      ],
+      "claimed": "math.machine-checked",
+      "kernel": "math.open",
+      "agreement": "kernel-refutes-claim"
+    },
+    {
+      "id": "thm:bridge",
+      "kind": "theorem",
+      "statement": "Bridge whose Lean proof is clean",
+      "status": "math.machine-checked",
+      "effective_status": "math.proved-informal",
+      "in_question": false,
+      "weakest_dep": "thm:informal-step",
+      "lean": [
+        "Demo.bridge"
+      ],
+      "claimed": "math.machine-checked",
+      "kernel": "math.machine-checked",
+      "agreement": "effective-gap"
+    },
+    {
+      "id": "thm:informal-step",
+      "kind": "theorem",
+      "statement": "Informal step, not formalized",
+      "status": "math.proved-informal",
+      "effective_status": "math.proved-informal",
+      "in_question": false,
+      "weakest_dep": null,
+      "agreement": "paper-only"
+    },
+    {
+      "id": "thm:main",
+      "kind": "theorem",
+      "statement": "Main result resting on the helper",
+      "status": "math.open",
+      "effective_status": "math.open",
+      "in_question": false,
+      "weakest_dep": null,
+      "lean": [
+        "Demo.main"
+      ],
+      "claimed": "math.machine-checked",
+      "kernel": "math.open",
+      "agreement": "kernel-refutes-claim"
+    }
+  ],
+  "edges": [
+    {
+      "source": "lem:helper",
+      "target": "def:base",
+      "relation": "Depends-On",
+      "breaking": false
+    },
+    {
+      "source": "thm:main",
+      "target": "lem:helper",
+      "relation": "Depends-On",
+      "breaking": false
+    },
+    {
+      "source": "thm:bridge",
+      "target": "thm:informal-step",
+      "relation": "Depends-On",
+      "breaking": false
+    }
+  ]
+}

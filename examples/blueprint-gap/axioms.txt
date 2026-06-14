@@ -1,0 +1,6 @@
+DECLARATION                                           STATUS     NON-STANDARD AXIOMS
+----------------------------------------------------  ---------  -------------------
+Demo.base                                             clean      
+Demo.helper                                           sorryAx    sorryAx
+Demo.main                                             sorryAx    sorryAx
+Demo.bridge                                           clean      

@@ -1,0 +1,21 @@
+DECLARATION                                           STATUS     NON-STANDARD AXIOMS
+----------------------------------------------------  ---------  -------------------
+IGL.separableSource                                   clean      
+IGL.separableKernel                                   clean      
+IGL.partialIntegral                                   clean      
+IGL.iglParticular                                     clean      
+igl_separable_factorization                           clean      
+IGL.fubini_dfold                                      clean      
+IGL.fubini_factorization                              clean      
+IGL.kan_reduction                                     clean      
+IGL.additiveGreen_factorization                       clean      
+IGL.exp_neg_sum_eigs                                  clean      
+IGL.spectral_factorization                            clean      
+IGL.gauge_invariance                                  clean      
+IGL.HasCPRank                                         clean      
+IGL.HasCPRank.add                                     clean      
+IGL.HasCPRank.mul                                     clean      
+IGL.applyCoordOp_hasCPRank                            clean      
+IGL.barrier_if_factorization                          clean      
+IGL.barrierWitness_not_rank_one                       clean      
+IGL.expSumRank_logBound                               axiom      IGL.expSumRank IGL.greensKernel

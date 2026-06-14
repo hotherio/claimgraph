@@ -55,6 +55,33 @@
         "weakest_dep": {
           "type": ["string", "null"],
           "description": "The dependency whose status set the effective status, if weaker than self."
+        },
+        "lean": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Lean fully-qualified declaration name(s) for this claim (blueprint integration)."
+        },
+        "aliases": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Other ids (label / FQN / slug) this node was unified from during reconciliation."
+        },
+        "claimed": {
+          "type": ["string", "null"],
+          "description": "Blueprint reading: machine-checked iff the node carries \\leanok / \\mathlibok."
+        },
+        "asserted": {
+          "type": ["string", "null"],
+          "description": "Commit-history reading: the latest commit Status: for this claim."
+        },
+        "kernel": {
+          "type": ["string", "null"],
+          "description": "Kernel reading from #print axioms (via axiom-report): machine-checked/axiomatised/open."
+        },
+        "agreement": {
+          "type": ["string", "null"],
+          "enum": ["consistent", "kernel-refutes-claim", "effective-gap", "undocumented", "stale-blueprint", "paper-only", "ungrounded", null],
+          "description": "Cross-history reconciliation category (where the three readings agree or disagree)."
         }
       },
       "additionalProperties": true

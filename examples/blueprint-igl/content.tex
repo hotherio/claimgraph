@@ -1,0 +1,211 @@
+% IGL — Inverse / Intrinsic Green's Learning — formalization blueprint
+% Content fragment for `leanblueprint` (plasTeX). Run `leanblueprint new` once in this
+% project to scaffold the full build (web/pdf/checkdecls), then \input this file.
+%
+% Status legend:  \leanok = formalized & proved   \notready (proof) = stub/sorry
+% Lean names live in the `IGL` namespace (file Igl/Separable.lean) unless noted.
+%
+% Naming: the paper uses "Inverse Green's Learning" (learn the source, integrate);
+% the companion essay uses "Intrinsic Green's Learning" (intrinsic manifold coords).
+% Same IGL framework; coordinates z=ξ (intrinsic), s=ζ (source/integration variable).
+
+\section{Setup and the IGL ansatz}
+
+\begin{definition}[Target as Green's solution]\label{def:ansatz}
+  For a fixed linear differential operator $L$ (e.g.\ $-\Delta$, Helmholtz $-\Delta+\mu^2$)
+  with Green's function $G$, the target $u:\mathcal M\to\mathbb R$ is represented as the
+  solution of $Lu=f$ for a \emph{learned} source $f$, i.e.\ $u=G*f$, concretely
+  $u(\xi)=\int_\Omega G(\xi,\zeta)\,\hat f(\zeta)\,d\zeta$.
+\end{definition}
+
+\section{Separable structure}
+
+\begin{definition}[Rank-$R$ separable source]\label{def:separable-source}
+  \lean{IGL.separableSource}\leanok
+  $\displaystyle \hat f(\zeta)=\sum_{r=1}^{R} w_r\prod_{j=1}^{d}\varphi_{r,j}(\zeta^j)$,
+  with weights $w_r\in\mathbb R$ and univariate factors $\varphi_{r,j}:\mathbb R\to\mathbb R$.
+\end{definition}
+
+\begin{definition}[Rank-$K$ separable kernel]\label{def:separable-kernel}
+  \lean{IGL.separableKernel}\leanok
+  $\displaystyle G(\xi,\zeta)\approx\sum_{k=1}^{K}\gamma_k\prod_{j=1}^{d}G_{k,j}(\xi^j,\zeta^j)$.
+\end{definition}
+
+\begin{definition}[1-D partial integral]\label{def:partial-integral}
+  \lean{IGL.partialIntegral}\leanok
+  $\displaystyle I_{k,r,j}(\xi^j)=\int G_{k,j}(\xi^j,\zeta^j)\,\varphi_{r,j}(\zeta^j)\,d\zeta^j$.
+\end{definition}
+
+\begin{definition}[IGL particular solution]\label{def:igl-output}
+  \lean{IGL.iglParticular}\leanok
+  \uses{def:separable-source,def:separable-kernel,def:partial-integral}
+  $\displaystyle u(\xi)=\sum_{k,r}\gamma_k w_r\prod_{j=1}^{d} I_{k,r,j}(\xi^j)$
+  (the complete model adds the null-space term, Def.~\ref{def:nullspace}).
+\end{definition}
+
+\section{The Master Formula (Fubini factorization)}
+
+\begin{theorem}[Rank-1 / 2-factor factorization]\label{thm:fubini-rank1}
+  \lean{igl_separable_factorization}\leanok
+  $\displaystyle \int_{\mathbb R^2} f(p_1)\,g(p_2)\,d(p_1,p_2)=\Big(\int f\Big)\Big(\int g\Big).$
+\end{theorem}
+
+\begin{theorem}[$d$-fold separable factorization]\label{thm:fubini-dfold}
+  \lean{IGL.fubini_dfold}\leanok
+  \uses{thm:fubini-rank1}
+  For $h_1,\dots,h_d:\mathbb R\to\mathbb R$,
+  $\displaystyle \int_{\mathbb R^d}\prod_{j=1}^{d} h_j(\zeta^j)\,d\zeta=\prod_{j=1}^{d}\int h_j.$
+\end{theorem}
+
+\begin{theorem}[Master Formula]\label{thm:master-formula}
+  \lean{IGL.fubini_factorization}\leanok
+  \uses{def:separable-source,def:separable-kernel,def:partial-integral,def:igl-output,thm:fubini-dfold}
+  With a rank-$R$ separable source and rank-$K$ separable kernel (and termwise
+  integrability), the $d$-dimensional Green's integral collapses to
+  $\displaystyle \int_{\mathbb R^d} G(\xi,\zeta)\,\hat f(\zeta)\,d\zeta
+     =\sum_{k,r}\gamma_k w_r\prod_{j=1}^{d} I_{k,r,j}(\xi^j),$
+  reducing per-sample cost from $O(N^d)$ to $O(KRd)$.
+\end{theorem}
+
+\begin{corollary}[KANs as $G=\mathrm{Id}$]\label{cor:kan}
+  \lean{IGL.kan_reduction}\leanok\uses{thm:master-formula,def:igl-output}
+  When each $1$-D integral reproduces its source factor ($I_{k,r,j}(\xi^j)=\varphi_{r,j}(\xi^j)$,
+  the identity-kernel condition) the output collapses to a sum of products of univariates
+  (Kolmogorov–Arnold form).
+\end{corollary}
+
+\begin{corollary}[Additive Green as $K=1$]\label{cor:additive}
+  \lean{IGL.additiveGreen_factorization}\leanok\uses{thm:master-formula}
+  $K=1$ recovers the additive-Green special case
+  $\int_{\mathbb R^d}\big(\prod_j G_j(\xi^j,\zeta^j)\big)\hat f(\zeta)\,d\zeta
+     =\sum_r w_r\prod_j I_{r,j}(\xi^j)$.
+\end{corollary}
+
+\section{Spectral form}
+
+\begin{theorem}[Additive eigenvalues become a product]\label{thm:exp-neg-sum}
+  \lean{IGL.exp_neg_sum_eigs}\leanok
+  $\displaystyle \exp\!\Big(-\alpha\sum_{j}\lambda_j\Big)=\prod_{j}\exp(-\alpha\lambda_j)$ — the
+  exponential-sum identity that turns additive eigenvalue coupling into a product.
+\end{theorem}
+
+\begin{theorem}[Spectral factorized integral]\label{thm:spectral-factor}
+  \lean{IGL.spectral_factorization}\leanok\uses{thm:exp-neg-sum,thm:fubini-dfold}
+  With the exponential-sum surrogate $1/\lambda\approx\sum_k\gamma_k e^{-\alpha_k\lambda}$ applied
+  modewise and a source separable in the eigenbasis, the spectral solution collapses to
+  $\displaystyle \sum_k\gamma_k\prod_j\sum_m e^{-\alpha_k\lambda_{jm}}\varphi_{jm}(\xi^j)g_{jm}$:
+  the multi-index sum over modes $n:\{1,\dots,d\}\to\{1,\dots,M\}$ factorizes across the $d$ axes,
+  the discrete analogue of the Master Formula.
+\end{theorem}
+
+\section{Coordinates and gauge invariance}
+
+\begin{theorem}[Gauge / coordinate invariance]\label{thm:gauge}
+  \lean{IGL.gauge_invariance}\leanok
+  \uses{def:ansatz}
+  Formalized for a measure-preserving reparametrisation $e$ (the rotation gauge used by the
+  random-rotation embedding): $\int h(e\,\zeta)\,d\zeta=\int h(\zeta)\,d\zeta$.
+  More generally, for a diffeomorphic chart $T$, the integral $u$ is invariant provided the
+  source transforms inversely:
+  $\int G(\xi,\zeta)\hat f(\zeta)\,d\zeta=\int G(\xi,T(\eta))\,\hat f(T(\eta))\,|\det DT(\eta)|\,d\eta$.
+  Hence the encoder may select \emph{any} chart minimising source tensor rank.
+  \emph{Mathlib:} \texttt{integral\_image\_eq\_integral\_abs\_det\_fderiv\_smul}.
+\end{theorem}
+
+\section{CP-rank and rank-friendly differentiation}
+
+\begin{definition}[CP-rank (upper bound)]\label{def:cp-rank}
+  \lean{IGL.HasCPRank}\leanok
+  $\mathrm{HasCPRank}(f,n)$ holds when $f(\zeta)=\sum_{i}w_i\prod_j\varphi_{ij}(\zeta^j)$ for an
+  index set of cardinality $n$ — a \emph{constructive} upper bound on the CP-rank (no
+  minimisation; the predicate carries an explicit $n$-term decomposition).
+\end{definition}
+
+\begin{theorem}[Sub-additivity of CP-rank]\label{thm:cp-rank-add}
+  \lean{IGL.HasCPRank.add}\leanok\uses{def:cp-rank}
+  $\mathrm{rank}(f+g)\le\mathrm{rank}(f)+\mathrm{rank}(g)$ (witness: disjoint union of term families).
+\end{theorem}
+
+\begin{theorem}[Sub-multiplicativity of CP-rank]\label{thm:cp-rank-mul}
+  \lean{IGL.HasCPRank.mul}\leanok\uses{def:cp-rank}
+  $\mathrm{rank}(f\cdot g)\le\mathrm{rank}(f)\cdot\mathrm{rank}(g)$ for the pointwise product
+  (witness: product index, factors multiplied axis-by-axis).
+\end{theorem}
+
+\begin{theorem}[Differentiation is rank-friendly]\label{thm:diff-rank-friendly}
+  \lean{IGL.applyCoordOp_hasCPRank}\leanok\uses{def:cp-rank,def:separable-source}
+  A coordinate-wise separable operator $L=\sum_jL_j$ maps a rank-$R$ source to one of rank
+  $\le R\,d$: $L\hat f=\sum_r w_r\sum_j(L_j\varphi_{r,j})\prod_{i\ne j}\varphi_{r,i}$.
+\end{theorem}
+
+\section{Curved manifolds: barrier and compensation}
+
+\begin{definition}[Metric volume element]\label{def:metric}
+  On a curved chart the measure carries $\sqrt{|g(\zeta)|}$:
+  $u(\xi)=\int G(\xi,\zeta)\,\tilde f(\zeta)\,\sqrt{|g(\zeta)|}\,d\zeta$.
+\end{definition}
+
+\begin{theorem}[Separability barrier — sufficiency (``if'')]\label{thm:barrier-if}
+  \lean{IGL.barrier_if_factorization}\leanok\uses{def:metric,thm:fubini-dfold}
+  If the metric factor is itself separable, $\sqrt{|g(\zeta)|}=\prod_j\chi_j(\zeta^j)$, then the
+  compensated Green's integral against a rank-$R$ separable source still factorizes into $d$
+  one-dimensional integrals, the metric absorbed axis-by-axis:
+  $\displaystyle \int\Big(\prod_jG_j\Big)\Big(\sum_r w_r\prod_j\varphi_{r,j}\Big)\Big(\prod_j\chi_j\Big)d\zeta
+     =\sum_r w_r\prod_j\int G_j\,\varphi_{r,j}\,\chi_j$.
+\end{theorem}
+
+\begin{theorem}[Separability barrier — necessity (witness)]\label{thm:barrier-only-if}
+  \lean{IGL.barrierWitness_not_rank_one}\leanok\uses{def:cp-rank,def:metric}
+  The metric factor $\sqrt{|g(\zeta)|}=1+\zeta_0\zeta_1$ on $\mathbb R^2$ is \emph{not} rank-1
+  (not of product form $a(\zeta_0)\,b(\zeta_1)$), so no single separable kernel can absorb it.
+  This is the rigorous core of the paper's informal ``only if'' argument; the general converse
+  needs non-degeneracy hypotheses on the function families and is left informal (not an axiom).
+\end{theorem}
+
+\begin{theorem}[Compensation restores separability]\label{thm:compensation}
+  \uses{thm:barrier-if,thm:master-formula,thm:cp-rank-mul,thm:cp-rank-add}
+  Learning the compensated source $\hat f(\zeta)=\tilde f(\zeta)\sqrt{|g(\zeta)|}$ absorbs the
+  metric, so the integrand is again separable and the Master Formula applies to $\hat f$. The rank
+  cost is governed by the CP-rank bounds: metric absorption is \emph{multiplicative}
+  ($\mathrm{rank}(\tilde f\sqrt{|g|})\le\mathrm{rank}(\tilde f)\,\mathrm{rank}(\sqrt{|g|})$,
+  Thm.~\ref{thm:cp-rank-mul}); the operator correction $-L_{\mathrm{coup}}u^*$ is \emph{additive}
+  ($\mathrm{rank}(\hat f)\le\mathrm{rank}(\tilde f\sqrt{|g|})+\mathrm{rank}(L_{\mathrm{coup}}u^*)$,
+  Thm.~\ref{thm:cp-rank-add}).
+\end{theorem}
+
+\section{Rank bounds}
+
+\begin{proposition}[Exponential-sum rank bound]\label{prop:expsum}
+  \lean{IGL.expSumRank_logBound}
+  \uses{def:separable-kernel}
+  For elliptic $L$ (Laplacian, Helmholtz), the separable rank $K$ achieving kernel error
+  $\varepsilon$ satisfies $K=O(\log(1/\varepsilon))$, \emph{independent of} $D$ and $d$.
+  \textbf{Axiomatised} (Braess–Hackbusch exponential sums) — Mathlib has no elliptic-PDE
+  Green's-function / exp-sum theory; introduced as a named \texttt{axiom} (\emph{not}
+  \leanok), together with \texttt{IGL.greensKernel}, so dependent results name it under
+  \texttt{\#print axioms}.
+\end{proposition}
+
+\section{Variable projection (two-stage training)}
+
+\begin{theorem}[Envelope-theorem gradient]\label{thm:varpro}
+  \uses{def:igl-output}
+  Let $w^\ast(\theta)=\arg\min_w\|\Phi(\theta)w-y\|^2$, so $\partial_w L=0$ at the inner
+  optimum. Then the reduced objective satisfies
+  $\displaystyle \nabla_\theta\mathcal L_{\mathrm{red}}(\theta)
+     =-\frac{\partial^2 L}{\partial w\,\partial\theta}\,w^\ast(\theta),$
+  i.e.\ the encoder gradient sees only coordinate quality — which is what prevents
+  dimensional collapse. \emph{(Finite-dimensional calculus / envelope theorem.)}
+\end{theorem}
+
+\section{Null space}
+
+\begin{definition}[Null-space polynomial term]\label{def:nullspace}
+  $\sum_{|\beta|\le p} c_\beta\prod_j(\xi^j)^{\beta_j}$, completing the output on $\ker L$.
+\end{definition}
+
+\begin{theorem}[Null-space characterisation]\label{thm:nullspace}\uses{def:nullspace}
+  $\ker L$ is spanned by polynomials of degree $\le p$: for $-\Delta$, the harmonic
+  polynomials (constants for $p=0$); for Helmholtz $-\Delta+\mu^2$ with $\lambda\ge\mu^2$,
+  trivial. \emph{(Needs harmonic-polynomial API.)}
+\end{theorem}
