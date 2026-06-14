@@ -9,7 +9,7 @@ import typer
 from . import build as build_view
 from .build import canonical
 from .emit import to_json
-from .graph import blast_radius as compute_blast_radius
+from .graph import affected as compute_affected
 from .graph import status_report
 
 app = typer.Typer(
@@ -67,22 +67,22 @@ def status(
             typer.echo(f"    {n.id}{via}{flags}")
 
 
-@app.command("blast-radius")
-def blast_radius_cmd(
+@app.command()
+def affected(
     claim: str = typer.Argument(..., help="The claim id (or footer ref) to test."),
     repo: str = RepoArg,
     fixture: Optional[str] = FixtureOpt,
     claims: Optional[str] = ClaimsOpt,
 ) -> None:
-    """List the dependents a refutation of CLAIM would put in question."""
+    """List the claims a refutation of CLAIM would put in question (its dependents)."""
     graph = _load(repo, fixture, claims)
     target = canonical(claim)
-    radius = compute_blast_radius(graph, target)
-    if not radius:
+    dependents = compute_affected(graph, target)
+    if not dependents:
         typer.echo(f"{target}: nothing depends on it.")
         raise typer.Exit()
-    typer.secho(f"{target} — blast radius ({len(radius)}):", bold=True)
-    for dep in radius:
+    typer.secho(f"{target} — affected claims ({len(dependents)}):", bold=True)
+    for dep in dependents:
         typer.echo(f"    {dep}")
 
 

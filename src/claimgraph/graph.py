@@ -60,7 +60,7 @@ def compute(graph: ClaimGraph) -> ClaimGraph:
     return graph
 
 
-def blast_radius(graph: ClaimGraph, target: str) -> list[str]:
+def affected(graph: ClaimGraph, target: str) -> list[str]:
     """Nodes that Depend-On ``target`` (transitively) — the dependents a refutation puts in question."""
     adj = _dependency_adjacency(graph)
     # reverse the dependency edges, then forward-reach from target.

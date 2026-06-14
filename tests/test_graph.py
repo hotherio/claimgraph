@@ -6,7 +6,7 @@ from pathlib import Path
 
 import pytest
 
-from claimgraph import blast_radius, build
+from claimgraph import affected, build
 from claimgraph.emit import to_dict
 
 EXAMPLES = Path(__file__).resolve().parent.parent / "examples" / "igl"
@@ -46,8 +46,8 @@ def test_dependent_of_broken_node_is_in_question(graph):
     assert node.in_question is True
 
 
-def test_blast_radius(graph):
-    assert blast_radius(graph, "naive-separable") == ["IGL.compensatedFactorization"]
+def test_affected(graph):
+    assert affected(graph, "naive-separable") == ["IGL.compensatedFactorization"]
 
 
 def test_refute_event_does_not_absorb_status(graph):

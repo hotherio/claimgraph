@@ -2,7 +2,7 @@
 from __future__ import annotations
 
 from .build import build_graph, load_registry, read_fixture, read_git
-from .graph import blast_radius, compute, status_report
+from .graph import affected, compute, status_report
 from .model import ClaimGraph, Edge, Node
 
 __version__ = "0.1.0"
@@ -16,7 +16,7 @@ __all__ = [
     "read_fixture",
     "read_git",
     "compute",
-    "blast_radius",
+    "affected",
     "status_report",
     "__version__",
 ]
