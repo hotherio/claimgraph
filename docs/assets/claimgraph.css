@@ -59,3 +59,59 @@ footer .wrap{padding:16px 24px}
   .board{grid-template-columns:1fr}
   .panel{border-left:0;border-top:1px solid var(--rule)}
 }
+
+/* ── how-it-works one-pager ─────────────────────────────────────────── */
+.prose{flex:1}
+.prose .wrap{max-width:840px;padding-top:14px;padding-bottom:48px}
+.prose section{margin:34px 0}
+.prose h2{font-weight:500;font-size:21px;margin:0 0 10px;line-height:1.25}
+.prose h2 .n{color:var(--muted);font-weight:400;margin-right:10px}
+.prose h3{font-weight:500;font-size:15px;margin:22px 0 6px}
+.prose p{margin:0 0 12px;color:#2c2a26}
+.prose ul{margin:0 0 12px;padding-left:20px;color:#2c2a26}
+.prose li{margin:4px 0}
+.prose strong{font-weight:600}
+
+/* full-bleed figure for the pipeline diagram */
+figure.diagram{margin:22px 0;background:var(--panel);border:1px solid var(--rule);
+  border-radius:8px;padding:18px 16px;overflow-x:auto}
+figure.diagram img{display:block;width:100%;min-width:720px;height:auto}
+figure.diagram figcaption{color:var(--muted);font-size:12.5px;margin-top:10px;text-align:center}
+
+/* code + example commit */
+pre.code{background:#f3eee3;border:1px solid var(--rule);border-left:3px solid var(--stone);
+  border-radius:5px;padding:13px 15px;overflow-x:auto;font-size:13px;line-height:1.55;margin:0 0 12px}
+pre.code .c{color:var(--muted)}
+pre.commit{background:var(--panel);border:1px solid var(--rule);border-left:3px solid var(--sage);
+  border-radius:5px;padding:13px 15px;overflow-x:auto;font-size:13px;line-height:1.6;margin:0 0 12px}
+pre.commit .tok{color:var(--slate);font-weight:600}
+pre.commit .rel{color:#7a5cab;font-weight:600}
+pre.commit .brk{color:var(--danger);font-weight:600}
+pre.commit .st{color:#5d7e4f;font-weight:600}
+
+/* callout */
+.callout{background:#f0f3ee;border:1px solid #cdd9c6;border-radius:6px;padding:13px 16px;
+  margin:16px 0;font-size:13.5px;color:#39432f}
+.callout b{color:#2e3a26}
+
+/* two-column for the computed views */
+.cols{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:14px 0}
+.card{background:var(--panel);border:1px solid var(--rule);border-radius:7px;padding:15px 16px}
+.card h3{margin:0 0 6px}
+.card p{font-size:13px;margin:0 0 8px}
+
+/* status pills (mirror the viewer colours) */
+.pill{display:inline-block;padding:1px 8px;border-radius:11px;font-size:12px;border:1px solid rgba(0,0,0,.28);white-space:nowrap}
+.pill.mc{background:#a9c39c55;border-color:#8fae82}
+.pill.ax{background:#dcc08555;border-color:#bd9a55}
+.pill.dis{background:#9c3a3422;border-color:#c07a74;color:var(--danger)}
+.pill.pi{background:#d2cabb55;border-color:#b6ad9b}
+
+.cta{display:flex;flex-wrap:wrap;gap:12px;margin:22px 0 6px}
+.btn{border:1px solid var(--rule-2);background:var(--panel);color:var(--ink);
+  padding:9px 18px;border-radius:4px;font-size:14px;border-bottom-width:1px}
+.btn:hover{border-color:var(--ink);background:#fff}
+.btn.primary{background:var(--sage);border-color:#8fae82}
+.btn.primary:hover{background:#9bba8d;border-color:var(--ink)}
+
+@media (max-width:680px){ .cols{grid-template-columns:1fr} }
