@@ -27,7 +27,7 @@ dev = ["pytest>=8", "jsonschema>=4"]
 [project.urls]
 Homepage = "https://hotherio.github.io/claimgraph/"
 Repository = "https://github.com/hotherio/claimgraph"
-Spec = "https://hotherio.github.io/conventional-knowledge-commits/"
+Spec = "https://conventional-knowledge-commits.org/"
 
 [project.scripts]
 claimgraph = "claimgraph.cli:app"

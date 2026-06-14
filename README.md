@@ -1,6 +1,6 @@
 # claimgraph
 
-Build and visualize the **[Conventional Knowledge Commits (CKC)](https://hotherio.github.io/conventional-knowledge-commits/) ClaimGraph** from git history.
+Build and visualize the **[Conventional Knowledge Commits (CKC)](https://conventional-knowledge-commits.org/) ClaimGraph** from git history.
 
 CKC records knowledge claims — theorems, lemmas, definitions, conjectures, empirical findings — and
 the relations between them as git-trailer footers in commit messages. `claimgraph` reconstructs the
