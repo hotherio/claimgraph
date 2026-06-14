@@ -1,0 +1,140 @@
+{
+  "$schema": "https://raw.githubusercontent.com/hotherio/claimgraph/main/schema/claimgraph.schema.json",
+  "meta": {
+    "generator": "claimgraph",
+    "spec_version": "0.1.0"
+  },
+  "nodes": [
+    {
+      "id": "IGL.approxError",
+      "kind": "formalize",
+      "statement": "bound the approximation error using the exp-sum rank",
+      "status": "math.machine-checked",
+      "effective_status": "math.axiomatised",
+      "in_question": false,
+      "weakest_dep": "IGL.expSumRank_logBound"
+    },
+    {
+      "id": "IGL.compensatedFactorization",
+      "kind": "proof",
+      "statement": "the metric-compensated factorization rests on the naive base case",
+      "status": "math.proved-informal",
+      "effective_status": "math.proved-informal",
+      "in_question": true,
+      "weakest_dep": null
+    },
+    {
+      "id": "IGL.expSumRank_logBound",
+      "kind": "axiomatize",
+      "statement": "cite the logarithmic exponential-sum rank bound",
+      "status": "math.axiomatised",
+      "effective_status": "math.axiomatised",
+      "in_question": false,
+      "weakest_dep": null
+    },
+    {
+      "id": "IGL.fubini_dfold",
+      "kind": "formalize",
+      "statement": "close the d-fold separable factorization",
+      "status": "math.machine-checked",
+      "effective_status": "math.machine-checked",
+      "in_question": false,
+      "weakest_dep": null
+    },
+    {
+      "id": "IGL.fubini_factorization",
+      "kind": "formalize",
+      "statement": "close the d-fold separable factorization",
+      "status": "math.machine-checked",
+      "effective_status": "math.machine-checked",
+      "in_question": false,
+      "weakest_dep": null
+    },
+    {
+      "id": "IGL.greensKernel",
+      "kind": "state",
+      "statement": "define the elliptic Green's kernel operator",
+      "status": "math.conjectured",
+      "effective_status": "math.conjectured",
+      "in_question": false,
+      "weakest_dep": null
+    },
+    {
+      "id": "master-formula",
+      "kind": "conjecture",
+      "statement": "The Green's integral factorises as a finite separable rank-K×R sum (Master Formula).",
+      "status": "math.machine-checked",
+      "effective_status": "math.machine-checked",
+      "in_question": false,
+      "weakest_dep": null
+    },
+    {
+      "id": "naive-separable",
+      "kind": "conjecture",
+      "statement": "The Green's kernel factorises separably without metric compensation.",
+      "status": "math.disproved",
+      "effective_status": "math.disproved",
+      "in_question": false,
+      "weakest_dep": null
+    },
+    {
+      "id": "refute:separability",
+      "kind": "refute",
+      "statement": "a counterexample blocks naive separable factorization",
+      "status": null,
+      "effective_status": null,
+      "in_question": false,
+      "weakest_dep": null
+    },
+    {
+      "id": "replicate:non-additive",
+      "kind": "replicate",
+      "statement": "an independent run fails to reproduce the K>1 advantage",
+      "status": null,
+      "effective_status": null,
+      "in_question": false,
+      "weakest_dep": null
+    },
+    {
+      "id": "tensor-rank-helps",
+      "kind": "hypothesis",
+      "statement": "Tensor rank K>1 beats K=1 on non-additive targets.",
+      "status": "sci.not-replicated",
+      "effective_status": "sci.not-replicated",
+      "in_question": false,
+      "weakest_dep": null
+    }
+  ],
+  "edges": [
+    {
+      "source": "IGL.fubini_dfold",
+      "target": "master-formula",
+      "relation": "Closes",
+      "breaking": false
+    },
+    {
+      "source": "IGL.approxError",
+      "target": "IGL.expSumRank_logBound",
+      "relation": "Depends-On",
+      "breaking": false
+    },
+    {
+      "source": "IGL.compensatedFactorization",
+      "target": "naive-separable",
+      "relation": "Depends-On",
+      "breaking": false
+    },
+    {
+      "source": "refute:separability",
+      "target": "naive-separable",
+      "relation": "Disproves",
+      "breaking": true
+    },
+    {
+      "source": "replicate:non-additive",
+      "target": "tensor-rank-helps",
+      "relation": "Refutes",
+      "breaking": true
+    }
+  ]
+}

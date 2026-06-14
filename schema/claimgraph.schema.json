@@ -1,0 +1,87 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/hotherio/claimgraph/main/schema/claimgraph.schema.json",
+  "title": "CKC ClaimGraph",
+  "description": "The serialized Conventional Knowledge Commits ClaimGraph: claims (nodes) and their relation edges, with computed effective status and in-question flags.",
+  "type": "object",
+  "required": ["nodes", "edges"],
+  "properties": {
+    "$schema": { "type": "string" },
+    "meta": {
+      "type": "object",
+      "properties": {
+        "generator": { "type": "string" },
+        "spec_version": { "type": "string" }
+      },
+      "additionalProperties": true
+    },
+    "nodes": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/node" }
+    },
+    "edges": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/edge" }
+    }
+  },
+  "additionalProperties": false,
+  "$defs": {
+    "node": {
+      "type": "object",
+      "required": ["id"],
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Stable identifier: a Lean FQN, a blueprint label, or a registry slug."
+        },
+        "kind": {
+          "type": ["string", "null"],
+          "description": "Claim kind or the asserting commit type (conjecture, finding, definition, ...)."
+        },
+        "statement": { "type": ["string", "null"] },
+        "status": {
+          "type": ["string", "null"],
+          "description": "Asserted status from the latest commit that set one.",
+          "pattern": "^(math|sci)\\."
+        },
+        "effective_status": {
+          "type": ["string", "null"],
+          "description": "Minimum status over the node and its transitive Depends-On/Assumes closure."
+        },
+        "in_question": {
+          "type": "boolean",
+          "description": "True when a dependency is broken (disproved/falsified/not-replicated)."
+        },
+        "weakest_dep": {
+          "type": ["string", "null"],
+          "description": "The dependency whose status set the effective status, if weaker than self."
+        }
+      },
+      "additionalProperties": true
+    },
+    "edge": {
+      "type": "object",
+      "required": ["source", "target", "relation"],
+      "properties": {
+        "source": { "type": "string" },
+        "target": { "type": "string" },
+        "relation": {
+          "type": "string",
+          "enum": [
+            "Depends-On",
+            "Assumes",
+            "Proves",
+            "Closes",
+            "Refutes",
+            "Disproves",
+            "Supersedes",
+            "Retracts",
+            "Invalidates"
+          ]
+        },
+        "breaking": { "type": "boolean" }
+      },
+      "additionalProperties": false
+    }
+  }
+}
