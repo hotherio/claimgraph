@@ -1,0 +1,47 @@
+# claims.toml: the CKC claim registry for the Four Colour Theorem example.
+#
+# The slug (table key) is what commit footers reference. `status` is a CACHE of the effective
+# status computed from the commit graph by `claimgraph build`; regenerate it, do not treat it as
+# the source of truth.
+
+[claims.four-color]
+kind      = "conjecture"
+statement = "Every planar map can be coloured with four colours so that no two adjacent regions share a colour."
+status    = "math.machine-checked"
+created   = "1852-01-01"
+
+[claims.kempe-chains]
+kind      = "definition"
+statement = "The two-colour Kempe-chain interchange: a maximal two-coloured subgraph can be recoloured by swapping its colours."
+status    = "math.proved-informal"
+created   = "1879-01-01"
+
+[claims.kempe]
+kind      = "finding"
+statement = "Kempe's 1879 four-colour argument (later shown to fail when two Kempe chains cross)."
+status    = "math.disproved"
+created   = "1879-01-01"
+
+[claims.tait]
+kind      = "finding"
+statement = "Tait's 1880 reduction of four-colouring to edge-three-colouring of cubic planar maps (later refuted)."
+status    = "math.disproved"
+created   = "1880-01-01"
+
+[claims.five-color]
+kind      = "finding"
+statement = "The Five Colour Theorem: every planar map is five-colourable, by a sound Kempe-chain argument."
+status    = "math.proved-informal"
+created   = "1890-01-01"
+
+[claims.unavoidability]
+kind      = "finding"
+statement = "Every planar triangulation contains one of a fixed finite (unavoidable) set of configurations."
+status    = "math.machine-checked"
+created   = "1976-01-01"
+
+[claims.reducibility]
+kind      = "finding"
+statement = "Each configuration in the unavoidable set is reducible: it cannot appear in a minimal counterexample."
+status    = "math.machine-checked"
+created   = "1976-01-01"

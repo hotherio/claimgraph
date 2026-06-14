@@ -47,18 +47,18 @@ def _values(commit: Commit, token: str) -> list[str]:
     return out
 
 
-def _subjects(commit: Commit, has_relation_target: bool) -> list[str]:
-    """The formal claim(s) the commit is about: Lean/Formal-Statement ids, else a Claim-ID.
+def _subjects(commit: Commit, is_break_event: bool) -> list[str]:
+    """The claim(s) the commit is about: Lean/Formal-Statement ids, else a Claim-ID, else the scope.
 
-    The scope is used as the subject only for *assertion* commits that introduce a claim
-    (e.g. ``conjecture(master-formula)``). For an event whose status lands on a relation target
-    (e.g. ``refute(separability)!`` with ``Disproves:``), the scope is the event name, not a claim,
-    so it must not become a status-bearing subject.
+    The scope normally names the asserted claim (``conjecture(master-formula)``,
+    ``proof(appel-haken)``), even when the commit also ``Closes`` or ``Depends-On`` other claims. It
+    is skipped only for a breaking event (``refute(...)!`` with ``Disproves:``/``Retracts:``), where
+    the scope is the event topic and the status belongs to the refuted target, not to a new claim.
     """
     subs = _values(commit, "Lean") + _values(commit, "Formal-Statement")
     if not subs:
         subs = _values(commit, "Claim-ID")
-    if not subs and commit.scope and not has_relation_target:
+    if not subs and commit.scope and not is_break_event:
         subs = [canonical(commit.scope)]
     return subs
 
@@ -84,7 +84,7 @@ def build_graph(commits: list[Commit], registry: dict | None = None) -> ClaimGra
         status = commit.footer("Status")
         promote_targets = [t for tok in PROMOTE_RELATIONS for t in _values(commit, tok)]
         break_targets = [t for tok in BREAK_RELATIONS for t in _values(commit, tok)]
-        subjects = _subjects(commit, bool(promote_targets or break_targets))
+        subjects = _subjects(commit, bool(break_targets))
 
         # The subject nodes: record statement/kind/status.
         for sid in subjects:

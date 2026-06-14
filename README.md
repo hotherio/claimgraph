@@ -32,22 +32,24 @@ claimgraph build /path/to/repo --claims claims.toml -o claimgraph.json
 claimgraph status --claims claims.toml
 
 # What a refutation of a claim would put in question (its dependents)
-claimgraph affected conjecture:naive-separable
+claimgraph affected kempe
 
 # A claim's effective status and the weakest dependency behind it
-claimgraph effective IGL.fubini_factorization
+claimgraph effective four-color
 ```
 
 Every command accepts `--from-fixture FILE` to read commit messages from a file instead of git,
 which is handy for demos and tests.
 
-The main example is [`examples/paper-igl/`](examples/paper-igl/): the real ClaimGraph of
-[hotherio/paper-igl](https://github.com/hotherio/paper-igl), the formalized Intrinsic Green's
-Learning development, vendored as a commit fixture so it rebuilds without the upstream repo. A
-smaller synthetic fixture lives in [`examples/igl/`](examples/igl/) for the unit tests.
+The showcase example is [`examples/four-color/`](examples/four-color/): a hand-authored CKC history
+of the Four Colour Theorem, from Guthrie's 1852 conjecture, through Kempe's refuted proof and the
+1976 computer-assisted proof, to Gonthier's 2005 machine-checked Coq formalization. It exercises
+every status the graph tracks. [`examples/paper-igl/`](examples/paper-igl/) is a graph built from a
+real repository ([hotherio/paper-igl](https://github.com/hotherio/paper-igl)), and
+[`examples/igl/`](examples/igl/) is a small synthetic fixture for the unit tests.
 
 ```bash
-claimgraph status -f examples/paper-igl/paper-igl.commits -c examples/paper-igl/claims.toml
+claimgraph status -f examples/four-color/four-color.commits -c examples/four-color/claims.toml
 ```
 
 ## The web viewer
@@ -57,10 +59,10 @@ claimgraph status -f examples/paper-igl/paper-igl.commits -c examples/paper-igl/
 **https://claimgraph.conventional-knowledge-commits.org/**. Node colour is effective status; edge style is the
 relation. Click a claim to trace what it rests on; click a broken claim to highlight the claims it affects.
 
-The viewer is seeded with the paper-igl graph. Regenerate it from the vendored fixture:
+The viewer is seeded with the Four Colour Theorem graph. Regenerate it from the fixture:
 
 ```bash
-claimgraph build -f examples/paper-igl/paper-igl.commits -c examples/paper-igl/claims.toml -o docs/assets/claimgraph.json
+claimgraph build -f examples/four-color/four-color.commits -c examples/four-color/claims.toml -o docs/assets/claimgraph.json
 ```
 
 ## Output
