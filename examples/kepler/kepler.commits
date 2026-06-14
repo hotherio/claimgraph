@@ -1,0 +1,86 @@
+conjecture(kepler): no sphere packing beats the face-centred cubic density
+
+Johannes Kepler asserts that no arrangement of equal spheres fills space more
+densely than the pyramidal stacking used for cannonballs, a density of pi over
+the square root of eighteen.
+
+Status: math.conjectured
+---
+proof(hsiang): a claimed proof by spherical trigonometry
+
+Wu-Yi Hsiang announces a proof reducing the problem to inequalities in spherical
+geometry, worked out by hand.
+
+Status: math.proved-informal
+Closes: conjecture:kepler
+---
+refute(hsiang)!: key cases are asserted without justification
+
+Hales and others show that several of the hardest configurations are dismissed
+without a complete argument, so the reduction does not go through.
+
+Status: math.disproved
+Disproves: hsiang
+BREAKING CHANGE: Hsiang's proof is not accepted; the conjecture is open again.
+---
+axiomatize~(tame-graphs): the finite list of tame plane graphs
+
+Every potential counterexample maps to one of a finite set of "tame" planar
+graphs. The enumeration was produced and checked by computer.
+
+Status: math.axiomatised
+AXIOM: tame-graphs (a 1998 computer enumeration, not independently audited)
+Cites: Hales 2005, Annals of Mathematics
+---
+axiomatize~(lp-bounds): linear-programming bounds rule out each case
+
+For every tame graph, a linear program bounds the local density below the
+threshold. Roughly a hundred thousand programs, all solved by computer.
+
+Status: math.axiomatised
+AXIOM: lp-bounds (a 1998 computer search, not independently audited)
+Cites: Hales 2005, Annals of Mathematics
+---
+proof(hales): the Kepler conjecture, modulo the computer searches
+
+A densest packing would force a tame graph that the linear programs exclude. The
+argument is sound; its trusted base is the two computer searches.
+
+Status: math.axiomatised
+Assumes: tame-graphs
+Assumes: lp-bounds
+Closes: conjecture:kepler
+---
+formalize(tame-graphs): the tame classification, checked in Isabelle
+
+The enumeration of tame graphs is reproduced and verified by the Isabelle kernel,
+removing the trust in the original program.
+
+Formal-Statement: isabelle:Kepler.tame_classification
+Status: math.machine-checked
+Verified-By: Isabelle
+Proves: tame-graphs
+---
+formalize(lp-bounds): the bounds, checked in HOL Light
+
+Every linear-programming bound is re-derived inside HOL Light, so the kernel,
+not an external solver, certifies each case.
+
+Formal-Statement: isabelle:Kepler.lp_bounds
+Status: math.machine-checked
+Verified-By: HOL Light
+Proves: lp-bounds
+---
+formalize(kepler): a fully machine-checked Kepler conjecture
+
+With both searches kernel-checked, the Flyspeck project closes the proof with no
+unaudited program left.
+
+Formal-Statement: isabelle:Kepler.kepler_conjecture
+Status: math.machine-checked
+Verified-By: HOL Light and Isabelle
+Depends-On: Kepler.tame_classification
+Depends-On: Kepler.lp_bounds
+Supersedes: hales
+Closes: conjecture:kepler
+Cites: Hales et al. 2017, Forum of Mathematics Pi

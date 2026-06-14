@@ -1,0 +1,77 @@
+conjecture(fta): every non-constant complex polynomial has a root
+
+The fundamental theorem of algebra: a polynomial of degree at least one with
+complex coefficients has a root in the complex numbers.
+
+Status: math.conjectured
+---
+proof(dalembert): an analytic argument via local power series
+
+Jean d'Alembert argues that the modulus of a polynomial, if never zero, could
+always be decreased, so it must reach zero somewhere.
+
+Status: math.proved-informal
+Closes: conjecture:fta
+---
+refute(dalembert)!: the argument rests on unproven analytic facts
+
+The step that the modulus can always be decreased relies on convergence and
+continuity results not available, and not established, at the time.
+
+Status: math.disproved
+Disproves: dalembert
+BREAKING CHANGE: d'Alembert's proof is incomplete; the theorem is unproven again.
+---
+proof(gauss-1799): a geometric proof from Gauss's dissertation
+
+Gauss argues that two real algebraic curves, the real and imaginary parts of the
+polynomial, must intersect.
+
+Status: math.proved-informal
+Closes: conjecture:fta
+---
+refute(gauss-1799)!: the curves are assumed to meet without proof
+
+The crossing of the two curves is taken as geometrically obvious. A rigorous
+topological justification is supplied only by Ostrowski in 1920.
+
+Status: math.disproved
+Disproves: gauss-1799
+BREAKING CHANGE: Gauss's first proof has a topological gap.
+---
+proof(argand): the minimum-modulus proof
+
+Jean-Robert Argand shows the modulus of a polynomial attains a minimum, and that
+a non-zero minimum could be lowered, so the minimum is zero.
+
+Status: math.proved-informal
+Closes: conjecture:fta
+---
+proof(gauss-rigorous): Gauss's later, complete proofs
+
+Gauss returns with proofs that avoid the earlier gap, including a largely
+algebraic argument.
+
+Status: math.proved-informal
+Closes: conjecture:fta
+Supersedes: gauss-1799
+---
+proof(galois-algebraic): an algebraic proof using real-closed fields
+
+From only two analytic facts, that odd-degree real polynomials have a root and
+that positive reals have square roots, a Galois-theoretic argument finishes the
+rest purely algebraically.
+
+Status: math.proved-informal
+Closes: conjecture:fta
+---
+formalize(fta): a kernel-checked proof in Coq
+
+The FTA project formalises the analytic proof in Coq, so the theorem is checked
+by the kernel end to end.
+
+Formal-Statement: rocq:FTA.fundamental_theorem_of_algebra
+Status: math.machine-checked
+Verified-By: Coq
+Closes: conjecture:fta
+Cites: Geuvers et al. 2000

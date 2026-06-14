@@ -1,0 +1,146 @@
+{
+  "$schema": "https://raw.githubusercontent.com/hotherio/claimgraph/main/schema/claimgraph.schema.json",
+  "meta": {
+    "generator": "claimgraph",
+    "spec_version": "0.1.0"
+  },
+  "nodes": [
+    {
+      "id": "FTA.fundamental_theorem_of_algebra",
+      "kind": "formalize",
+      "statement": "a kernel-checked proof in Coq",
+      "status": "math.machine-checked",
+      "effective_status": "math.machine-checked",
+      "in_question": false,
+      "weakest_dep": null
+    },
+    {
+      "id": "argand",
+      "kind": "theorem",
+      "statement": "Argand's minimum-modulus proof of the fundamental theorem of algebra.",
+      "status": "math.proved-informal",
+      "effective_status": "math.proved-informal",
+      "in_question": false,
+      "weakest_dep": null
+    },
+    {
+      "id": "dalembert",
+      "kind": "finding",
+      "statement": "d'Alembert's 1746 proof, incomplete because it assumes analytic facts not yet established.",
+      "status": "math.disproved",
+      "effective_status": "math.disproved",
+      "in_question": false,
+      "weakest_dep": null
+    },
+    {
+      "id": "fta",
+      "kind": "conjecture",
+      "statement": "Every non-constant polynomial with complex coefficients has a root in the complex numbers.",
+      "status": "math.machine-checked",
+      "effective_status": "math.machine-checked",
+      "in_question": false,
+      "weakest_dep": null
+    },
+    {
+      "id": "galois-algebraic",
+      "kind": "theorem",
+      "statement": "An algebraic proof using real-closed fields and minimal analytic input.",
+      "status": "math.proved-informal",
+      "effective_status": "math.proved-informal",
+      "in_question": false,
+      "weakest_dep": null
+    },
+    {
+      "id": "gauss-1799",
+      "kind": "finding",
+      "statement": "Gauss's 1799 geometric proof, with a topological gap filled rigorously only in 1920.",
+      "status": "math.disproved",
+      "effective_status": "math.disproved",
+      "in_question": false,
+      "weakest_dep": null
+    },
+    {
+      "id": "gauss-rigorous",
+      "kind": "proof",
+      "statement": "Gauss's later, complete proofs",
+      "status": "math.proved-informal",
+      "effective_status": "math.proved-informal",
+      "in_question": false,
+      "weakest_dep": null
+    },
+    {
+      "id": "refute:dalembert",
+      "kind": "refute",
+      "statement": "the argument rests on unproven analytic facts",
+      "status": null,
+      "effective_status": null,
+      "in_question": false,
+      "weakest_dep": null
+    },
+    {
+      "id": "refute:gauss-1799",
+      "kind": "refute",
+      "statement": "the curves are assumed to meet without proof",
+      "status": null,
+      "effective_status": null,
+      "in_question": false,
+      "weakest_dep": null
+    }
+  ],
+  "edges": [
+    {
+      "source": "dalembert",
+      "target": "fta",
+      "relation": "Closes",
+      "breaking": false
+    },
+    {
+      "source": "refute:dalembert",
+      "target": "dalembert",
+      "relation": "Disproves",
+      "breaking": true
+    },
+    {
+      "source": "gauss-1799",
+      "target": "fta",
+      "relation": "Closes",
+      "breaking": false
+    },
+    {
+      "source": "refute:gauss-1799",
+      "target": "gauss-1799",
+      "relation": "Disproves",
+      "breaking": true
+    },
+    {
+      "source": "argand",
+      "target": "fta",
+      "relation": "Closes",
+      "breaking": false
+    },
+    {
+      "source": "gauss-rigorous",
+      "target": "fta",
+      "relation": "Closes",
+      "breaking": false
+    },
+    {
+      "source": "gauss-rigorous",
+      "target": "gauss-1799",
+      "relation": "Supersedes",
+      "breaking": false
+    },
+    {
+      "source": "galois-algebraic",
+      "target": "fta",
+      "relation": "Closes",
+      "breaking": false
+    },
+    {
+      "source": "FTA.fundamental_theorem_of_algebra",
+      "target": "fta",
+      "relation": "Closes",
+      "breaking": false
+    }
+  ]
+}

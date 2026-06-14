@@ -1,0 +1,173 @@
+{
+  "$schema": "https://raw.githubusercontent.com/hotherio/claimgraph/main/schema/claimgraph.schema.json",
+  "meta": {
+    "generator": "claimgraph",
+    "spec_version": "0.1.0"
+  },
+  "nodes": [
+    {
+      "id": "FLT.fermatLastTheorem",
+      "kind": "formalize",
+      "statement": "a Lean formalization, still in progress",
+      "status": "math.open",
+      "effective_status": "math.proved-informal",
+      "in_question": false,
+      "weakest_dep": "flt"
+    },
+    {
+      "id": "flt",
+      "kind": "conjecture",
+      "statement": "There are no positive integers a, b, c with a^n + b^n = c^n for any integer n greater than two.",
+      "status": "math.proved-informal",
+      "effective_status": "math.proved-informal",
+      "in_question": false,
+      "weakest_dep": null
+    },
+    {
+      "id": "flt-n3",
+      "kind": "proof",
+      "statement": "the exponent three",
+      "status": "math.proved-informal",
+      "effective_status": "math.proved-informal",
+      "in_question": false,
+      "weakest_dep": null
+    },
+    {
+      "id": "flt-n4",
+      "kind": "proof",
+      "statement": "the exponent four, by infinite descent",
+      "status": "math.proved-informal",
+      "effective_status": "math.proved-informal",
+      "in_question": false,
+      "weakest_dep": null
+    },
+    {
+      "id": "flt-regular-primes",
+      "kind": "proof",
+      "statement": "every regular prime exponent",
+      "status": "math.proved-informal",
+      "effective_status": "math.proved-informal",
+      "in_question": false,
+      "weakest_dep": null
+    },
+    {
+      "id": "frey-curve",
+      "kind": "finding",
+      "statement": "A counterexample to Fermat would yield a semistable elliptic curve incompatible with modularity.",
+      "status": "math.proved-informal",
+      "effective_status": "math.proved-informal",
+      "in_question": false,
+      "weakest_dep": null
+    },
+    {
+      "id": "modularity",
+      "kind": "conjecture",
+      "statement": "Every elliptic curve over the rationals is modular (the Taniyama-Shimura-Weil conjecture).",
+      "status": "math.proved-informal",
+      "effective_status": "math.proved-informal",
+      "in_question": false,
+      "weakest_dep": null
+    },
+    {
+      "id": "refute:wiles-1993",
+      "kind": "refute",
+      "statement": "the Euler-system step has a gap",
+      "status": null,
+      "effective_status": null,
+      "in_question": false,
+      "weakest_dep": null
+    },
+    {
+      "id": "ribet",
+      "kind": "theorem",
+      "statement": "Serre's epsilon conjecture: the Frey curve is not modular, so modularity implies Fermat.",
+      "status": "math.proved-informal",
+      "effective_status": "math.proved-informal",
+      "in_question": false,
+      "weakest_dep": null
+    },
+    {
+      "id": "taylor-wiles",
+      "kind": "theorem",
+      "statement": "The Taylor-Wiles patching argument completes the proof of semistable modularity.",
+      "status": "math.proved-informal",
+      "effective_status": "math.proved-informal",
+      "in_question": false,
+      "weakest_dep": null
+    },
+    {
+      "id": "wiles-1993",
+      "kind": "finding",
+      "statement": "Wiles's 1993 proof of semistable modularity, later found to have a gap in the Euler-system step.",
+      "status": "math.disproved",
+      "effective_status": "math.disproved",
+      "in_question": false,
+      "weakest_dep": null
+    },
+    {
+      "id": "wiles-flt",
+      "kind": "proof",
+      "statement": "Fermat's Last Theorem follows from semistable modularity",
+      "status": "math.proved-informal",
+      "effective_status": "math.proved-informal",
+      "in_question": false,
+      "weakest_dep": null
+    }
+  ],
+  "edges": [
+    {
+      "source": "ribet",
+      "target": "frey-curve",
+      "relation": "Depends-On",
+      "breaking": false
+    },
+    {
+      "source": "wiles-1993",
+      "target": "modularity",
+      "relation": "Closes",
+      "breaking": false
+    },
+    {
+      "source": "refute:wiles-1993",
+      "target": "wiles-1993",
+      "relation": "Disproves",
+      "breaking": true
+    },
+    {
+      "source": "taylor-wiles",
+      "target": "modularity",
+      "relation": "Closes",
+      "breaking": false
+    },
+    {
+      "source": "taylor-wiles",
+      "target": "wiles-1993",
+      "relation": "Supersedes",
+      "breaking": false
+    },
+    {
+      "source": "wiles-flt",
+      "target": "flt",
+      "relation": "Closes",
+      "breaking": false
+    },
+    {
+      "source": "wiles-flt",
+      "target": "ribet",
+      "relation": "Depends-On",
+      "breaking": false
+    },
+    {
+      "source": "wiles-flt",
+      "target": "modularity",
+      "relation": "Depends-On",
+      "breaking": false
+    },
+    {
+      "source": "FLT.fermatLastTheorem",
+      "target": "flt",
+      "relation": "Depends-On",
+      "breaking": false
+    }
+  ]
+}

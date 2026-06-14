@@ -1,0 +1,158 @@
+{
+  "$schema": "https://raw.githubusercontent.com/hotherio/claimgraph/main/schema/claimgraph.schema.json",
+  "meta": {
+    "generator": "claimgraph",
+    "spec_version": "0.1.0"
+  },
+  "nodes": [
+    {
+      "id": "Kepler.kepler_conjecture",
+      "kind": "formalize",
+      "statement": "a fully machine-checked Kepler conjecture",
+      "status": "math.machine-checked",
+      "effective_status": "math.machine-checked",
+      "in_question": false,
+      "weakest_dep": null
+    },
+    {
+      "id": "Kepler.lp_bounds",
+      "kind": "formalize",
+      "statement": "the bounds, checked in HOL Light",
+      "status": "math.machine-checked",
+      "effective_status": "math.machine-checked",
+      "in_question": false,
+      "weakest_dep": null
+    },
+    {
+      "id": "Kepler.tame_classification",
+      "kind": "formalize",
+      "statement": "the tame classification, checked in Isabelle",
+      "status": "math.machine-checked",
+      "effective_status": "math.machine-checked",
+      "in_question": false,
+      "weakest_dep": null
+    },
+    {
+      "id": "hales",
+      "kind": "theorem",
+      "statement": "Hales's proof of the Kepler conjecture, sound modulo two unaudited computer searches.",
+      "status": "math.axiomatised",
+      "effective_status": "math.axiomatised",
+      "in_question": false,
+      "weakest_dep": null
+    },
+    {
+      "id": "hsiang",
+      "kind": "finding",
+      "statement": "Hsiang's 1993 trigonometric proof, not accepted because key configurations are not fully justified.",
+      "status": "math.disproved",
+      "effective_status": "math.disproved",
+      "in_question": false,
+      "weakest_dep": null
+    },
+    {
+      "id": "kepler",
+      "kind": "conjecture",
+      "statement": "No packing of equal spheres in three-space has density greater than the face-centred cubic, pi over root eighteen.",
+      "status": "math.machine-checked",
+      "effective_status": "math.machine-checked",
+      "in_question": false,
+      "weakest_dep": null
+    },
+    {
+      "id": "lp-bounds",
+      "kind": "lemma",
+      "statement": "For each tame graph a linear program bounds the local density below the Kepler threshold.",
+      "status": "math.machine-checked",
+      "effective_status": "math.machine-checked",
+      "in_question": false,
+      "weakest_dep": null
+    },
+    {
+      "id": "refute:hsiang",
+      "kind": "refute",
+      "statement": "key cases are asserted without justification",
+      "status": null,
+      "effective_status": null,
+      "in_question": false,
+      "weakest_dep": null
+    },
+    {
+      "id": "tame-graphs",
+      "kind": "lemma",
+      "statement": "Every counterexample maps to one of a finite, computer-enumerated set of tame plane graphs.",
+      "status": "math.machine-checked",
+      "effective_status": "math.machine-checked",
+      "in_question": false,
+      "weakest_dep": null
+    }
+  ],
+  "edges": [
+    {
+      "source": "hsiang",
+      "target": "kepler",
+      "relation": "Closes",
+      "breaking": false
+    },
+    {
+      "source": "refute:hsiang",
+      "target": "hsiang",
+      "relation": "Disproves",
+      "breaking": true
+    },
+    {
+      "source": "hales",
+      "target": "kepler",
+      "relation": "Closes",
+      "breaking": false
+    },
+    {
+      "source": "hales",
+      "target": "tame-graphs",
+      "relation": "Assumes",
+      "breaking": false
+    },
+    {
+      "source": "hales",
+      "target": "lp-bounds",
+      "relation": "Assumes",
+      "breaking": false
+    },
+    {
+      "source": "Kepler.tame_classification",
+      "target": "tame-graphs",
+      "relation": "Proves",
+      "breaking": false
+    },
+    {
+      "source": "Kepler.lp_bounds",
+      "target": "lp-bounds",
+      "relation": "Proves",
+      "breaking": false
+    },
+    {
+      "source": "Kepler.kepler_conjecture",
+      "target": "Kepler.tame_classification",
+      "relation": "Depends-On",
+      "breaking": false
+    },
+    {
+      "source": "Kepler.kepler_conjecture",
+      "target": "Kepler.lp_bounds",
+      "relation": "Depends-On",
+      "breaking": false
+    },
+    {
+      "source": "Kepler.kepler_conjecture",
+      "target": "hales",
+      "relation": "Supersedes",
+      "breaking": false
+    },
+    {
+      "source": "Kepler.kepler_conjecture",
+      "target": "kepler",
+      "relation": "Closes",
+      "breaking": false
+    }
+  ]
+}

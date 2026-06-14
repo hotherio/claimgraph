@@ -22,12 +22,22 @@
 
 <header class="hero"><div class="wrap">
   <div class="tag">Conventional Knowledge Commits</div>
+  <div class="picker">
+    <label for="example">Example</label>
+    <select id="example">
+      <option value="assets/claimgraph.json">Four Colour Theorem</option>
+      <option value="assets/fermat.json">Fermat's Last Theorem</option>
+      <option value="assets/kepler.json">Kepler Conjecture</option>
+      <option value="assets/fundamental-algebra.json">Fundamental Theorem of Algebra</option>
+      <option value="assets/prime-number-theorem.json">Prime Number Theorem</option>
+    </select>
+  </div>
   <h1>The ClaimGraph, live</h1>
-  <p class="lede">The Four Colour Theorem as a ClaimGraph: from the 1852 conjecture, through Kempe's
+  <p class="lede" id="ex-lede">The Four Colour Theorem: from Guthrie's 1852 conjecture, through Kempe's
   refuted proof, to the 1976 computer-assisted proof and Gonthier's 2005 machine-checked Coq
-  formalization. Node colour is the <b>effective status</b>: the weakest status in a claim's
-  <code>Depends-On</code>/<code>Assumes</code> closure. Click a claim to trace what it rests on.
-  Click a broken claim to highlight the <b>claims it affects</b>.</p>
+  formalization. Node colour is the <b>effective status</b>, the weakest status in a claim's
+  <code>Depends-On</code>/<code>Assumes</code> closure. Click a claim to trace what it rests on;
+  click a broken claim to highlight the <b>claims it affects</b>.</p>
 </div></header>
 
 <main class="board">

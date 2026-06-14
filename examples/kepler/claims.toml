@@ -1,0 +1,24 @@
+[claims.kepler]
+kind      = "conjecture"
+statement = "No packing of equal spheres in three-space has density greater than the face-centred cubic, pi over root eighteen."
+created   = "1611-01-01"
+
+[claims.hsiang]
+kind      = "finding"
+statement = "Hsiang's 1993 trigonometric proof, not accepted because key configurations are not fully justified."
+created   = "1993-01-01"
+
+[claims.tame-graphs]
+kind      = "lemma"
+statement = "Every counterexample maps to one of a finite, computer-enumerated set of tame plane graphs."
+created   = "1998-01-01"
+
+[claims.lp-bounds]
+kind      = "lemma"
+statement = "For each tame graph a linear program bounds the local density below the Kepler threshold."
+created   = "1998-01-01"
+
+[claims.hales]
+kind      = "theorem"
+statement = "Hales's proof of the Kepler conjecture, sound modulo two unaudited computer searches."
+created   = "2005-01-01"

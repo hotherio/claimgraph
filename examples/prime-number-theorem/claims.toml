@@ -1,0 +1,40 @@
+[claims.pnt]
+kind      = "conjecture"
+statement = "The number of primes below x is asymptotic to x divided by the natural logarithm of x."
+created   = "1792-01-01"
+
+[claims.chebyshev]
+kind      = "theorem"
+statement = "Chebyshev's bounds: the prime count is of the order x over log x, up to constants."
+created   = "1852-01-01"
+
+[claims.zeta-nonvanishing]
+kind      = "lemma"
+statement = "The Riemann zeta function does not vanish on the line Re(s) = 1."
+created   = "1896-01-01"
+
+[claims.hadamard]
+kind      = "theorem"
+statement = "Hadamard's analytic proof of the prime number theorem."
+created   = "1896-01-01"
+
+[claims.de-la-vallee-poussin]
+kind      = "theorem"
+statement = "De la Vallee Poussin's independent analytic proof, with error bounds."
+created   = "1896-01-01"
+
+[claims.erdos-selberg]
+kind      = "theorem"
+statement = "The Erdos-Selberg elementary proof, using no complex analysis."
+created   = "1949-01-01"
+
+[claims.rh]
+kind      = "conjecture"
+statement = "Every non-trivial zero of the Riemann zeta function has real part one half. Open."
+created   = "1859-01-01"
+
+[claims.pnt-error-rh]
+kind      = "theorem"
+statement = "On the Riemann hypothesis, the prime-counting error term is O(sqrt(x) log x)."
+created   = "1901-01-01"
+

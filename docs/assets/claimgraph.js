@@ -112,12 +112,18 @@
     }
   }
 
-  async function main() {
-    const data = await fetch(window.CG_DATA || "assets/claimgraph.json").then((r) => r.json());
+  let cy = null;
+  let loadSeq = 0;
+
+  async function load(src) {
+    const seq = ++loadSeq;
+    const data = await fetch(src).then((r) => r.json());
+    if (seq !== loadSeq) return; // a newer switch started; drop this stale load
     RECONCILE = (data.meta && (data.meta.sources || []).includes("blueprint")) || data.nodes.some((n) => n.agreement);
     buildLegend();
 
     const elements = [];
+    const nodeIds = new Set(data.nodes.map((n) => n.id));
     for (const n of data.nodes) {
       elements.push({ data: {
         id: n.id, label: n.id,
@@ -129,6 +135,10 @@
     }
     const depOut = new Map(), depIn = new Map();
     for (const e of data.edges) {
+      if (!nodeIds.has(e.source) || !nodeIds.has(e.target)) {
+        console.warn("claimgraph: dropping edge with a missing endpoint", e);
+        continue;
+      }
       elements.push({ data: { id: `${e.source}|${e.relation}|${e.target}`, source: e.source, target: e.target, relation: e.relation } });
       if (DEP.has(e.relation)) {
         (depOut.get(e.source) || depOut.set(e.source, []).get(e.source)).push(e.target);
@@ -136,7 +146,8 @@
       }
     }
 
-    const cy = cytoscape({
+    if (cy) cy.destroy();
+    cy = cytoscape({
       container: document.getElementById("cy"),
       elements,
       style: [
@@ -213,5 +224,21 @@
     window.cy = cy; // exposed for debugging and tooling
   }
 
-  main();
+  // example switcher: each option's value is a claimgraph.json under assets/
+  const LEDE = {
+    "assets/claimgraph.json": "The Four Colour Theorem: from Guthrie's 1852 conjecture, through Kempe's refuted proof, to the 1976 computer-assisted proof and Gonthier's 2005 machine-checked Coq formalization.",
+    "assets/fermat.json": "Fermat's Last Theorem: centuries of special cases, the modularity route through Frey and Ribet, the gap in Wiles's 1993 proof repaired by Taylor and Wiles, and a Lean formalization still in progress.",
+    "assets/kepler.json": "The Kepler conjecture: Hsiang's refuted 1993 attempt, Hales's computer-assisted proof the referees could only certify 99% certain, and the Flyspeck formal proof that made it machine-checked.",
+    "assets/fundamental-algebra.json": "The Fundamental Theorem of Algebra: d'Alembert's and Gauss's gapped early proofs, several independent rigorous routes to the same theorem, and a kernel-checked Coq formalization.",
+    "assets/prime-number-theorem.json": "The Prime Number Theorem: Chebyshev's bounds, two independent 1896 proofs over the same zeta lemma, the 1949 elementary proof, an Isabelle formalization, and a sharper error term still resting on the open Riemann hypothesis.",
+  };
+  const INSTRUCTIONS = "Node colour is the <b>effective status</b>, the weakest status in a claim's <code>Depends-On</code>/<code>Assumes</code> closure. Click a claim to trace what it rests on; click a broken claim to highlight the <b>claims it affects</b>.";
+
+  const sel = document.getElementById("example");
+  const lede = document.getElementById("ex-lede");
+  const setLede = (src) => { if (lede) lede.innerHTML = (LEDE[src] || "") + " " + INSTRUCTIONS; };
+  const initial = (sel && sel.value) || window.CG_DATA || "assets/claimgraph.json";
+  setLede(initial);
+  load(initial);
+  if (sel) sel.addEventListener("change", () => { setLede(sel.value); load(sel.value); });
 })();

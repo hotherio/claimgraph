@@ -44,8 +44,20 @@ which is handy for demos and tests.
 The showcase example is [`examples/four-color/`](examples/four-color/): a hand-authored CKC history
 of the Four Colour Theorem, from Guthrie's 1852 conjecture, through Kempe's refuted proof and the
 1976 computer-assisted proof, to Gonthier's 2005 machine-checked Coq formalization. It exercises
-every status the graph tracks. [`examples/paper-igl/`](examples/paper-igl/) is a graph built from a
-real repository ([hotherio/paper-igl](https://github.com/hotherio/paper-igl)), and
+every status the graph tracks. Four more classical proofs, each shaped to show off a different
+feature of the graph, ship alongside it (and are selectable in the live viewer):
+
+- [`examples/fermat/`](examples/fermat/), Fermat's Last Theorem: the gap in Wiles's 1993 proof,
+  repaired by Taylor and Wiles, plus a Lean formalization still in progress.
+- [`examples/kepler/`](examples/kepler/), the Kepler conjecture: a refuted attempt, then the
+  computer-assisted proof promoted to machine-checked by the Flyspeck formalization.
+- [`examples/fundamental-algebra/`](examples/fundamental-algebra/), the fundamental theorem of
+  algebra: several independent proofs of one theorem, and two historical gaps.
+- [`examples/prime-number-theorem/`](examples/prime-number-theorem/), the prime number theorem:
+  parallel proofs over a shared lemma, and a sharper error term resting on the open Riemann hypothesis.
+
+[`examples/paper-igl/`](examples/paper-igl/) is a graph built from a real repository
+([hotherio/paper-igl](https://github.com/hotherio/paper-igl)), and
 [`examples/igl/`](examples/igl/) is a small synthetic fixture for the unit tests.
 
 ```bash
@@ -59,10 +71,13 @@ claimgraph status -f examples/four-color/four-color.commits -c examples/four-col
 **https://claimgraph.conventional-knowledge-commits.org/**. Node colour is effective status; edge style is the
 relation. Click a claim to trace what it rests on; click a broken claim to highlight the claims it affects.
 
-The viewer is seeded with the Four Colour Theorem graph. Regenerate it from the fixture:
+The viewer defaults to the Four Colour Theorem and offers a dropdown to switch between the bundled
+examples. Each example's graph is a JSON under `docs/assets/` (four-color is `claimgraph.json`).
+Regenerate one from its fixture:
 
 ```bash
 claimgraph build -f examples/four-color/four-color.commits -c examples/four-color/claims.toml -o docs/assets/claimgraph.json
+claimgraph build -f examples/kepler/kepler.commits -c examples/kepler/claims.toml -o docs/assets/kepler.json
 ```
 
 ## Output

@@ -1,0 +1,98 @@
+conjecture(flt): no nth power is a sum of two nth powers for n above two
+
+Pierre de Fermat notes in a margin that a^n + b^n = c^n has no positive integer
+solution for any n greater than two, claiming a proof too large to fit.
+
+Status: math.conjectured
+---
+proof(flt-n4): the exponent four, by infinite descent
+
+Fermat proves the one case he left an argument for: no solution for fourth
+powers, by descent on a right triangle whose area is a square.
+
+Status: math.proved-informal
+---
+proof(flt-n3): the exponent three
+
+Euler settles cubes with a descent over the integers adjoined with a cube root
+of unity, a step later put on firm ground.
+
+Status: math.proved-informal
+Cites: Euler 1770
+---
+proof(flt-regular-primes): every regular prime exponent
+
+Kummer's theory of ideal numbers proves the conjecture for all exponents that
+are regular primes, the first infinite family of cases.
+
+Status: math.proved-informal
+Cites: Kummer 1850
+---
+conjecture(modularity): every rational elliptic curve is modular
+
+The Taniyama-Shimura-Weil conjecture: every elliptic curve over the rationals
+arises from a modular form. No visible connection to Fermat yet.
+
+Status: math.conjectured
+---
+proof(frey-curve): a Fermat solution would build a very strange elliptic curve
+
+Frey observes that a counterexample to Fermat yields a semistable elliptic curve
+whose invariants look incompatible with being modular.
+
+Status: math.proved-informal
+---
+proof(ribet): the Frey curve is not modular, so modularity implies Fermat
+
+Ribet proves Serre's epsilon conjecture: the Frey curve cannot be modular. Hence
+if every rational elliptic curve is modular, no Fermat counterexample exists.
+
+Status: math.proved-informal
+Depends-On: frey-curve
+---
+proof(wiles-1993): modularity for semistable elliptic curves
+
+Andrew Wiles announces a proof of the semistable case of modularity, enough,
+with Ribet, to settle Fermat.
+
+Status: math.proved-informal
+Closes: conjecture:modularity
+---
+refute(wiles-1993)!: the Euler-system step has a gap
+
+Reviewing the manuscript, Katz finds the Kolyvagin-Flach argument does not bound
+the relevant group as claimed. The proof of modularity is incomplete.
+
+Status: math.disproved
+Disproves: wiles-1993
+BREAKING CHANGE: the 1993 modularity proof is withdrawn; semistable modularity is open again.
+---
+proof(taylor-wiles): the gap is closed by a Hecke-ring patching argument
+
+Taylor and Wiles replace the broken step with a ring-theoretic patching method,
+completing the proof of semistable modularity.
+
+Status: math.proved-informal
+Closes: conjecture:modularity
+Supersedes: wiles-1993
+---
+proof(wiles-flt): Fermat's Last Theorem follows from semistable modularity
+
+With semistable modularity proved and Ribet's implication in hand, no Fermat
+counterexample can exist. The 358-year-old claim is a theorem.
+
+Status: math.proved-informal
+Depends-On: ribet
+Depends-On: modularity
+Closes: conjecture:flt
+---
+formalize(flt-lean): a Lean formalization, still in progress
+
+The community FLT project rebuilds the proof in Lean. Much is formalised, but the
+development still rests on intermediate results admitted without proof.
+
+Formal-Statement: lean:FLT.fermatLastTheorem
+Status: math.open
+OPEN: many intermediate results are still admitted as sorry
+Depends-On: flt
+Cites: Buzzard and collaborators, 2024
