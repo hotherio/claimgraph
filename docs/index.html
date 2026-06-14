@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>ClaimGraph · Conventional Knowledge Commits</title>
-<meta name="description" content="A living graph of knowledge claims and how they depend on each other, reconstructed from git history — part of Conventional Knowledge Commits.">
+<meta name="description" content="A graph of knowledge claims and how they depend on each other, built from git history. Part of Conventional Knowledge Commits.">
 <link rel="icon" type="image/png" href="assets/favicon.png">
 <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
 <link rel="stylesheet" href="assets/claimgraph.css">
@@ -24,9 +24,9 @@
   <img class="lhero-logo" src="assets/logo.png" alt="Conventional Knowledge Commits">
   <div class="tag">Conventional Knowledge Commits</div>
   <h1>The ClaimGraph</h1>
-  <p class="llede">A living graph of knowledge claims — theorems, conjectures, empirical findings —
-  and how they depend on each other, reconstructed straight from git history. See at a glance what
-  is really proved, what rests on an assumption, and which claims a refutation would put in question.</p>
+  <p class="llede">Knowledge claims (theorems, conjectures, empirical findings) and how they depend
+  on each other, built from your git history. The graph shows what is proved, what rests on an
+  assumption, and which claims a refutation would call into question.</p>
   <div class="cta lcta">
     <a class="btn primary" href="graph.html">Open the live graph →</a>
     <a class="btn" href="how-it-works.html">How it works</a>
@@ -34,9 +34,9 @@
 </div></header>
 
 <div class="specband"><div class="wrap">
-  <div><b>ClaimGraph is part of Conventional Knowledge Commits</b> — a commit convention that records,
-  in the commit message itself, what is proved, assumed, or refuted. This site visualizes the graph;
-  the convention is a specification.</div>
+  <div><b>ClaimGraph is part of Conventional Knowledge Commits</b>, a commit convention that records
+  what is proved, assumed, or refuted in the commit message itself. This site shows the graph. The
+  convention is a specification.</div>
   <a class="btn" href="https://conventional-knowledge-commits.org/">Read the CKC spec ↗</a>
 </div></div>
 
@@ -45,17 +45,17 @@
     <div class="card">
       <h3>Claims are nodes</h3>
       <p>Each theorem, lemma, definition, conjecture, or finding is a node, named by a stable
-      identifier — a Lean name or a registry slug — that survives a rewrite of its wording.</p>
+      identifier (a Lean name or a registry slug) that survives a rewrite of its wording.</p>
     </div>
     <div class="card">
       <h3>Relations are edges</h3>
       <p>Commit footers like <code>Depends-On</code>, <code>Closes</code>, and <code>Disproves</code>
-      wire the claims together. The git history is the database — there is nothing else to maintain.</p>
+      connect the claims. The git history is the database. There is nothing else to maintain.</p>
     </div>
     <div class="card">
-      <h3>The honest views are computed</h3>
-      <p>Effective status and the claims a refutation would affect are recomputed from the edges
-      every build, never hand-written — so the dashboard cannot drift from the truth.</p>
+      <h3>Status is computed, not stored</h3>
+      <p>Effective status and the claims a refutation would affect are recomputed from the edges on
+      every build, never written by hand, so the dashboard stays in step with the history.</p>
     </div>
   </section>
 

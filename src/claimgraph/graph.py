@@ -1,6 +1,6 @@
 """Computed views over a ClaimGraph: effective status, in-question, blast radius.
 
-Everything here is derived from the edges, never stored — exactly as the spec says. The dependency
+Everything here is derived from the edges, never stored, exactly as the spec says. The dependency
 closure is taken over ``Depends-On`` / ``Assumes`` edges only; the other relations are events.
 """
 from __future__ import annotations
@@ -61,7 +61,7 @@ def compute(graph: ClaimGraph) -> ClaimGraph:
 
 
 def affected(graph: ClaimGraph, target: str) -> list[str]:
-    """Nodes that Depend-On ``target`` (transitively) — the dependents a refutation puts in question."""
+    """Nodes that Depend-On ``target`` (transitively): the dependents a refutation puts in question."""
     adj = _dependency_adjacency(graph)
     # reverse the dependency edges, then forward-reach from target.
     reverse: dict[str, set[str]] = {nid: set() for nid in adj}
@@ -72,7 +72,7 @@ def affected(graph: ClaimGraph, target: str) -> list[str]:
 
 
 def status_report(graph: ClaimGraph) -> dict[str, list[Node]]:
-    """Group nodes by effective status — the honest project dashboard."""
+    """Group nodes by effective status."""
     groups: dict[str, list[Node]] = {}
     for node in graph.nodes.values():
         key = node.effective_status or "unset"

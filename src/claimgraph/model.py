@@ -15,7 +15,7 @@ from ckc_lint.data import vocab
 # Terminal states: a claim shown false / not reproduced. These drive breakage, not the ladder min.
 BROKEN: frozenset[str] = frozenset({"math.disproved", "sci.not-replicated", "sci.falsified"})
 
-# Edge relations that mean "A's truth rests on B" — the closure we minimise over.
+# Edge relations that mean "A's truth rests on B": the closure we minimise over.
 DEPENDENCY_RELATIONS: frozenset[str] = frozenset({"Depends-On", "Assumes"})
 
 # Relations that, on a breaking commit, knock B down and put B's dependents in question.
@@ -41,7 +41,7 @@ def status_key(status: str | None) -> tuple[int, int]:
     """A total order for the effective-status minimum. Lower is weaker.
 
     broken (0) < unset (1) < ladder rank (2, rank). This lets a broken or unknown dependency
-    dominate the minimum the way the spec intends — the weakest link sets the effective status.
+    dominate the minimum the way the spec intends: the weakest dependency sets the effective status.
     """
     if status in BROKEN:
         return (0, 0)

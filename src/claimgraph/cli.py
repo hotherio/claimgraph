@@ -55,7 +55,7 @@ def status(
     fixture: Optional[str] = FixtureOpt,
     claims: Optional[str] = ClaimsOpt,
 ) -> None:
-    """Group claims by effective status — the honest project dashboard."""
+    """Group claims by effective status."""
     graph = _load(repo, fixture, claims)
     report = status_report(graph)
     for key in sorted(report):
@@ -81,7 +81,7 @@ def affected(
     if not dependents:
         typer.echo(f"{target}: nothing depends on it.")
         raise typer.Exit()
-    typer.secho(f"{target} — affected claims ({len(dependents)}):", bold=True)
+    typer.secho(f"affected by {target} ({len(dependents)}):", bold=True)
     for dep in dependents:
         typer.echo(f"    {dep}")
 
