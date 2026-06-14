@@ -1,0 +1,62 @@
+state(green-kernel): define the elliptic Green's kernel operator
+
+Lean: IGL.greensKernel
+Status: math.conjectured
+---
+conjecture(master-formula): the Green's integral factorises as a finite rank-K×R sum
+
+Status: math.conjectured
+---
+conjecture(naive-separable): the Green's kernel factorises separably without metric compensation
+
+Status: math.conjectured
+---
+formalize(fubini): close the d-fold separable factorization
+
+Lean: IGL.fubini_dfold, IGL.fubini_factorization
+Status: math.machine-checked
+Axioms: propext, Classical.choice, Quot.sound
+Verified-By: Lean 4.30.0; Mathlib v4.30.0
+Closes: conjecture:master-formula
+---
+axiomatize~(exp-sum): cite the logarithmic exponential-sum rank bound
+
+The target library has no elliptic-Green's exponential-sum theory, so posit it as a citation.
+
+Lean: IGL.expSumRank_logBound
+Status: math.axiomatised
+AXIOM: IGL.expSumRank_logBound (separable rank K = O(log 1/ε), dimension-independent)
+Cites: Braess & Hackbusch 2005, Numer. Math.
+---
+formalize(rank-bound-use): bound the approximation error using the exp-sum rank
+
+Lean: IGL.approxError
+Status: math.machine-checked
+Depends-On: IGL.expSumRank_logBound
+---
+proof(compensation): the metric-compensated factorization rests on the naive base case
+
+Lean: IGL.compensatedFactorization
+Status: math.proved-informal
+Depends-On: conjecture:naive-separable
+---
+experiment(tensor-rank): K>1 tensor rank beats K=1 on non-additive targets
+
+Status: sci.measured
+Claim-ID: claim:tensor-rank-helps
+---
+result(tensor-rank): the K>1 advantage holds on the held-out set
+
+Status: sci.supported
+Claim-ID: claim:tensor-rank-helps
+---
+refute(separability)!: a counterexample blocks naive separable factorization
+
+Disproves: conjecture:naive-separable
+Status: math.disproved
+BREAKING CHANGE: conjecture:naive-separable is withdrawn; the compensation result depends on it.
+---
+replicate(non-additive)!: an independent run fails to reproduce the K>1 advantage
+
+Status: sci.not-replicated
+Refutes: claim:tensor-rank-helps

@@ -1,0 +1,39 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "claimgraph"
+version = "0.1.0"
+description = "Build and visualize the Conventional Knowledge Commits (CKC) ClaimGraph from git history."
+readme = "README.md"
+requires-python = ">=3.13"
+license = { text = "MIT" }
+authors = [{ name = "Alexandre Quemy" }]
+keywords = ["conventional-knowledge-commits", "ckc", "claimgraph", "lean", "provenance", "graph"]
+classifiers = [
+  "Programming Language :: Python :: 3",
+  "License :: OSI Approved :: MIT License",
+]
+dependencies = [
+  "typer>=0.12",
+  # CKC commit parser + the single-source-of-truth vocabulary live in ckc-tools.
+  "ckc-lint @ git+https://github.com/hotherio/ckc-tools.git",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=8", "jsonschema>=4"]
+
+[project.urls]
+Homepage = "https://hotherio.github.io/claimgraph/"
+Repository = "https://github.com/hotherio/claimgraph"
+Spec = "https://conventional-knowledge-commits.org/"
+
+[project.scripts]
+claimgraph = "claimgraph.cli:app"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
