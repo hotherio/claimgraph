@@ -50,7 +50,7 @@ claimgraph status -f examples/igl/igl.commits -c examples/igl/claims.toml
 
 [`docs/`](docs/) is a static, dependency-free viewer (vendored
 [Cytoscape.js](https://js.cytoscape.org/)) served at
-**https://hotherio.github.io/claimgraph/**. Node colour is effective status; edge style is the
+**https://claimgraph.conventional-knowledge-commits.org/**. Node colour is effective status; edge style is the
 relation. Click a claim to trace what it rests on; click a broken claim to light up its blast radius.
 
 Regenerate the demo data after changing the fixture:
