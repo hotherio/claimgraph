@@ -116,6 +116,15 @@
 
   let cy = null;
   let loadSeq = 0;
+  const INITIAL_DETAIL = (() => { const el = document.getElementById("detail"); return el ? el.innerHTML : ""; })();
+
+  function resetView() {
+    if (!cy) return;
+    cy.elements().removeClass("faded hl blast");
+    cy.fit(cy.elements(), 40);
+    const el = document.getElementById("detail");
+    if (el && INITIAL_DETAIL) el.innerHTML = INITIAL_DETAIL;
+  }
 
   async function load(src) {
     const seq = ++loadSeq;
@@ -246,4 +255,7 @@
   setLede(initial);
   load(initial);
   if (sel) sel.addEventListener("change", () => { setLede(sel.value); load(sel.value); });
+
+  const resetBtn = document.getElementById("reset-view");
+  if (resetBtn) resetBtn.addEventListener("click", resetView);
 })();
