@@ -21,6 +21,7 @@ PAPER = (247, 244, 238)
 INK = (26, 26, 26)
 ACCENT = (231, 82, 5)
 EYEBROW = "Conventional Knowledge Commits"
+CTA = "See it live →"
 
 # page slug -> (output card name, title)
 PAGES = {
@@ -68,7 +69,13 @@ def card(title, out_path):
         y += line_h
 
     bfont = ImageFont.truetype(os.path.join(FONTS, "DejaVuSansMono.ttf"), 27)
-    draw.text((margin, OG_H - 78), EYEBROW.upper(), font=bfont, fill=ACCENT)
+    cy = OG_H - 60
+    draw.text((margin, cy), EYEBROW.upper(), font=bfont, fill=ACCENT, anchor="lm")
+    pad_x, btn_h = 26, 54
+    btn_w = draw.textlength(CTA, font=bfont) + 2 * pad_x
+    x1 = OG_W - margin
+    draw.rounded_rectangle([x1 - btn_w, cy - btn_h // 2, x1, cy + btn_h // 2], radius=9, fill=ACCENT)
+    draw.text((x1 - btn_w / 2, cy), CTA, font=bfont, fill=PAPER, anchor="mm")
 
     os.makedirs(os.path.dirname(out_path), exist_ok=True)
     img.save(out_path, "PNG")
