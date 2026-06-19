@@ -64,6 +64,44 @@ feature of the graph, ship alongside it (and are selectable in the live viewer):
 claimgraph status -f examples/four-color/four-color.commits -c examples/four-color/claims.toml
 ```
 
+## Ground Depends-On edges against Lean
+
+The `Depends-On` / `Assumes` footers are author-asserted: a human (or an agent) writes down which
+claims a result rests on. Lean already knows the truth, since every elaborated proof term records the
+declarations it references. `claimgraph depcheck` extracts that real dependency graph from a built
+project (a small metaprogram run via `lake env lean`, the same bridge idea as `axiom-report`),
+collapses it onto the claim nodes, and compares it to the asserted edges:
+
+- **confirmed**: an asserted `Depends-On` that Lean witnesses;
+- **missing**: a real Lean dependency between two claims that no commit ever recorded;
+- **spurious**: an asserted `Depends-On` with no real Lean path (over-claimed, or an expository
+  link miscategorised as a logical dependency).
+
+Only edges whose *source* node has a Lean reading are judged, so a paper-only claim's edges are never
+called spurious. Helper lemmas that are not themselves claim nodes are passed through, so an
+`A → helper → B` chain collapses to the node edge `A → B`.
+
+```bash
+# ground against a built project (runs `lake env lean`)
+claimgraph depcheck blueprint/src/content.tex . --project lean/
+
+# --populate prints the real edges as ready-to-paste Depends-On trailers;
+# --strict exits nonzero when an asserted edge has no Lean path (a CI drift gate)
+claimgraph depcheck blueprint/src/content.tex . --project lean/ --populate --strict
+```
+
+Pass `--lean-deps FILE` to ground against a saved dep-report instead of a live build. The bundled
+example runs fully offline against the real [paper-igl](https://github.com/hotherio/paper-igl)
+history, where the hand-authored edges turn out to be both incomplete (real dependencies never
+recorded) and over-claimed (asserted edges with no Lean path):
+
+```bash
+claimgraph depcheck examples/blueprint-igl/content.tex \
+  --from-fixture examples/paper-igl/paper-igl.commits \
+  --claims examples/paper-igl/claims.toml \
+  --lean-deps examples/blueprint-igl/leandeps.txt
+```
+
 ## The web viewer
 
 [`docs/`](docs/) is a static, dependency-free viewer (vendored

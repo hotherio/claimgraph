@@ -1,0 +1,24 @@
+IGL.partialIntegral :: 
+IGL.separableSource_hasCPRank :: IGL.separableSource IGL.HasCPRank
+IGL.exp_neg_sum_eigs :: 
+IGL.gauge_invariance :: 
+IGL.greensKernel :: 
+IGL.HasCPRank :: 
+IGL.barrier_if_factorization :: 
+IGL.expSumRank :: 
+IGL.iglParticular :: IGL.partialIntegral
+IGL.HasCPRank.add :: IGL.HasCPRank
+IGL.kan_reduction :: IGL.iglParticular IGL.partialIntegral
+IGL.additiveGreen_factorization :: IGL.separableSource IGL.partialIntegral
+IGL.separableKernel :: 
+IGL.barrierWitness_not_rank_one :: IGL.barrierWitness IGL.HasCPRank
+IGL.separableSource :: 
+IGL.fubini_factorization :: IGL.iglParticular IGL.separableSource IGL.separableKernel
+IGL.applyCoordOp :: 
+IGL.barrierWitness :: 
+IGL.HasCPRank.mul :: IGL.HasCPRank
+IGL.fubini_dfold :: 
+IGL.applyCoordOp_hasCPRank :: IGL.HasCPRank IGL.applyCoordOp
+IGL.spectral_factorization :: 
+IGL.expSumRank_logBound :: IGL.expSumRank
+[dep-probe] 23 project declarations
