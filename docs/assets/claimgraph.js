@@ -118,12 +118,70 @@
   let loadSeq = 0;
   const INITIAL_DETAIL = (() => { const el = document.getElementById("detail"); return el ? el.innerHTML : ""; })();
 
+  // --- timeline replay state (rebuilt per load) ---
+  let TL = null;          // the current data.meta.timeline frames, or null
+  let renderFrame = null; // (k) => void; closes over the current cy, set inside load()
+  let playTimer = null;
+  const parseEdge = (eid) => { const [source, relation, target] = eid.split("|"); return { source, relation, target }; };
+
   function resetView() {
     if (!cy) return;
-    cy.elements().removeClass("faded hl blast");
+    cy.elements().removeClass("faded hl blast refuted");
     cy.fit(cy.elements(), 40);
     const el = document.getElementById("detail");
     if (el && INITIAL_DETAIL) el.innerHTML = INITIAL_DETAIL;
+  }
+
+  // Detail panel showing the commit at the current frame (replaced when a node is clicked).
+  function renderFrameDetail(f) {
+    const el = document.getElementById("detail");
+    if (!el) return;
+    const when = f.date ? f.date.slice(0, 10) : `commit ${f.i + 1} of ${TL.length}`;
+    const ev = f.event ? `<span class="pill" style="background:#9c3a3422;border-color:#9c3a34">${f.event}</span>` : "";
+    el.innerHTML = `
+      <h2>${when}</h2>
+      <div class="kind">${f.type || "commit"}</div>
+      <p class="stmt">${f.subject}</p>
+      ${ev}${f.focus ? ` <span class="muted">${f.focus}</span>` : ""}
+    `;
+  }
+
+  function setTransport(f) {
+    const range = document.getElementById("tl-range");
+    const label = document.getElementById("tl-label");
+    if (range) range.value = String(f.i);
+    if (label) label.textContent = (f.date ? f.date.slice(0, 10) + "  " : `${f.i + 1}/${TL.length}  `) + f.subject;
+  }
+
+  function stopPlay() {
+    if (playTimer) { clearInterval(playTimer); playTimer = null; }
+    const b = document.getElementById("tl-play");
+    if (b) { b.textContent = "▶ Play"; b.setAttribute("aria-pressed", "false"); }
+  }
+
+  function play() {
+    if (!TL || !renderFrame) return;
+    const range = document.getElementById("tl-range");
+    let k = Number(range ? range.value : 0);
+    if (k >= TL.length - 1) k = -1; // at the end: restart from the beginning
+    const b = document.getElementById("tl-play");
+    if (b) { b.textContent = "❚❚ Pause"; b.setAttribute("aria-pressed", "true"); }
+    playTimer = setInterval(() => {
+      k += 1;
+      if (k >= TL.length) { stopPlay(); return; }
+      renderFrame(k);
+    }, 950);
+  }
+
+  function initTransport() {
+    const bar = document.getElementById("transport");
+    stopPlay();
+    if (!bar) return;
+    if (!TL) { bar.hidden = true; return; }
+    bar.hidden = false;
+    const range = document.getElementById("tl-range");
+    if (range) { range.max = String(TL.length - 1); range.value = String(TL.length - 1); }
+    renderFrame(TL.length - 1); // default to the final state: identical to the static view
   }
 
   async function load(src) {
@@ -186,6 +244,10 @@
         { selector: "edge.hl", style: { "width": 3, "opacity": 1 } },
         { selector: "node.blast", style: { "border-color": "#9c3a34", "border-width": 2.8 } },
         { selector: "edge.blast", style: { "line-color": "#9c3a34", "target-arrow-color": "#9c3a34", "width": 3, "line-style": "solid", "opacity": 1 } },
+        // the just-refuted node on a replay frame (its fill is already the disproved red)
+        { selector: "node.refuted", style: { "border-color": "#5e1714", "border-width": 4, "border-style": "double" } },
+        // timeline replay: a claim not yet present at the current frame is hidden (canvas display).
+        { selector: ".hidden", style: { "display": "none" } },
       ],
       layout: { name: "cose", padding: 40, animate: false, fit: true,
         nodeRepulsion: 9000, idealEdgeLength: 95, componentSpacing: 110, gravity: 0.3,
@@ -198,7 +260,7 @@
     window.addEventListener("resize", refit);
 
     function reset() {
-      cy.elements().removeClass("faded hl blast");
+      cy.elements().removeClass("faded hl blast refuted");
     }
 
     cy.on("tap", "node", (evt) => {
@@ -235,6 +297,50 @@
       }
     });
 
+    // --- timeline replay: rewind/scrub the history this graph was built from -----------------------
+    // The layout already ran once over the full (union) graph, so every claim has its final position.
+    // A frame just shows/hides claims and recolours them by their status at that commit; nothing is
+    // re-laid-out and the viewport never jumps, so claims "build up" in place.
+    TL = (data.meta && Array.isArray(data.meta.timeline) && data.meta.timeline.length > 1)
+      ? data.meta.timeline : null;
+    renderFrame = (k) => {
+      if (!TL) return;
+      const f = TL[Math.max(0, Math.min(TL.length - 1, k))];
+      reset();
+      const present = new Set(f.present), pedges = new Set(f.edges);
+      cy.batch(() => {
+        cy.nodes().forEach((n) => {
+          const id = n.id();
+          if (!present.has(id)) { n.addClass("hidden"); return; }
+          n.removeClass("hidden");
+          const s = f.state[id] || {};
+          n.data("eff", s.effective_status || s.status || null);
+          n.data("status", s.status || null);
+          n.data("inq", !!s.in_question);
+        });
+        cy.edges().forEach((e) => { e.toggleClass("hidden", !pedges.has(e.id())); });
+      });
+      cy.style().update(); // re-evaluate the status->colour and [?inq] mappers against the new data
+      // A refutation is the moment the final all-green graph forgets: pulse the refuted claim (its
+      // fill is already the disproved red) and light the dependents it puts in question at this frame.
+      if (f.event === "refuted" && f.focus && present.has(f.focus)) {
+        const depIn = new Map();
+        f.edges.forEach((eid) => {
+          const { source, relation, target } = parseEdge(eid);
+          if (DEP.has(relation)) (depIn.get(target) || depIn.set(target, []).get(target)).push(source);
+        });
+        const focus = cy.getElementById(f.focus);
+        focus.addClass("refuted");
+        focus.flashClass("hl", 700);
+        closure(f.focus, depIn).forEach((x) => {
+          if (present.has(x)) cy.getElementById(x).addClass("blast");
+        });
+      }
+      renderFrameDetail(f);
+      setTransport(f);
+    };
+    initTransport();
+
     window.cy = cy; // exposed for debugging and tooling
   }
 
@@ -258,4 +364,15 @@
 
   const resetBtn = document.getElementById("reset-view");
   if (resetBtn) resetBtn.addEventListener("click", resetView);
+
+  // Transport controls are wired once; they call the current load()'s renderFrame via the closure.
+  const tlPlay = document.getElementById("tl-play");
+  const tlPrev = document.getElementById("tl-prev");
+  const tlNext = document.getElementById("tl-next");
+  const tlRange = document.getElementById("tl-range");
+  const at = () => (tlRange ? Number(tlRange.value) : 0);
+  if (tlPlay) tlPlay.addEventListener("click", () => { if (playTimer) stopPlay(); else play(); });
+  if (tlPrev) tlPrev.addEventListener("click", () => { stopPlay(); if (renderFrame) renderFrame(at() - 1); });
+  if (tlNext) tlNext.addEventListener("click", () => { stopPlay(); if (renderFrame) renderFrame(at() + 1); });
+  if (tlRange) tlRange.addEventListener("input", () => { stopPlay(); if (renderFrame) renderFrame(at()); });
 })();

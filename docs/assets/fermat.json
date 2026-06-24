@@ -2,7 +2,679 @@
   "$schema": "https://raw.githubusercontent.com/hotherio/claimgraph/main/schema/claimgraph.schema.json",
   "meta": {
     "generator": "claimgraph",
-    "spec_version": "0.1.0"
+    "spec_version": "0.1.0",
+    "timeline": [
+      {
+        "i": 0,
+        "hash": null,
+        "date": null,
+        "subject": "conjecture(flt): no nth power is a sum of two nth powers for n above two",
+        "type": "conjecture",
+        "event": "asserted",
+        "focus": "flt",
+        "present": [
+          "flt"
+        ],
+        "edges": [],
+        "state": {
+          "flt": {
+            "status": "math.conjectured",
+            "effective_status": "math.conjectured",
+            "in_question": false
+          }
+        }
+      },
+      {
+        "i": 1,
+        "hash": null,
+        "date": null,
+        "subject": "proof(flt-n4): the exponent four, by infinite descent",
+        "type": "proof",
+        "event": "asserted",
+        "focus": "flt-n4",
+        "present": [
+          "flt",
+          "flt-n4"
+        ],
+        "edges": [],
+        "state": {
+          "flt": {
+            "status": "math.conjectured",
+            "effective_status": "math.conjectured",
+            "in_question": false
+          },
+          "flt-n4": {
+            "status": "math.proved-informal",
+            "effective_status": "math.proved-informal",
+            "in_question": false
+          }
+        }
+      },
+      {
+        "i": 2,
+        "hash": null,
+        "date": null,
+        "subject": "proof(flt-n3): the exponent three",
+        "type": "proof",
+        "event": "asserted",
+        "focus": "flt-n3",
+        "present": [
+          "flt",
+          "flt-n3",
+          "flt-n4"
+        ],
+        "edges": [],
+        "state": {
+          "flt-n3": {
+            "status": "math.proved-informal",
+            "effective_status": "math.proved-informal",
+            "in_question": false
+          },
+          "flt": {
+            "status": "math.conjectured",
+            "effective_status": "math.conjectured",
+            "in_question": false
+          },
+          "flt-n4": {
+            "status": "math.proved-informal",
+            "effective_status": "math.proved-informal",
+            "in_question": false
+          }
+        }
+      },
+      {
+        "i": 3,
+        "hash": null,
+        "date": null,
+        "subject": "proof(flt-regular-primes): every regular prime exponent",
+        "type": "proof",
+        "event": "asserted",
+        "focus": "flt-regular-primes",
+        "present": [
+          "flt",
+          "flt-n3",
+          "flt-n4",
+          "flt-regular-primes"
+        ],
+        "edges": [],
+        "state": {
+          "flt-n3": {
+            "status": "math.proved-informal",
+            "effective_status": "math.proved-informal",
+            "in_question": false
+          },
+          "flt": {
+            "status": "math.conjectured",
+            "effective_status": "math.conjectured",
+            "in_question": false
+          },
+          "flt-n4": {
+            "status": "math.proved-informal",
+            "effective_status": "math.proved-informal",
+            "in_question": false
+          },
+          "flt-regular-primes": {
+            "status": "math.proved-informal",
+            "effective_status": "math.proved-informal",
+            "in_question": false
+          }
+        }
+      },
+      {
+        "i": 4,
+        "hash": null,
+        "date": null,
+        "subject": "conjecture(modularity): every rational elliptic curve is modular",
+        "type": "conjecture",
+        "event": "asserted",
+        "focus": "modularity",
+        "present": [
+          "flt",
+          "flt-n3",
+          "flt-n4",
+          "flt-regular-primes",
+          "modularity"
+        ],
+        "edges": [],
+        "state": {
+          "flt-n3": {
+            "status": "math.proved-informal",
+            "effective_status": "math.proved-informal",
+            "in_question": false
+          },
+          "flt-regular-primes": {
+            "status": "math.proved-informal",
+            "effective_status": "math.proved-informal",
+            "in_question": false
+          },
+          "flt": {
+            "status": "math.conjectured",
+            "effective_status": "math.conjectured",
+            "in_question": false
+          },
+          "flt-n4": {
+            "status": "math.proved-informal",
+            "effective_status": "math.proved-informal",
+            "in_question": false
+          },
+          "modularity": {
+            "status": "math.conjectured",
+            "effective_status": "math.conjectured",
+            "in_question": false
+          }
+        }
+      },
+      {
+        "i": 5,
+        "hash": null,
+        "date": null,
+        "subject": "proof(frey-curve): a Fermat solution would build a very strange elliptic curve",
+        "type": "proof",
+        "event": "asserted",
+        "focus": "frey-curve",
+        "present": [
+          "flt",
+          "flt-n3",
+          "flt-n4",
+          "flt-regular-primes",
+          "frey-curve",
+          "modularity"
+        ],
+        "edges": [],
+        "state": {
+          "flt-n3": {
+            "status": "math.proved-informal",
+            "effective_status": "math.proved-informal",
+            "in_question": false
+          },
+          "flt-regular-primes": {
+            "status": "math.proved-informal",
+            "effective_status": "math.proved-informal",
+            "in_question": false
+          },
+          "frey-curve": {
+            "status": "math.proved-informal",
+            "effective_status": "math.proved-informal",
+            "in_question": false
+          },
+          "flt": {
+            "status": "math.conjectured",
+            "effective_status": "math.conjectured",
+            "in_question": false
+          },
+          "flt-n4": {
+            "status": "math.proved-informal",
+            "effective_status": "math.proved-informal",
+            "in_question": false
+          },
+          "modularity": {
+            "status": "math.conjectured",
+            "effective_status": "math.conjectured",
+            "in_question": false
+          }
+        }
+      },
+      {
+        "i": 6,
+        "hash": null,
+        "date": null,
+        "subject": "proof(ribet): the Frey curve is not modular, so modularity implies Fermat",
+        "type": "proof",
+        "event": "asserted",
+        "focus": "ribet",
+        "present": [
+          "flt",
+          "flt-n3",
+          "flt-n4",
+          "flt-regular-primes",
+          "frey-curve",
+          "modularity",
+          "ribet"
+        ],
+        "edges": [
+          "ribet|Depends-On|frey-curve"
+        ],
+        "state": {
+          "ribet": {
+            "status": "math.proved-informal",
+            "effective_status": "math.proved-informal",
+            "in_question": false
+          },
+          "flt-n3": {
+            "status": "math.proved-informal",
+            "effective_status": "math.proved-informal",
+            "in_question": false
+          },
+          "flt-regular-primes": {
+            "status": "math.proved-informal",
+            "effective_status": "math.proved-informal",
+            "in_question": false
+          },
+          "frey-curve": {
+            "status": "math.proved-informal",
+            "effective_status": "math.proved-informal",
+            "in_question": false
+          },
+          "flt": {
+            "status": "math.conjectured",
+            "effective_status": "math.conjectured",
+            "in_question": false
+          },
+          "flt-n4": {
+            "status": "math.proved-informal",
+            "effective_status": "math.proved-informal",
+            "in_question": false
+          },
+          "modularity": {
+            "status": "math.conjectured",
+            "effective_status": "math.conjectured",
+            "in_question": false
+          }
+        }
+      },
+      {
+        "i": 7,
+        "hash": null,
+        "date": null,
+        "subject": "proof(wiles-1993): modularity for semistable elliptic curves",
+        "type": "proof",
+        "event": "promoted",
+        "focus": "wiles-1993",
+        "present": [
+          "flt",
+          "flt-n3",
+          "flt-n4",
+          "flt-regular-primes",
+          "frey-curve",
+          "modularity",
+          "ribet",
+          "wiles-1993"
+        ],
+        "edges": [
+          "ribet|Depends-On|frey-curve",
+          "wiles-1993|Closes|modularity"
+        ],
+        "state": {
+          "ribet": {
+            "status": "math.proved-informal",
+            "effective_status": "math.proved-informal",
+            "in_question": false
+          },
+          "wiles-1993": {
+            "status": "math.proved-informal",
+            "effective_status": "math.proved-informal",
+            "in_question": false
+          },
+          "flt": {
+            "status": "math.conjectured",
+            "effective_status": "math.conjectured",
+            "in_question": false
+          },
+          "flt-n3": {
+            "status": "math.proved-informal",
+            "effective_status": "math.proved-informal",
+            "in_question": false
+          },
+          "flt-regular-primes": {
+            "status": "math.proved-informal",
+            "effective_status": "math.proved-informal",
+            "in_question": false
+          },
+          "frey-curve": {
+            "status": "math.proved-informal",
+            "effective_status": "math.proved-informal",
+            "in_question": false
+          },
+          "flt-n4": {
+            "status": "math.proved-informal",
+            "effective_status": "math.proved-informal",
+            "in_question": false
+          },
+          "modularity": {
+            "status": "math.proved-informal",
+            "effective_status": "math.proved-informal",
+            "in_question": false
+          }
+        }
+      },
+      {
+        "i": 8,
+        "hash": null,
+        "date": null,
+        "subject": "refute(wiles-1993)!: the Euler-system step has a gap",
+        "type": "refute",
+        "event": "refuted",
+        "focus": "wiles-1993",
+        "present": [
+          "flt",
+          "flt-n3",
+          "flt-n4",
+          "flt-regular-primes",
+          "frey-curve",
+          "modularity",
+          "refute:wiles-1993",
+          "ribet",
+          "wiles-1993"
+        ],
+        "edges": [
+          "ribet|Depends-On|frey-curve",
+          "wiles-1993|Closes|modularity",
+          "refute:wiles-1993|Disproves|wiles-1993"
+        ],
+        "state": {
+          "ribet": {
+            "status": "math.proved-informal",
+            "effective_status": "math.proved-informal",
+            "in_question": false
+          },
+          "wiles-1993": {
+            "status": "math.disproved",
+            "effective_status": "math.disproved",
+            "in_question": false
+          },
+          "flt": {
+            "status": "math.conjectured",
+            "effective_status": "math.conjectured",
+            "in_question": false
+          },
+          "refute:wiles-1993": {
+            "status": null,
+            "effective_status": null,
+            "in_question": false
+          },
+          "flt-n3": {
+            "status": "math.proved-informal",
+            "effective_status": "math.proved-informal",
+            "in_question": false
+          },
+          "flt-regular-primes": {
+            "status": "math.proved-informal",
+            "effective_status": "math.proved-informal",
+            "in_question": false
+          },
+          "frey-curve": {
+            "status": "math.proved-informal",
+            "effective_status": "math.proved-informal",
+            "in_question": false
+          },
+          "flt-n4": {
+            "status": "math.proved-informal",
+            "effective_status": "math.proved-informal",
+            "in_question": false
+          },
+          "modularity": {
+            "status": "math.proved-informal",
+            "effective_status": "math.proved-informal",
+            "in_question": false
+          }
+        }
+      },
+      {
+        "i": 9,
+        "hash": null,
+        "date": null,
+        "subject": "proof(taylor-wiles): the gap is closed by a Hecke-ring patching argument",
+        "type": "proof",
+        "event": "superseded",
+        "focus": "taylor-wiles",
+        "present": [
+          "flt",
+          "flt-n3",
+          "flt-n4",
+          "flt-regular-primes",
+          "frey-curve",
+          "modularity",
+          "refute:wiles-1993",
+          "ribet",
+          "taylor-wiles",
+          "wiles-1993"
+        ],
+        "edges": [
+          "ribet|Depends-On|frey-curve",
+          "wiles-1993|Closes|modularity",
+          "refute:wiles-1993|Disproves|wiles-1993",
+          "taylor-wiles|Supersedes|wiles-1993",
+          "taylor-wiles|Closes|modularity"
+        ],
+        "state": {
+          "ribet": {
+            "status": "math.proved-informal",
+            "effective_status": "math.proved-informal",
+            "in_question": false
+          },
+          "taylor-wiles": {
+            "status": "math.proved-informal",
+            "effective_status": "math.proved-informal",
+            "in_question": false
+          },
+          "wiles-1993": {
+            "status": "math.disproved",
+            "effective_status": "math.disproved",
+            "in_question": false
+          },
+          "flt": {
+            "status": "math.conjectured",
+            "effective_status": "math.conjectured",
+            "in_question": false
+          },
+          "refute:wiles-1993": {
+            "status": null,
+            "effective_status": null,
+            "in_question": false
+          },
+          "flt-n3": {
+            "status": "math.proved-informal",
+            "effective_status": "math.proved-informal",
+            "in_question": false
+          },
+          "flt-regular-primes": {
+            "status": "math.proved-informal",
+            "effective_status": "math.proved-informal",
+            "in_question": false
+          },
+          "frey-curve": {
+            "status": "math.proved-informal",
+            "effective_status": "math.proved-informal",
+            "in_question": false
+          },
+          "flt-n4": {
+            "status": "math.proved-informal",
+            "effective_status": "math.proved-informal",
+            "in_question": false
+          },
+          "modularity": {
+            "status": "math.proved-informal",
+            "effective_status": "math.proved-informal",
+            "in_question": false
+          }
+        }
+      },
+      {
+        "i": 10,
+        "hash": null,
+        "date": null,
+        "subject": "proof(wiles-flt): Fermat's Last Theorem follows from semistable modularity",
+        "type": "proof",
+        "event": "promoted",
+        "focus": "wiles-flt",
+        "present": [
+          "flt",
+          "flt-n3",
+          "flt-n4",
+          "flt-regular-primes",
+          "frey-curve",
+          "modularity",
+          "refute:wiles-1993",
+          "ribet",
+          "taylor-wiles",
+          "wiles-1993",
+          "wiles-flt"
+        ],
+        "edges": [
+          "ribet|Depends-On|frey-curve",
+          "wiles-1993|Closes|modularity",
+          "refute:wiles-1993|Disproves|wiles-1993",
+          "taylor-wiles|Supersedes|wiles-1993",
+          "taylor-wiles|Closes|modularity",
+          "wiles-flt|Depends-On|ribet",
+          "wiles-flt|Depends-On|modularity",
+          "wiles-flt|Closes|flt"
+        ],
+        "state": {
+          "ribet": {
+            "status": "math.proved-informal",
+            "effective_status": "math.proved-informal",
+            "in_question": false
+          },
+          "taylor-wiles": {
+            "status": "math.proved-informal",
+            "effective_status": "math.proved-informal",
+            "in_question": false
+          },
+          "wiles-1993": {
+            "status": "math.disproved",
+            "effective_status": "math.disproved",
+            "in_question": false
+          },
+          "flt": {
+            "status": "math.proved-informal",
+            "effective_status": "math.proved-informal",
+            "in_question": false
+          },
+          "refute:wiles-1993": {
+            "status": null,
+            "effective_status": null,
+            "in_question": false
+          },
+          "flt-n3": {
+            "status": "math.proved-informal",
+            "effective_status": "math.proved-informal",
+            "in_question": false
+          },
+          "flt-regular-primes": {
+            "status": "math.proved-informal",
+            "effective_status": "math.proved-informal",
+            "in_question": false
+          },
+          "wiles-flt": {
+            "status": "math.proved-informal",
+            "effective_status": "math.proved-informal",
+            "in_question": false
+          },
+          "frey-curve": {
+            "status": "math.proved-informal",
+            "effective_status": "math.proved-informal",
+            "in_question": false
+          },
+          "flt-n4": {
+            "status": "math.proved-informal",
+            "effective_status": "math.proved-informal",
+            "in_question": false
+          },
+          "modularity": {
+            "status": "math.proved-informal",
+            "effective_status": "math.proved-informal",
+            "in_question": false
+          }
+        }
+      },
+      {
+        "i": 11,
+        "hash": null,
+        "date": null,
+        "subject": "formalize(flt-lean): a Lean formalization, still in progress",
+        "type": "formalize",
+        "event": "asserted",
+        "focus": "FLT.fermatLastTheorem",
+        "present": [
+          "FLT.fermatLastTheorem",
+          "flt",
+          "flt-n3",
+          "flt-n4",
+          "flt-regular-primes",
+          "frey-curve",
+          "modularity",
+          "refute:wiles-1993",
+          "ribet",
+          "taylor-wiles",
+          "wiles-1993",
+          "wiles-flt"
+        ],
+        "edges": [
+          "ribet|Depends-On|frey-curve",
+          "wiles-1993|Closes|modularity",
+          "refute:wiles-1993|Disproves|wiles-1993",
+          "taylor-wiles|Supersedes|wiles-1993",
+          "taylor-wiles|Closes|modularity",
+          "wiles-flt|Depends-On|ribet",
+          "wiles-flt|Depends-On|modularity",
+          "wiles-flt|Closes|flt",
+          "FLT.fermatLastTheorem|Depends-On|flt"
+        ],
+        "state": {
+          "ribet": {
+            "status": "math.proved-informal",
+            "effective_status": "math.proved-informal",
+            "in_question": false
+          },
+          "taylor-wiles": {
+            "status": "math.proved-informal",
+            "effective_status": "math.proved-informal",
+            "in_question": false
+          },
+          "FLT.fermatLastTheorem": {
+            "status": "math.open",
+            "effective_status": "math.proved-informal",
+            "in_question": false
+          },
+          "wiles-1993": {
+            "status": "math.disproved",
+            "effective_status": "math.disproved",
+            "in_question": false
+          },
+          "flt": {
+            "status": "math.proved-informal",
+            "effective_status": "math.proved-informal",
+            "in_question": false
+          },
+          "refute:wiles-1993": {
+            "status": null,
+            "effective_status": null,
+            "in_question": false
+          },
+          "flt-n3": {
+            "status": "math.proved-informal",
+            "effective_status": "math.proved-informal",
+            "in_question": false
+          },
+          "flt-regular-primes": {
+            "status": "math.proved-informal",
+            "effective_status": "math.proved-informal",
+            "in_question": false
+          },
+          "wiles-flt": {
+            "status": "math.proved-informal",
+            "effective_status": "math.proved-informal",
+            "in_question": false
+          },
+          "frey-curve": {
+            "status": "math.proved-informal",
+            "effective_status": "math.proved-informal",
+            "in_question": false
+          },
+          "flt-n4": {
+            "status": "math.proved-informal",
+            "effective_status": "math.proved-informal",
+            "in_question": false
+          },
+          "modularity": {
+            "status": "math.proved-informal",
+            "effective_status": "math.proved-informal",
+            "in_question": false
+          }
+        }
+      }
+    ]
   },
   "nodes": [
     {
@@ -135,19 +807,13 @@
     },
     {
       "source": "taylor-wiles",
-      "target": "modularity",
-      "relation": "Closes",
-      "breaking": false
-    },
-    {
-      "source": "taylor-wiles",
       "target": "wiles-1993",
       "relation": "Supersedes",
       "breaking": false
     },
     {
-      "source": "wiles-flt",
-      "target": "flt",
+      "source": "taylor-wiles",
+      "target": "modularity",
       "relation": "Closes",
       "breaking": false
     },
@@ -161,6 +827,12 @@
       "source": "wiles-flt",
       "target": "modularity",
       "relation": "Depends-On",
+      "breaking": false
+    },
+    {
+      "source": "wiles-flt",
+      "target": "flt",
+      "relation": "Closes",
       "breaking": false
     },
     {

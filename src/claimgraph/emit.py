@@ -34,10 +34,18 @@ def _node_dict(n) -> dict:
     return d
 
 
-def to_dict(graph: ClaimGraph, sources: list[str] | None = None) -> dict:
+def to_dict(
+    graph: ClaimGraph,
+    sources: list[str] | None = None,
+    timeline: list[dict] | None = None,
+) -> dict:
     meta = {"generator": "claimgraph", "spec_version": vocab()["spec_version"]}
     if sources:
         meta["sources"] = sources
+    # The replay timeline rides in ``meta`` (additive: the schema allows extra meta keys, and
+    # ``nodes``/``edges`` stay the final state, so existing consumers are byte-unchanged).
+    if timeline:
+        meta["timeline"] = timeline
     return {
         "$schema": SCHEMA_URL,
         "meta": meta,
@@ -54,5 +62,12 @@ def to_dict(graph: ClaimGraph, sources: list[str] | None = None) -> dict:
     }
 
 
-def to_json(graph: ClaimGraph, indent: int = 2, sources: list[str] | None = None) -> str:
-    return json.dumps(to_dict(graph, sources=sources), indent=indent, ensure_ascii=False)
+def to_json(
+    graph: ClaimGraph,
+    indent: int = 2,
+    sources: list[str] | None = None,
+    timeline: list[dict] | None = None,
+) -> str:
+    return json.dumps(
+        to_dict(graph, sources=sources, timeline=timeline), indent=indent, ensure_ascii=False
+    )

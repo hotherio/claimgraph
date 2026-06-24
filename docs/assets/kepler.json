@@ -2,7 +2,449 @@
   "$schema": "https://raw.githubusercontent.com/hotherio/claimgraph/main/schema/claimgraph.schema.json",
   "meta": {
     "generator": "claimgraph",
-    "spec_version": "0.1.0"
+    "spec_version": "0.1.0",
+    "timeline": [
+      {
+        "i": 0,
+        "hash": null,
+        "date": null,
+        "subject": "conjecture(kepler): no sphere packing beats the face-centred cubic density",
+        "type": "conjecture",
+        "event": "asserted",
+        "focus": "kepler",
+        "present": [
+          "kepler"
+        ],
+        "edges": [],
+        "state": {
+          "kepler": {
+            "status": "math.conjectured",
+            "effective_status": "math.conjectured",
+            "in_question": false
+          }
+        }
+      },
+      {
+        "i": 1,
+        "hash": null,
+        "date": null,
+        "subject": "proof(hsiang): a claimed proof by spherical trigonometry",
+        "type": "proof",
+        "event": "promoted",
+        "focus": "hsiang",
+        "present": [
+          "hsiang",
+          "kepler"
+        ],
+        "edges": [
+          "hsiang|Closes|kepler"
+        ],
+        "state": {
+          "kepler": {
+            "status": "math.proved-informal",
+            "effective_status": "math.proved-informal",
+            "in_question": false
+          },
+          "hsiang": {
+            "status": "math.proved-informal",
+            "effective_status": "math.proved-informal",
+            "in_question": false
+          }
+        }
+      },
+      {
+        "i": 2,
+        "hash": null,
+        "date": null,
+        "subject": "refute(hsiang)!: key cases are asserted without justification",
+        "type": "refute",
+        "event": "refuted",
+        "focus": "hsiang",
+        "present": [
+          "hsiang",
+          "kepler",
+          "refute:hsiang"
+        ],
+        "edges": [
+          "hsiang|Closes|kepler",
+          "refute:hsiang|Disproves|hsiang"
+        ],
+        "state": {
+          "kepler": {
+            "status": "math.proved-informal",
+            "effective_status": "math.proved-informal",
+            "in_question": false
+          },
+          "hsiang": {
+            "status": "math.disproved",
+            "effective_status": "math.disproved",
+            "in_question": false
+          },
+          "refute:hsiang": {
+            "status": null,
+            "effective_status": null,
+            "in_question": false
+          }
+        }
+      },
+      {
+        "i": 3,
+        "hash": null,
+        "date": null,
+        "subject": "axiomatize~(tame-graphs): the finite list of tame plane graphs",
+        "type": "axiomatize",
+        "event": "asserted",
+        "focus": "tame-graphs",
+        "present": [
+          "hsiang",
+          "kepler",
+          "refute:hsiang",
+          "tame-graphs"
+        ],
+        "edges": [
+          "hsiang|Closes|kepler",
+          "refute:hsiang|Disproves|hsiang"
+        ],
+        "state": {
+          "tame-graphs": {
+            "status": "math.axiomatised",
+            "effective_status": "math.axiomatised",
+            "in_question": false
+          },
+          "kepler": {
+            "status": "math.proved-informal",
+            "effective_status": "math.proved-informal",
+            "in_question": false
+          },
+          "hsiang": {
+            "status": "math.disproved",
+            "effective_status": "math.disproved",
+            "in_question": false
+          },
+          "refute:hsiang": {
+            "status": null,
+            "effective_status": null,
+            "in_question": false
+          }
+        }
+      },
+      {
+        "i": 4,
+        "hash": null,
+        "date": null,
+        "subject": "axiomatize~(lp-bounds): linear-programming bounds rule out each case",
+        "type": "axiomatize",
+        "event": "asserted",
+        "focus": "lp-bounds",
+        "present": [
+          "hsiang",
+          "kepler",
+          "lp-bounds",
+          "refute:hsiang",
+          "tame-graphs"
+        ],
+        "edges": [
+          "hsiang|Closes|kepler",
+          "refute:hsiang|Disproves|hsiang"
+        ],
+        "state": {
+          "kepler": {
+            "status": "math.proved-informal",
+            "effective_status": "math.proved-informal",
+            "in_question": false
+          },
+          "lp-bounds": {
+            "status": "math.axiomatised",
+            "effective_status": "math.axiomatised",
+            "in_question": false
+          },
+          "refute:hsiang": {
+            "status": null,
+            "effective_status": null,
+            "in_question": false
+          },
+          "tame-graphs": {
+            "status": "math.axiomatised",
+            "effective_status": "math.axiomatised",
+            "in_question": false
+          },
+          "hsiang": {
+            "status": "math.disproved",
+            "effective_status": "math.disproved",
+            "in_question": false
+          }
+        }
+      },
+      {
+        "i": 5,
+        "hash": null,
+        "date": null,
+        "subject": "proof(hales): the Kepler conjecture, modulo the computer searches",
+        "type": "proof",
+        "event": "promoted",
+        "focus": "hales",
+        "present": [
+          "hales",
+          "hsiang",
+          "kepler",
+          "lp-bounds",
+          "refute:hsiang",
+          "tame-graphs"
+        ],
+        "edges": [
+          "hsiang|Closes|kepler",
+          "refute:hsiang|Disproves|hsiang",
+          "hales|Assumes|tame-graphs",
+          "hales|Assumes|lp-bounds",
+          "hales|Closes|kepler"
+        ],
+        "state": {
+          "kepler": {
+            "status": "math.axiomatised",
+            "effective_status": "math.axiomatised",
+            "in_question": false
+          },
+          "refute:hsiang": {
+            "status": null,
+            "effective_status": null,
+            "in_question": false
+          },
+          "tame-graphs": {
+            "status": "math.axiomatised",
+            "effective_status": "math.axiomatised",
+            "in_question": false
+          },
+          "lp-bounds": {
+            "status": "math.axiomatised",
+            "effective_status": "math.axiomatised",
+            "in_question": false
+          },
+          "hales": {
+            "status": "math.axiomatised",
+            "effective_status": "math.axiomatised",
+            "in_question": false
+          },
+          "hsiang": {
+            "status": "math.disproved",
+            "effective_status": "math.disproved",
+            "in_question": false
+          }
+        }
+      },
+      {
+        "i": 6,
+        "hash": null,
+        "date": null,
+        "subject": "formalize(tame-graphs): the tame classification, checked in Isabelle",
+        "type": "formalize",
+        "event": "promoted",
+        "focus": "Kepler.tame_classification",
+        "present": [
+          "Kepler.tame_classification",
+          "hales",
+          "hsiang",
+          "kepler",
+          "lp-bounds",
+          "refute:hsiang",
+          "tame-graphs"
+        ],
+        "edges": [
+          "hsiang|Closes|kepler",
+          "refute:hsiang|Disproves|hsiang",
+          "hales|Assumes|tame-graphs",
+          "hales|Assumes|lp-bounds",
+          "hales|Closes|kepler",
+          "Kepler.tame_classification|Proves|tame-graphs"
+        ],
+        "state": {
+          "kepler": {
+            "status": "math.axiomatised",
+            "effective_status": "math.axiomatised",
+            "in_question": false
+          },
+          "Kepler.tame_classification": {
+            "status": "math.machine-checked",
+            "effective_status": "math.machine-checked",
+            "in_question": false
+          },
+          "refute:hsiang": {
+            "status": null,
+            "effective_status": null,
+            "in_question": false
+          },
+          "tame-graphs": {
+            "status": "math.machine-checked",
+            "effective_status": "math.machine-checked",
+            "in_question": false
+          },
+          "lp-bounds": {
+            "status": "math.axiomatised",
+            "effective_status": "math.axiomatised",
+            "in_question": false
+          },
+          "hales": {
+            "status": "math.axiomatised",
+            "effective_status": "math.axiomatised",
+            "in_question": false
+          },
+          "hsiang": {
+            "status": "math.disproved",
+            "effective_status": "math.disproved",
+            "in_question": false
+          }
+        }
+      },
+      {
+        "i": 7,
+        "hash": null,
+        "date": null,
+        "subject": "formalize(lp-bounds): the bounds, checked in HOL Light",
+        "type": "formalize",
+        "event": "promoted",
+        "focus": "Kepler.lp_bounds",
+        "present": [
+          "Kepler.lp_bounds",
+          "Kepler.tame_classification",
+          "hales",
+          "hsiang",
+          "kepler",
+          "lp-bounds",
+          "refute:hsiang",
+          "tame-graphs"
+        ],
+        "edges": [
+          "hsiang|Closes|kepler",
+          "refute:hsiang|Disproves|hsiang",
+          "hales|Assumes|tame-graphs",
+          "hales|Assumes|lp-bounds",
+          "hales|Closes|kepler",
+          "Kepler.tame_classification|Proves|tame-graphs",
+          "Kepler.lp_bounds|Proves|lp-bounds"
+        ],
+        "state": {
+          "kepler": {
+            "status": "math.axiomatised",
+            "effective_status": "math.axiomatised",
+            "in_question": false
+          },
+          "Kepler.tame_classification": {
+            "status": "math.machine-checked",
+            "effective_status": "math.machine-checked",
+            "in_question": false
+          },
+          "refute:hsiang": {
+            "status": null,
+            "effective_status": null,
+            "in_question": false
+          },
+          "tame-graphs": {
+            "status": "math.machine-checked",
+            "effective_status": "math.machine-checked",
+            "in_question": false
+          },
+          "lp-bounds": {
+            "status": "math.machine-checked",
+            "effective_status": "math.machine-checked",
+            "in_question": false
+          },
+          "Kepler.lp_bounds": {
+            "status": "math.machine-checked",
+            "effective_status": "math.machine-checked",
+            "in_question": false
+          },
+          "hales": {
+            "status": "math.axiomatised",
+            "effective_status": "math.axiomatised",
+            "in_question": false
+          },
+          "hsiang": {
+            "status": "math.disproved",
+            "effective_status": "math.disproved",
+            "in_question": false
+          }
+        }
+      },
+      {
+        "i": 8,
+        "hash": null,
+        "date": null,
+        "subject": "formalize(kepler): a fully machine-checked Kepler conjecture",
+        "type": "formalize",
+        "event": "superseded",
+        "focus": "Kepler.kepler_conjecture",
+        "present": [
+          "Kepler.kepler_conjecture",
+          "Kepler.lp_bounds",
+          "Kepler.tame_classification",
+          "hales",
+          "hsiang",
+          "kepler",
+          "lp-bounds",
+          "refute:hsiang",
+          "tame-graphs"
+        ],
+        "edges": [
+          "hsiang|Closes|kepler",
+          "refute:hsiang|Disproves|hsiang",
+          "hales|Assumes|tame-graphs",
+          "hales|Assumes|lp-bounds",
+          "hales|Closes|kepler",
+          "Kepler.tame_classification|Proves|tame-graphs",
+          "Kepler.lp_bounds|Proves|lp-bounds",
+          "Kepler.kepler_conjecture|Depends-On|Kepler.tame_classification",
+          "Kepler.kepler_conjecture|Depends-On|Kepler.lp_bounds",
+          "Kepler.kepler_conjecture|Supersedes|hales",
+          "Kepler.kepler_conjecture|Closes|kepler"
+        ],
+        "state": {
+          "kepler": {
+            "status": "math.machine-checked",
+            "effective_status": "math.machine-checked",
+            "in_question": false
+          },
+          "Kepler.tame_classification": {
+            "status": "math.machine-checked",
+            "effective_status": "math.machine-checked",
+            "in_question": false
+          },
+          "refute:hsiang": {
+            "status": null,
+            "effective_status": null,
+            "in_question": false
+          },
+          "tame-graphs": {
+            "status": "math.machine-checked",
+            "effective_status": "math.machine-checked",
+            "in_question": false
+          },
+          "lp-bounds": {
+            "status": "math.machine-checked",
+            "effective_status": "math.machine-checked",
+            "in_question": false
+          },
+          "Kepler.kepler_conjecture": {
+            "status": "math.machine-checked",
+            "effective_status": "math.machine-checked",
+            "in_question": false
+          },
+          "Kepler.lp_bounds": {
+            "status": "math.machine-checked",
+            "effective_status": "math.machine-checked",
+            "in_question": false
+          },
+          "hales": {
+            "status": "math.axiomatised",
+            "effective_status": "math.axiomatised",
+            "in_question": false
+          },
+          "hsiang": {
+            "status": "math.disproved",
+            "effective_status": "math.disproved",
+            "in_question": false
+          }
+        }
+      }
+    ]
   },
   "nodes": [
     {
@@ -102,12 +544,6 @@
     },
     {
       "source": "hales",
-      "target": "kepler",
-      "relation": "Closes",
-      "breaking": false
-    },
-    {
-      "source": "hales",
       "target": "tame-graphs",
       "relation": "Assumes",
       "breaking": false
@@ -116,6 +552,12 @@
       "source": "hales",
       "target": "lp-bounds",
       "relation": "Assumes",
+      "breaking": false
+    },
+    {
+      "source": "hales",
+      "target": "kepler",
+      "relation": "Closes",
       "breaking": false
     },
     {

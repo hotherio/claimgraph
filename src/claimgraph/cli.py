@@ -41,13 +41,24 @@ def build(
     out: Optional[Path] = typer.Option(None, "--out", "-o", help="Write claimgraph.json here."),
     fixture: Optional[str] = FixtureOpt,
     claims: Optional[str] = ClaimsOpt,
+    timeline: bool = typer.Option(
+        False, "--timeline", "-t",
+        help="Also emit a per-commit replay timeline in meta.timeline (for the viewer's time slider).",
+    ),
 ) -> None:
     """Reconstruct the ClaimGraph and emit claimgraph.json."""
     graph = _load(repo, fixture, claims)
-    payload = to_json(graph)
+    frames = None
+    if timeline:
+        from .build import read_fixture_dated, read_git_dated
+        from .timeline import build_timeline
+        dated = read_fixture_dated(fixture) if fixture else read_git_dated(repo)
+        frames = build_timeline(dated, load_registry(claims))
+    payload = to_json(graph, timeline=frames)
     if out:
         out.write_text(payload + "\n", encoding="utf-8")
-        typer.echo(f"wrote {out}  ({len(graph.nodes)} nodes, {len(graph.edges)} edges)")
+        extra = f", {len(frames)} frames" if frames else ""
+        typer.echo(f"wrote {out}  ({len(graph.nodes)} nodes, {len(graph.edges)} edges{extra})")
     else:
         typer.echo(payload)
 

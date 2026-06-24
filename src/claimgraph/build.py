@@ -8,6 +8,7 @@ from __future__ import annotations
 
 import subprocess
 import tomllib
+from dataclasses import dataclass, field
 from pathlib import Path
 
 from ckc_lint.data import breaking_tokens, relation_tokens
@@ -68,61 +69,110 @@ def _is_breaking(commit: Commit) -> bool:
     return commit.bang or any(f.token.lower() in toks for f in commit.footers)
 
 
-def build_graph(commits: list[Commit], registry: dict | None = None) -> ClaimGraph:
-    """Build the graph from commits in chronological (oldest-first) order."""
-    g = ClaimGraph()
+@dataclass
+class CommitEffect:
+    """What applying one commit did to the graph: the node ids it touched, the focal claim, and the
+    kind of event. Used by the timeline replay; :func:`build_graph` ignores the return value."""
 
-    # Seed registry claims so they carry their human statement and kind even before a commit.
+    touched: set[str] = field(default_factory=set)
+    focus: str | None = None
+    event: str | None = None  # asserted | promoted | superseded | refuted | None
+
+
+def _apply_commit(g: ClaimGraph, commit: Commit) -> CommitEffect:
+    """Apply a single commit to ``g`` (status assignment + edges) and report its effect.
+
+    This is the per-commit body of :func:`build_graph`, factored out so the timeline replay can
+    apply commits one at a time and snapshot the graph between them without duplicating the logic.
+    A non-conventional commit (``header_ok`` false) is a no-op, exactly as before.
+    """
+    if not commit.header_ok:
+        return CommitEffect()
+    status = commit.footer("Status")
+    promote_targets = [t for tok in PROMOTE_RELATIONS for t in _values(commit, tok)]
+    break_targets = [t for tok in BREAK_RELATIONS for t in _values(commit, tok)]
+    subjects = _subjects(commit, bool(break_targets))
+    touched: set[str] = set()
+
+    # The subject nodes: record statement/kind/status.
+    for sid in subjects:
+        node = g.node(sid)
+        if node.statement is None and commit.description:
+            node.statement = commit.description
+        if node.kind is None:
+            node.kind = commit.type
+        if status:
+            node.status = status
+        touched.add(sid)
+
+    # A discharged claim inherits the status; a broken claim takes the breaking status.
+    if status:
+        for tid in promote_targets + break_targets:
+            g.node(tid).status = status
+
+    # Edges from every relation footer. Source is the subject; a pure event (e.g. a refute with
+    # no Lean subject) gets a synthetic source node so the event is still visible in the graph.
+    source = subjects[0] if subjects else f"{commit.type}:{commit.scope or '_'}"
+    if not subjects and commit.scope:
+        ev = g.node(source)
+        if ev.statement is None:
+            ev.statement = commit.description
+            ev.kind = commit.type
+    touched.add(source)
+
+    breaking = _is_breaking(commit)
+    for tok in relation_tokens():
+        for target in _values(commit, tok):
+            g.edges.append(Edge(source=source, target=target, relation=tok, breaking=breaking))
+            touched.add(target)
+
+    # Classify the event for the replay highlight (most salient first).
+    if break_targets:
+        event, focus = "refuted", break_targets[0]
+    elif _values(commit, "Supersedes"):
+        event, focus = "superseded", (subjects[0] if subjects else source)
+    elif promote_targets:
+        event, focus = "promoted", (subjects[0] if subjects else promote_targets[0])
+    elif subjects and status:
+        event, focus = "asserted", subjects[0]
+    else:
+        event, focus = None, (subjects[0] if subjects else None)
+    return CommitEffect(touched=touched, focus=focus, event=event)
+
+
+def seed_registry(g: ClaimGraph, registry: dict | None) -> None:
+    """Seed registry claims so they carry their human statement and kind even before a commit."""
     for slug, entry in (registry or {}).items():
         node = g.node(slug)
         node.kind = entry.get("kind")
         node.statement = entry.get("statement")
 
+
+def build_graph(commits: list[Commit], registry: dict | None = None) -> ClaimGraph:
+    """Build the graph from commits in chronological (oldest-first) order."""
+    g = ClaimGraph()
+    seed_registry(g, registry)
     for commit in commits:
-        if not commit.header_ok:
-            continue
-        status = commit.footer("Status")
-        promote_targets = [t for tok in PROMOTE_RELATIONS for t in _values(commit, tok)]
-        break_targets = [t for tok in BREAK_RELATIONS for t in _values(commit, tok)]
-        subjects = _subjects(commit, bool(break_targets))
-
-        # The subject nodes: record statement/kind/status.
-        for sid in subjects:
-            node = g.node(sid)
-            if node.statement is None and commit.description:
-                node.statement = commit.description
-            if node.kind is None:
-                node.kind = commit.type
-            if status:
-                node.status = status
-
-        # A discharged claim inherits the status; a broken claim takes the breaking status.
-        if status:
-            for tid in promote_targets + break_targets:
-                g.node(tid).status = status
-
-        # Edges from every relation footer. Source is the subject; a pure event (e.g. a refute with
-        # no Lean subject) gets a synthetic source node so the event is still visible in the graph.
-        source = subjects[0] if subjects else f"{commit.type}:{commit.scope or '_'}"
-        if not subjects and commit.scope:
-            ev = g.node(source)
-            if ev.statement is None:
-                ev.statement = commit.description
-                ev.kind = commit.type
-
-        breaking = _is_breaking(commit)
-        for tok in relation_tokens():
-            for target in _values(commit, tok):
-                g.edges.append(
-                    Edge(source=source, target=target, relation=tok, breaking=breaking)
-                )
-
+        _apply_commit(g, commit)
     return g
 
 
 # --- commit sources -------------------------------------------------------------------------------
 
 _FIXTURE_SEP = "\n---\n"
+# Unit/record separators for parsing dated git logs: \x1f between fields, \x1e between commits.
+_GIT_FIELD = "\x1f"
+_GIT_REC = "\x1e"
+
+
+@dataclass
+class DatedCommit:
+    """A parsed commit plus the git metadata the timeline replay needs as an axis. ``hash`` and
+    ``date`` are ``None`` for fixtures (which carry no git metadata; the axis is commit ordinal)."""
+
+    commit: Commit
+    hash: str | None = None
+    date: str | None = None  # ISO-8601 author date (%aI), if read from a real repo
 
 
 def read_fixture(path: str | Path) -> list[Commit]:
@@ -141,6 +191,30 @@ def read_git(repo: str | Path = ".") -> list[Commit]:
         check=True,
     ).stdout
     return [parse(c.strip()) for c in out.split("\x1e") if c.strip()]
+
+
+def read_fixture_dated(path: str | Path) -> list[DatedCommit]:
+    """Like :func:`read_fixture`, wrapped as :class:`DatedCommit` (no hash/date for fixtures)."""
+    return [DatedCommit(commit=c) for c in read_fixture(path)]
+
+
+def read_git_dated(repo: str | Path = ".") -> list[DatedCommit]:
+    """Read commits oldest-first with their hash (%H) and author date (%aI) for the timeline axis."""
+    fmt = f"%H{_GIT_FIELD}%aI{_GIT_FIELD}%B{_GIT_REC}"
+    out = subprocess.run(
+        ["git", "-C", str(repo), "log", "--reverse", f"--format={fmt}"],
+        capture_output=True,
+        text=True,
+        check=True,
+    ).stdout
+    dated: list[DatedCommit] = []
+    for rec in out.split(_GIT_REC):
+        rec = rec.strip("\n")
+        if not rec.strip():
+            continue
+        sha, date, message = (rec.split(_GIT_FIELD, 2) + ["", ""])[:3]
+        dated.append(DatedCommit(commit=parse(message.strip()), hash=sha.strip(), date=date.strip()))
+    return dated
 
 
 def load_registry(path: str | Path | None) -> dict:

@@ -11,7 +11,12 @@
       "type": "object",
       "properties": {
         "generator": { "type": "string" },
-        "spec_version": { "type": "string" }
+        "spec_version": { "type": "string" },
+        "timeline": {
+          "type": "array",
+          "description": "Optional per-commit replay frames (the time dimension): the graph state after each knowledge commit, oldest first. Present only when built with `claimgraph build --timeline`. The nodes/edges above remain the final state.",
+          "items": { "$ref": "#/$defs/frame" }
+        }
       },
       "additionalProperties": true
     },
@@ -91,6 +96,41 @@
           "type": ["string", "null"],
           "description": "An example node in the \\uses closure that has no Lean formalization, when blueprint_complete is false."
         }
+      },
+      "additionalProperties": true
+    },
+    "frame": {
+      "type": "object",
+      "description": "One replay frame: the graph state immediately after a commit.",
+      "required": ["i", "subject", "present", "edges", "state"],
+      "properties": {
+        "i": { "type": "integer", "description": "Frame ordinal (0-based), in commit order." },
+        "hash": { "type": ["string", "null"], "description": "Commit hash (%H) for git histories; null for fixtures." },
+        "date": { "type": ["string", "null"], "description": "ISO-8601 author date (%aI); null for fixtures (axis is commit ordinal)." },
+        "subject": { "type": "string", "description": "The commit subject line." },
+        "type": { "type": ["string", "null"], "description": "The CKC commit type." },
+        "event": {
+          "type": ["string", "null"],
+          "enum": ["asserted", "promoted", "superseded", "refuted", null],
+          "description": "The salient event this commit performed, for the replay highlight."
+        },
+        "focus": { "type": ["string", "null"], "description": "The focal claim id (the refuted / promoted / asserted node)." },
+        "present": { "type": "array", "items": { "type": "string" }, "description": "Node ids that exist as of this commit." },
+        "edges": { "type": "array", "items": { "type": "string" }, "description": "Edge ids ('source|relation|target') present as of this commit." },
+        "state": {
+          "type": "object",
+          "description": "Per-present-node snapshot keyed by node id.",
+          "additionalProperties": { "$ref": "#/$defs/framestate" }
+        }
+      },
+      "additionalProperties": true
+    },
+    "framestate": {
+      "type": "object",
+      "properties": {
+        "status": { "type": ["string", "null"] },
+        "effective_status": { "type": ["string", "null"] },
+        "in_question": { "type": "boolean" }
       },
       "additionalProperties": true
     },

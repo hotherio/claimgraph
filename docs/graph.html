@@ -49,6 +49,13 @@
   formalization. Node colour is the <b>effective status</b>, the weakest status in a claim's
   <code>Depends-On</code>/<code>Assumes</code> closure. Click a claim to trace what it rests on;
   click a broken claim to highlight the <b>claims it affects</b>.</p>
+  <div id="transport" class="transport" hidden role="group" aria-label="Replay the history">
+    <button id="tl-play" class="tl-btn" type="button" aria-pressed="false">&#9654; Play</button>
+    <button id="tl-prev" class="tl-btn" type="button" aria-label="Step back">&#8249;</button>
+    <input id="tl-range" class="tl-range" type="range" min="0" max="0" value="0" step="1" aria-label="Commit timeline">
+    <button id="tl-next" class="tl-btn" type="button" aria-label="Step forward">&#8250;</button>
+    <span id="tl-label" class="tl-label"></span>
+  </div>
 </div></header>
 
 <main class="board">
