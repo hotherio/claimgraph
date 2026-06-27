@@ -294,5 +294,88 @@ def audit(
     raise typer.Exit(code=1)
 
 
+LeanDepsFileOpt = typer.Option(
+    None, "--lean-deps", help="A saved dep-report to ground against (instead of a live project)."
+)
+
+
+@app.command()
+def depcheck(
+    tex: str = typer.Argument(..., help="Blueprint content.tex (or blueprintJson)."),
+    repo: str = typer.Argument(".", help="Git repo with the CKC commit history."),
+    out: Optional[Path] = typer.Option(None, "--out", "-o", help="Write the grounded claimgraph.json here."),
+    fixture: Optional[str] = FixtureOpt,
+    claims: Optional[str] = ClaimsOpt,
+    project: Optional[str] = ProjectOpt,
+    lean_deps: Optional[str] = LeanDepsFileOpt,
+    populate: bool = typer.Option(False, "--populate", help="Print the real edges as Depends-On suggestions."),
+    strict: bool = typer.Option(False, "--strict", help="Exit nonzero if an asserted edge has no real Lean path."),
+) -> None:
+    """Ground ``Depends-On`` edges against Lean's real dependency graph; report drift.
+
+    Reads the blueprint (for the claim/Lean-name mapping) and the commit history (for the asserted
+    ``Depends-On`` / ``Assumes`` edges), extracts the real dependency graph from a built ``--project``
+    (or a saved ``--lean-deps`` report), and reports edges that are *confirmed*, *missing* (a real
+    Lean dependency never recorded), or *spurious* (an asserted edge with no real Lean path).
+    """
+    from .build import build_graph, read_fixture
+    from .leandeps import (
+        asserted_edges,
+        collapse_to_nodes,
+        compare_edges,
+        extract_lean_deps,
+        lean_to_node_map,
+        parse_dep_report,
+    )
+
+    bp_nodes = bp.read_blueprint(tex)
+    bp_graph = bp.blueprint_graph(bp_nodes, None)
+    commits = read_fixture(fixture) if fixture else read_git(repo)
+    graph = reconcile(bp_graph, build_graph(commits, load_registry(claims)))
+
+    lean_to_node = lean_to_node_map(graph)
+    if lean_deps:
+        raw = parse_dep_report(Path(lean_deps).read_text(encoding="utf-8"))
+    else:
+        raw = extract_lean_deps(project or ".", list(lean_to_node))
+    if raw is None:
+        typer.secho("could not extract Lean deps (no built project / no lake / build error).",
+                    fg=typer.colors.RED, err=True)
+        raise typer.Exit(code=2)
+
+    real = collapse_to_nodes(raw, lean_to_node)
+    grounded = {node for fqn, node in lean_to_node.items() if fqn in raw}
+    result = compare_edges(real, asserted_edges(graph), grounded)
+
+    typer.secho(f"confirmed  ({len(result.confirmed)})", bold=True, fg=typer.colors.GREEN)
+    for s, t in sorted(result.confirmed):
+        typer.echo(f"    {s} -> {t}")
+    typer.secho(f"missing  ({len(result.missing)})", bold=True, fg=typer.colors.YELLOW)
+    for s, t in sorted(result.missing):
+        typer.echo(f"    {s} -> {t}  (real Lean dependency, not recorded)")
+    typer.secho(f"spurious  ({len(result.spurious)})", bold=True,
+                fg=typer.colors.RED if result.spurious else None)
+    for s, t in sorted(result.spurious):
+        typer.echo(f"    {s} -> {t}  (asserted Depends-On, no Lean path)")
+
+    if populate:
+        typer.secho("\n# grounded Depends-On (paste into the commit that introduces the source):",
+                    bold=True)
+        for s, t in sorted(real):
+            typer.echo(f"Depends-On: {t}    # in the commit for {s}")
+    if out:
+        from .model import Edge
+        have = {(e.source, e.target, e.relation) for e in graph.edges}
+        for s, t in sorted(real):
+            if (s, t, "Depends-On") not in have:
+                graph.edges.append(Edge(source=s, target=t, relation="Depends-On"))
+        compute_agreement(graph, with_commits=True)
+        out.write_text(to_json(graph, sources=["blueprint", "commits"]) + "\n", encoding="utf-8")
+        typer.echo(f"wrote {out}  ({len(graph.nodes)} nodes, {len(graph.edges)} edges)")
+
+    if strict and result.spurious:
+        raise typer.Exit(code=1)
+
+
 if __name__ == "__main__":
     app()
