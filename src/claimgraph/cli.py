@@ -63,6 +63,51 @@ def build(
         typer.echo(payload)
 
 
+@app.command(name="lean-graph")
+def lean_graph_cmd(
+    project: str = typer.Argument(".", help="Path to a BUILT Lean project (lake build must have succeeded)."),
+    out: Optional[Path] = typer.Option(None, "--out", "-o", help="Write claimgraph.json here."),
+    namespace: Optional[list[str]] = typer.Option(
+        None, "--namespace", "-n",
+        help="Project namespace prefix(es); default: the top-level *.lean module stems.",
+    ),
+    lean_deps: Optional[str] = typer.Option(
+        None, "--lean-deps", help="Use a saved dep-report instead of probing the live project (offline).",
+    ),
+    axioms: Optional[str] = typer.Option(
+        None, "--axioms", help="Use a saved axiom-report output instead of running it live (offline).",
+    ),
+    axiom_report: Optional[str] = typer.Option(
+        None, "--axiom-report", help="Path to the axiom-report binary (live mode).",
+    ),
+) -> None:
+    """Build a kernel-grounded ClaimGraph from a built Lean repo (no blueprint, no CKC history).
+
+    One node per declaration, Depends-On from the real Lean dependency graph, a kernel reading per node
+    from #print axioms. The blueprint-less engine for grounding an arbitrary repo (e.g. a SorryDB repo):
+    it surfaces a declaration that is sorryAx while carrying no literal sorry in its own source.
+    """
+    from .leangraph import build_lean_graph, lean_graph_from_project
+    if lean_deps or axioms:
+        from .blueprint import parse_axiom_report
+        from .leandeps import parse_dep_report
+        deps = parse_dep_report(Path(lean_deps).read_text()) if lean_deps else {}
+        kern = parse_axiom_report(Path(axioms).read_text()) if axioms else None
+        graph = build_lean_graph(deps, kern)
+    else:
+        graph = lean_graph_from_project(project, namespaces=namespace, axiom_report=axiom_report)
+        if graph is None:
+            typer.secho("lean-graph: could not probe the project (built? lake on PATH? --namespace?).",
+                        fg=typer.colors.RED, err=True)
+            raise typer.Exit(code=2)
+    payload = to_json(graph, sources=["lean", "kernel"])
+    if out:
+        out.write_text(payload + "\n", encoding="utf-8")
+        typer.echo(f"wrote {out}  ({len(graph.nodes)} nodes, {len(graph.edges)} edges)")
+    else:
+        typer.echo(payload)
+
+
 @app.command()
 def export(
     repo: str = RepoArg,
