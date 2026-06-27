@@ -29,7 +29,8 @@ from .model import DEPENDENCY_RELATIONS
 # The extractor metaprogram. ``{imports}`` and ``{prefixes}`` are filled in per project. It prints,
 # for every project declaration, the project declarations its type or value directly references:
 #   IGL.fubini_factorization :: IGL.iglParticular IGL.separableSource IGL.separableKernel
-# "project declaration" = a constant whose name lies under one of the blueprint's Lean namespaces.
+# "project declaration" = a constant whose defining module lies under a project namespace (so a
+# root-namespace decl defined in a project module, e.g. PFR's `weak_PFR`, still counts).
 _LEAN_TEMPLATE = """\
 {imports}
 open Lean Elab Command
@@ -37,7 +38,14 @@ open Lean Elab Command
 run_cmd do
   let env ← getEnv
   let prefixes : List Name := [{prefixes}]
-  let isProj (n : Name) : Bool := prefixes.any (fun p => p.isPrefixOf n)
+  let mods := env.header.moduleNames
+  -- A "project" declaration is one whose defining MODULE lies under a project namespace, not one
+  -- whose own name does: a root-namespace decl like PFR's `weak_PFR` (defined in module
+  -- `PFR.WeakPFR`) is a project decl even though its name has no `PFR.` prefix.
+  let isProj (n : Name) : Bool :=
+    match env.getModuleIdxFor? n with
+    | some idx => prefixes.any (fun p => p.isPrefixOf mods[idx.toNat]!)
+    | none => false
   let mut count := 0
   for (n, ci) in env.constants.toList do
     if isProj n && !n.isInternalDetail then
