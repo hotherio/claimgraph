@@ -2,7 +2,452 @@
   "$schema": "https://raw.githubusercontent.com/hotherio/claimgraph/main/schema/claimgraph.schema.json",
   "meta": {
     "generator": "claimgraph",
-    "spec_version": "0.1.0"
+    "spec_version": "0.1.0",
+    "timeline": [
+      {
+        "i": 0,
+        "hash": null,
+        "date": null,
+        "subject": "conjecture(fta): every non-constant complex polynomial has a root",
+        "type": "conjecture",
+        "event": "asserted",
+        "focus": "fta",
+        "present": [
+          "fta"
+        ],
+        "edges": [],
+        "state": {
+          "fta": {
+            "status": "math.conjectured",
+            "effective_status": "math.conjectured",
+            "in_question": false
+          }
+        }
+      },
+      {
+        "i": 1,
+        "hash": null,
+        "date": null,
+        "subject": "proof(dalembert): an analytic argument via local power series",
+        "type": "proof",
+        "event": "promoted",
+        "focus": "dalembert",
+        "present": [
+          "dalembert",
+          "fta"
+        ],
+        "edges": [
+          "dalembert|Closes|fta"
+        ],
+        "state": {
+          "dalembert": {
+            "status": "math.proved-informal",
+            "effective_status": "math.proved-informal",
+            "in_question": false
+          },
+          "fta": {
+            "status": "math.proved-informal",
+            "effective_status": "math.proved-informal",
+            "in_question": false
+          }
+        }
+      },
+      {
+        "i": 2,
+        "hash": null,
+        "date": null,
+        "subject": "refute(dalembert)!: the argument rests on unproven analytic facts",
+        "type": "refute",
+        "event": "refuted",
+        "focus": "dalembert",
+        "present": [
+          "dalembert",
+          "fta",
+          "refute:dalembert"
+        ],
+        "edges": [
+          "dalembert|Closes|fta",
+          "refute:dalembert|Disproves|dalembert"
+        ],
+        "state": {
+          "refute:dalembert": {
+            "status": null,
+            "effective_status": null,
+            "in_question": false
+          },
+          "dalembert": {
+            "status": "math.disproved",
+            "effective_status": "math.disproved",
+            "in_question": false
+          },
+          "fta": {
+            "status": "math.proved-informal",
+            "effective_status": "math.proved-informal",
+            "in_question": false
+          }
+        }
+      },
+      {
+        "i": 3,
+        "hash": null,
+        "date": null,
+        "subject": "proof(gauss-1799): a geometric proof from Gauss's dissertation",
+        "type": "proof",
+        "event": "promoted",
+        "focus": "gauss-1799",
+        "present": [
+          "dalembert",
+          "fta",
+          "gauss-1799",
+          "refute:dalembert"
+        ],
+        "edges": [
+          "dalembert|Closes|fta",
+          "refute:dalembert|Disproves|dalembert",
+          "gauss-1799|Closes|fta"
+        ],
+        "state": {
+          "refute:dalembert": {
+            "status": null,
+            "effective_status": null,
+            "in_question": false
+          },
+          "gauss-1799": {
+            "status": "math.proved-informal",
+            "effective_status": "math.proved-informal",
+            "in_question": false
+          },
+          "dalembert": {
+            "status": "math.disproved",
+            "effective_status": "math.disproved",
+            "in_question": false
+          },
+          "fta": {
+            "status": "math.proved-informal",
+            "effective_status": "math.proved-informal",
+            "in_question": false
+          }
+        }
+      },
+      {
+        "i": 4,
+        "hash": null,
+        "date": null,
+        "subject": "refute(gauss-1799)!: the curves are assumed to meet without proof",
+        "type": "refute",
+        "event": "refuted",
+        "focus": "gauss-1799",
+        "present": [
+          "dalembert",
+          "fta",
+          "gauss-1799",
+          "refute:dalembert",
+          "refute:gauss-1799"
+        ],
+        "edges": [
+          "dalembert|Closes|fta",
+          "refute:dalembert|Disproves|dalembert",
+          "gauss-1799|Closes|fta",
+          "refute:gauss-1799|Disproves|gauss-1799"
+        ],
+        "state": {
+          "refute:dalembert": {
+            "status": null,
+            "effective_status": null,
+            "in_question": false
+          },
+          "gauss-1799": {
+            "status": "math.disproved",
+            "effective_status": "math.disproved",
+            "in_question": false
+          },
+          "refute:gauss-1799": {
+            "status": null,
+            "effective_status": null,
+            "in_question": false
+          },
+          "dalembert": {
+            "status": "math.disproved",
+            "effective_status": "math.disproved",
+            "in_question": false
+          },
+          "fta": {
+            "status": "math.proved-informal",
+            "effective_status": "math.proved-informal",
+            "in_question": false
+          }
+        }
+      },
+      {
+        "i": 5,
+        "hash": null,
+        "date": null,
+        "subject": "proof(argand): the minimum-modulus proof",
+        "type": "proof",
+        "event": "promoted",
+        "focus": "argand",
+        "present": [
+          "argand",
+          "dalembert",
+          "fta",
+          "gauss-1799",
+          "refute:dalembert",
+          "refute:gauss-1799"
+        ],
+        "edges": [
+          "dalembert|Closes|fta",
+          "refute:dalembert|Disproves|dalembert",
+          "gauss-1799|Closes|fta",
+          "refute:gauss-1799|Disproves|gauss-1799",
+          "argand|Closes|fta"
+        ],
+        "state": {
+          "argand": {
+            "status": "math.proved-informal",
+            "effective_status": "math.proved-informal",
+            "in_question": false
+          },
+          "refute:dalembert": {
+            "status": null,
+            "effective_status": null,
+            "in_question": false
+          },
+          "gauss-1799": {
+            "status": "math.disproved",
+            "effective_status": "math.disproved",
+            "in_question": false
+          },
+          "refute:gauss-1799": {
+            "status": null,
+            "effective_status": null,
+            "in_question": false
+          },
+          "dalembert": {
+            "status": "math.disproved",
+            "effective_status": "math.disproved",
+            "in_question": false
+          },
+          "fta": {
+            "status": "math.proved-informal",
+            "effective_status": "math.proved-informal",
+            "in_question": false
+          }
+        }
+      },
+      {
+        "i": 6,
+        "hash": null,
+        "date": null,
+        "subject": "proof(gauss-rigorous): Gauss's later, complete proofs",
+        "type": "proof",
+        "event": "superseded",
+        "focus": "gauss-rigorous",
+        "present": [
+          "argand",
+          "dalembert",
+          "fta",
+          "gauss-1799",
+          "gauss-rigorous",
+          "refute:dalembert",
+          "refute:gauss-1799"
+        ],
+        "edges": [
+          "dalembert|Closes|fta",
+          "refute:dalembert|Disproves|dalembert",
+          "gauss-1799|Closes|fta",
+          "refute:gauss-1799|Disproves|gauss-1799",
+          "argand|Closes|fta",
+          "gauss-rigorous|Supersedes|gauss-1799",
+          "gauss-rigorous|Closes|fta"
+        ],
+        "state": {
+          "gauss-1799": {
+            "status": "math.disproved",
+            "effective_status": "math.disproved",
+            "in_question": false
+          },
+          "gauss-rigorous": {
+            "status": "math.proved-informal",
+            "effective_status": "math.proved-informal",
+            "in_question": false
+          },
+          "fta": {
+            "status": "math.proved-informal",
+            "effective_status": "math.proved-informal",
+            "in_question": false
+          },
+          "argand": {
+            "status": "math.proved-informal",
+            "effective_status": "math.proved-informal",
+            "in_question": false
+          },
+          "refute:dalembert": {
+            "status": null,
+            "effective_status": null,
+            "in_question": false
+          },
+          "refute:gauss-1799": {
+            "status": null,
+            "effective_status": null,
+            "in_question": false
+          },
+          "dalembert": {
+            "status": "math.disproved",
+            "effective_status": "math.disproved",
+            "in_question": false
+          }
+        }
+      },
+      {
+        "i": 7,
+        "hash": null,
+        "date": null,
+        "subject": "proof(galois-algebraic): an algebraic proof using real-closed fields",
+        "type": "proof",
+        "event": "promoted",
+        "focus": "galois-algebraic",
+        "present": [
+          "argand",
+          "dalembert",
+          "fta",
+          "galois-algebraic",
+          "gauss-1799",
+          "gauss-rigorous",
+          "refute:dalembert",
+          "refute:gauss-1799"
+        ],
+        "edges": [
+          "dalembert|Closes|fta",
+          "refute:dalembert|Disproves|dalembert",
+          "gauss-1799|Closes|fta",
+          "refute:gauss-1799|Disproves|gauss-1799",
+          "argand|Closes|fta",
+          "gauss-rigorous|Supersedes|gauss-1799",
+          "gauss-rigorous|Closes|fta",
+          "galois-algebraic|Closes|fta"
+        ],
+        "state": {
+          "gauss-1799": {
+            "status": "math.disproved",
+            "effective_status": "math.disproved",
+            "in_question": false
+          },
+          "gauss-rigorous": {
+            "status": "math.proved-informal",
+            "effective_status": "math.proved-informal",
+            "in_question": false
+          },
+          "fta": {
+            "status": "math.proved-informal",
+            "effective_status": "math.proved-informal",
+            "in_question": false
+          },
+          "argand": {
+            "status": "math.proved-informal",
+            "effective_status": "math.proved-informal",
+            "in_question": false
+          },
+          "refute:dalembert": {
+            "status": null,
+            "effective_status": null,
+            "in_question": false
+          },
+          "refute:gauss-1799": {
+            "status": null,
+            "effective_status": null,
+            "in_question": false
+          },
+          "galois-algebraic": {
+            "status": "math.proved-informal",
+            "effective_status": "math.proved-informal",
+            "in_question": false
+          },
+          "dalembert": {
+            "status": "math.disproved",
+            "effective_status": "math.disproved",
+            "in_question": false
+          }
+        }
+      },
+      {
+        "i": 8,
+        "hash": null,
+        "date": null,
+        "subject": "formalize(fta): a kernel-checked proof in Coq",
+        "type": "formalize",
+        "event": "promoted",
+        "focus": "FTA.fundamental_theorem_of_algebra",
+        "present": [
+          "FTA.fundamental_theorem_of_algebra",
+          "argand",
+          "dalembert",
+          "fta",
+          "galois-algebraic",
+          "gauss-1799",
+          "gauss-rigorous",
+          "refute:dalembert",
+          "refute:gauss-1799"
+        ],
+        "edges": [
+          "dalembert|Closes|fta",
+          "refute:dalembert|Disproves|dalembert",
+          "gauss-1799|Closes|fta",
+          "refute:gauss-1799|Disproves|gauss-1799",
+          "argand|Closes|fta",
+          "gauss-rigorous|Supersedes|gauss-1799",
+          "gauss-rigorous|Closes|fta",
+          "galois-algebraic|Closes|fta",
+          "FTA.fundamental_theorem_of_algebra|Closes|fta"
+        ],
+        "state": {
+          "gauss-1799": {
+            "status": "math.disproved",
+            "effective_status": "math.disproved",
+            "in_question": false
+          },
+          "gauss-rigorous": {
+            "status": "math.proved-informal",
+            "effective_status": "math.proved-informal",
+            "in_question": false
+          },
+          "fta": {
+            "status": "math.machine-checked",
+            "effective_status": "math.machine-checked",
+            "in_question": false
+          },
+          "argand": {
+            "status": "math.proved-informal",
+            "effective_status": "math.proved-informal",
+            "in_question": false
+          },
+          "refute:dalembert": {
+            "status": null,
+            "effective_status": null,
+            "in_question": false
+          },
+          "refute:gauss-1799": {
+            "status": null,
+            "effective_status": null,
+            "in_question": false
+          },
+          "galois-algebraic": {
+            "status": "math.proved-informal",
+            "effective_status": "math.proved-informal",
+            "in_question": false
+          },
+          "dalembert": {
+            "status": "math.disproved",
+            "effective_status": "math.disproved",
+            "in_question": false
+          },
+          "FTA.fundamental_theorem_of_algebra": {
+            "status": "math.machine-checked",
+            "effective_status": "math.machine-checked",
+            "in_question": false
+          }
+        }
+      }
+    ]
   },
   "nodes": [
     {
@@ -120,14 +565,14 @@
     },
     {
       "source": "gauss-rigorous",
-      "target": "fta",
-      "relation": "Closes",
+      "target": "gauss-1799",
+      "relation": "Supersedes",
       "breaking": false
     },
     {
       "source": "gauss-rigorous",
-      "target": "gauss-1799",
-      "relation": "Supersedes",
+      "target": "fta",
+      "relation": "Closes",
       "breaking": false
     },
     {

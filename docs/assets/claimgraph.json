@@ -2,7 +2,949 @@
   "$schema": "https://raw.githubusercontent.com/hotherio/claimgraph/main/schema/claimgraph.schema.json",
   "meta": {
     "generator": "claimgraph",
-    "spec_version": "0.1.0"
+    "spec_version": "0.1.0",
+    "timeline": [
+      {
+        "i": 0,
+        "hash": null,
+        "date": null,
+        "subject": "conjecture(four-color): four colours suffice to colour any planar map",
+        "type": "conjecture",
+        "event": "asserted",
+        "focus": "four-color",
+        "present": [
+          "four-color"
+        ],
+        "edges": [],
+        "state": {
+          "four-color": {
+            "status": "math.conjectured",
+            "effective_status": "math.conjectured",
+            "in_question": false
+          }
+        }
+      },
+      {
+        "i": 1,
+        "hash": null,
+        "date": null,
+        "subject": "proof(kempe-chains): the two-colour Kempe-chain interchange",
+        "type": "proof",
+        "event": "asserted",
+        "focus": "kempe-chains",
+        "present": [
+          "four-color",
+          "kempe-chains"
+        ],
+        "edges": [],
+        "state": {
+          "four-color": {
+            "status": "math.conjectured",
+            "effective_status": "math.conjectured",
+            "in_question": false
+          },
+          "kempe-chains": {
+            "status": "math.proved-informal",
+            "effective_status": "math.proved-informal",
+            "in_question": false
+          }
+        }
+      },
+      {
+        "i": 2,
+        "hash": null,
+        "date": null,
+        "subject": "proof(kempe): a Kempe-chain argument four-colours every planar map",
+        "type": "proof",
+        "event": "promoted",
+        "focus": "kempe",
+        "present": [
+          "four-color",
+          "kempe",
+          "kempe-chains"
+        ],
+        "edges": [
+          "kempe|Depends-On|kempe-chains",
+          "kempe|Closes|four-color"
+        ],
+        "state": {
+          "kempe": {
+            "status": "math.proved-informal",
+            "effective_status": "math.proved-informal",
+            "in_question": false
+          },
+          "four-color": {
+            "status": "math.proved-informal",
+            "effective_status": "math.proved-informal",
+            "in_question": false
+          },
+          "kempe-chains": {
+            "status": "math.proved-informal",
+            "effective_status": "math.proved-informal",
+            "in_question": false
+          }
+        }
+      },
+      {
+        "i": 3,
+        "hash": null,
+        "date": null,
+        "subject": "proof(tait): reduce four-colouring to edge-three-colouring of cubic maps",
+        "type": "proof",
+        "event": "promoted",
+        "focus": "tait",
+        "present": [
+          "four-color",
+          "kempe",
+          "kempe-chains",
+          "tait"
+        ],
+        "edges": [
+          "kempe|Depends-On|kempe-chains",
+          "kempe|Closes|four-color",
+          "tait|Closes|four-color"
+        ],
+        "state": {
+          "kempe": {
+            "status": "math.proved-informal",
+            "effective_status": "math.proved-informal",
+            "in_question": false
+          },
+          "tait": {
+            "status": "math.proved-informal",
+            "effective_status": "math.proved-informal",
+            "in_question": false
+          },
+          "four-color": {
+            "status": "math.proved-informal",
+            "effective_status": "math.proved-informal",
+            "in_question": false
+          },
+          "kempe-chains": {
+            "status": "math.proved-informal",
+            "effective_status": "math.proved-informal",
+            "in_question": false
+          }
+        }
+      },
+      {
+        "i": 4,
+        "hash": null,
+        "date": null,
+        "subject": "refute(kempe)!: two Kempe chains can cross, and the interchange fails",
+        "type": "refute",
+        "event": "refuted",
+        "focus": "kempe",
+        "present": [
+          "four-color",
+          "kempe",
+          "kempe-chains",
+          "refute:kempe",
+          "tait"
+        ],
+        "edges": [
+          "kempe|Depends-On|kempe-chains",
+          "kempe|Closes|four-color",
+          "tait|Closes|four-color",
+          "refute:kempe|Disproves|kempe"
+        ],
+        "state": {
+          "kempe": {
+            "status": "math.disproved",
+            "effective_status": "math.disproved",
+            "in_question": false
+          },
+          "tait": {
+            "status": "math.proved-informal",
+            "effective_status": "math.proved-informal",
+            "in_question": false
+          },
+          "four-color": {
+            "status": "math.proved-informal",
+            "effective_status": "math.proved-informal",
+            "in_question": false
+          },
+          "refute:kempe": {
+            "status": null,
+            "effective_status": null,
+            "in_question": false
+          },
+          "kempe-chains": {
+            "status": "math.proved-informal",
+            "effective_status": "math.proved-informal",
+            "in_question": false
+          }
+        }
+      },
+      {
+        "i": 5,
+        "hash": null,
+        "date": null,
+        "subject": "proof(five-color): the Kempe-chain method does prove five colours suffice",
+        "type": "proof",
+        "event": "asserted",
+        "focus": "five-color",
+        "present": [
+          "five-color",
+          "four-color",
+          "kempe",
+          "kempe-chains",
+          "refute:kempe",
+          "tait"
+        ],
+        "edges": [
+          "kempe|Depends-On|kempe-chains",
+          "kempe|Closes|four-color",
+          "tait|Closes|four-color",
+          "refute:kempe|Disproves|kempe",
+          "five-color|Depends-On|kempe-chains"
+        ],
+        "state": {
+          "five-color": {
+            "status": "math.proved-informal",
+            "effective_status": "math.proved-informal",
+            "in_question": false
+          },
+          "kempe": {
+            "status": "math.disproved",
+            "effective_status": "math.disproved",
+            "in_question": false
+          },
+          "tait": {
+            "status": "math.proved-informal",
+            "effective_status": "math.proved-informal",
+            "in_question": false
+          },
+          "four-color": {
+            "status": "math.proved-informal",
+            "effective_status": "math.proved-informal",
+            "in_question": false
+          },
+          "refute:kempe": {
+            "status": null,
+            "effective_status": null,
+            "in_question": false
+          },
+          "kempe-chains": {
+            "status": "math.proved-informal",
+            "effective_status": "math.proved-informal",
+            "in_question": false
+          }
+        }
+      },
+      {
+        "i": 6,
+        "hash": null,
+        "date": null,
+        "subject": "refute(tait)!: the Petersen graph has no edge-three-colouring",
+        "type": "refute",
+        "event": "refuted",
+        "focus": "tait",
+        "present": [
+          "five-color",
+          "four-color",
+          "kempe",
+          "kempe-chains",
+          "refute:kempe",
+          "refute:tait",
+          "tait"
+        ],
+        "edges": [
+          "kempe|Depends-On|kempe-chains",
+          "kempe|Closes|four-color",
+          "tait|Closes|four-color",
+          "refute:kempe|Disproves|kempe",
+          "five-color|Depends-On|kempe-chains",
+          "refute:tait|Disproves|tait"
+        ],
+        "state": {
+          "refute:tait": {
+            "status": null,
+            "effective_status": null,
+            "in_question": false
+          },
+          "five-color": {
+            "status": "math.proved-informal",
+            "effective_status": "math.proved-informal",
+            "in_question": false
+          },
+          "kempe": {
+            "status": "math.disproved",
+            "effective_status": "math.disproved",
+            "in_question": false
+          },
+          "tait": {
+            "status": "math.disproved",
+            "effective_status": "math.disproved",
+            "in_question": false
+          },
+          "four-color": {
+            "status": "math.proved-informal",
+            "effective_status": "math.proved-informal",
+            "in_question": false
+          },
+          "refute:kempe": {
+            "status": null,
+            "effective_status": null,
+            "in_question": false
+          },
+          "kempe-chains": {
+            "status": "math.proved-informal",
+            "effective_status": "math.proved-informal",
+            "in_question": false
+          }
+        }
+      },
+      {
+        "i": 7,
+        "hash": null,
+        "date": null,
+        "subject": "axiomatize~(unavoidability): an unavoidable set of configurations exists",
+        "type": "axiomatize",
+        "event": "asserted",
+        "focus": "unavoidability",
+        "present": [
+          "five-color",
+          "four-color",
+          "kempe",
+          "kempe-chains",
+          "refute:kempe",
+          "refute:tait",
+          "tait",
+          "unavoidability"
+        ],
+        "edges": [
+          "kempe|Depends-On|kempe-chains",
+          "kempe|Closes|four-color",
+          "tait|Closes|four-color",
+          "refute:kempe|Disproves|kempe",
+          "five-color|Depends-On|kempe-chains",
+          "refute:tait|Disproves|tait"
+        ],
+        "state": {
+          "refute:tait": {
+            "status": null,
+            "effective_status": null,
+            "in_question": false
+          },
+          "five-color": {
+            "status": "math.proved-informal",
+            "effective_status": "math.proved-informal",
+            "in_question": false
+          },
+          "kempe": {
+            "status": "math.disproved",
+            "effective_status": "math.disproved",
+            "in_question": false
+          },
+          "tait": {
+            "status": "math.disproved",
+            "effective_status": "math.disproved",
+            "in_question": false
+          },
+          "four-color": {
+            "status": "math.proved-informal",
+            "effective_status": "math.proved-informal",
+            "in_question": false
+          },
+          "refute:kempe": {
+            "status": null,
+            "effective_status": null,
+            "in_question": false
+          },
+          "unavoidability": {
+            "status": "math.axiomatised",
+            "effective_status": "math.axiomatised",
+            "in_question": false
+          },
+          "kempe-chains": {
+            "status": "math.proved-informal",
+            "effective_status": "math.proved-informal",
+            "in_question": false
+          }
+        }
+      },
+      {
+        "i": 8,
+        "hash": null,
+        "date": null,
+        "subject": "axiomatize~(reducibility): each configuration in the set is reducible",
+        "type": "axiomatize",
+        "event": "asserted",
+        "focus": "reducibility",
+        "present": [
+          "five-color",
+          "four-color",
+          "kempe",
+          "kempe-chains",
+          "reducibility",
+          "refute:kempe",
+          "refute:tait",
+          "tait",
+          "unavoidability"
+        ],
+        "edges": [
+          "kempe|Depends-On|kempe-chains",
+          "kempe|Closes|four-color",
+          "tait|Closes|four-color",
+          "refute:kempe|Disproves|kempe",
+          "five-color|Depends-On|kempe-chains",
+          "refute:tait|Disproves|tait"
+        ],
+        "state": {
+          "five-color": {
+            "status": "math.proved-informal",
+            "effective_status": "math.proved-informal",
+            "in_question": false
+          },
+          "kempe": {
+            "status": "math.disproved",
+            "effective_status": "math.disproved",
+            "in_question": false
+          },
+          "tait": {
+            "status": "math.disproved",
+            "effective_status": "math.disproved",
+            "in_question": false
+          },
+          "four-color": {
+            "status": "math.proved-informal",
+            "effective_status": "math.proved-informal",
+            "in_question": false
+          },
+          "refute:kempe": {
+            "status": null,
+            "effective_status": null,
+            "in_question": false
+          },
+          "unavoidability": {
+            "status": "math.axiomatised",
+            "effective_status": "math.axiomatised",
+            "in_question": false
+          },
+          "reducibility": {
+            "status": "math.axiomatised",
+            "effective_status": "math.axiomatised",
+            "in_question": false
+          },
+          "kempe-chains": {
+            "status": "math.proved-informal",
+            "effective_status": "math.proved-informal",
+            "in_question": false
+          },
+          "refute:tait": {
+            "status": null,
+            "effective_status": null,
+            "in_question": false
+          }
+        }
+      },
+      {
+        "i": 9,
+        "hash": null,
+        "date": null,
+        "subject": "proof(appel-haken): the Four Colour Theorem, modulo the computer checks",
+        "type": "proof",
+        "event": "promoted",
+        "focus": "appel-haken",
+        "present": [
+          "appel-haken",
+          "five-color",
+          "four-color",
+          "kempe",
+          "kempe-chains",
+          "reducibility",
+          "refute:kempe",
+          "refute:tait",
+          "tait",
+          "unavoidability"
+        ],
+        "edges": [
+          "kempe|Depends-On|kempe-chains",
+          "kempe|Closes|four-color",
+          "tait|Closes|four-color",
+          "refute:kempe|Disproves|kempe",
+          "five-color|Depends-On|kempe-chains",
+          "refute:tait|Disproves|tait",
+          "appel-haken|Assumes|unavoidability",
+          "appel-haken|Assumes|reducibility",
+          "appel-haken|Closes|four-color"
+        ],
+        "state": {
+          "five-color": {
+            "status": "math.proved-informal",
+            "effective_status": "math.proved-informal",
+            "in_question": false
+          },
+          "kempe": {
+            "status": "math.disproved",
+            "effective_status": "math.disproved",
+            "in_question": false
+          },
+          "tait": {
+            "status": "math.disproved",
+            "effective_status": "math.disproved",
+            "in_question": false
+          },
+          "four-color": {
+            "status": "math.axiomatised",
+            "effective_status": "math.axiomatised",
+            "in_question": false
+          },
+          "refute:kempe": {
+            "status": null,
+            "effective_status": null,
+            "in_question": false
+          },
+          "unavoidability": {
+            "status": "math.axiomatised",
+            "effective_status": "math.axiomatised",
+            "in_question": false
+          },
+          "reducibility": {
+            "status": "math.axiomatised",
+            "effective_status": "math.axiomatised",
+            "in_question": false
+          },
+          "kempe-chains": {
+            "status": "math.proved-informal",
+            "effective_status": "math.proved-informal",
+            "in_question": false
+          },
+          "refute:tait": {
+            "status": null,
+            "effective_status": null,
+            "in_question": false
+          },
+          "appel-haken": {
+            "status": "math.axiomatised",
+            "effective_status": "math.axiomatised",
+            "in_question": false
+          }
+        }
+      },
+      {
+        "i": 10,
+        "hash": null,
+        "date": null,
+        "subject": "proof(rsst): a smaller, cleaner proof with 633 configurations",
+        "type": "proof",
+        "event": "superseded",
+        "focus": "rsst",
+        "present": [
+          "appel-haken",
+          "five-color",
+          "four-color",
+          "kempe",
+          "kempe-chains",
+          "reducibility",
+          "refute:kempe",
+          "refute:tait",
+          "rsst",
+          "tait",
+          "unavoidability"
+        ],
+        "edges": [
+          "kempe|Depends-On|kempe-chains",
+          "kempe|Closes|four-color",
+          "tait|Closes|four-color",
+          "refute:kempe|Disproves|kempe",
+          "five-color|Depends-On|kempe-chains",
+          "refute:tait|Disproves|tait",
+          "appel-haken|Assumes|unavoidability",
+          "appel-haken|Assumes|reducibility",
+          "appel-haken|Closes|four-color",
+          "rsst|Assumes|unavoidability",
+          "rsst|Assumes|reducibility",
+          "rsst|Supersedes|appel-haken",
+          "rsst|Closes|four-color"
+        ],
+        "state": {
+          "five-color": {
+            "status": "math.proved-informal",
+            "effective_status": "math.proved-informal",
+            "in_question": false
+          },
+          "kempe": {
+            "status": "math.disproved",
+            "effective_status": "math.disproved",
+            "in_question": false
+          },
+          "tait": {
+            "status": "math.disproved",
+            "effective_status": "math.disproved",
+            "in_question": false
+          },
+          "four-color": {
+            "status": "math.axiomatised",
+            "effective_status": "math.axiomatised",
+            "in_question": false
+          },
+          "refute:kempe": {
+            "status": null,
+            "effective_status": null,
+            "in_question": false
+          },
+          "unavoidability": {
+            "status": "math.axiomatised",
+            "effective_status": "math.axiomatised",
+            "in_question": false
+          },
+          "reducibility": {
+            "status": "math.axiomatised",
+            "effective_status": "math.axiomatised",
+            "in_question": false
+          },
+          "kempe-chains": {
+            "status": "math.proved-informal",
+            "effective_status": "math.proved-informal",
+            "in_question": false
+          },
+          "rsst": {
+            "status": "math.axiomatised",
+            "effective_status": "math.axiomatised",
+            "in_question": false
+          },
+          "refute:tait": {
+            "status": null,
+            "effective_status": null,
+            "in_question": false
+          },
+          "appel-haken": {
+            "status": "math.axiomatised",
+            "effective_status": "math.axiomatised",
+            "in_question": false
+          }
+        }
+      },
+      {
+        "i": 11,
+        "hash": null,
+        "date": null,
+        "subject": "formalize(reducibility): a kernel-checked reducibility test in Coq",
+        "type": "formalize",
+        "event": "promoted",
+        "focus": "FourColor.reducible",
+        "present": [
+          "FourColor.reducible",
+          "appel-haken",
+          "five-color",
+          "four-color",
+          "kempe",
+          "kempe-chains",
+          "reducibility",
+          "refute:kempe",
+          "refute:tait",
+          "rsst",
+          "tait",
+          "unavoidability"
+        ],
+        "edges": [
+          "kempe|Depends-On|kempe-chains",
+          "kempe|Closes|four-color",
+          "tait|Closes|four-color",
+          "refute:kempe|Disproves|kempe",
+          "five-color|Depends-On|kempe-chains",
+          "refute:tait|Disproves|tait",
+          "appel-haken|Assumes|unavoidability",
+          "appel-haken|Assumes|reducibility",
+          "appel-haken|Closes|four-color",
+          "rsst|Assumes|unavoidability",
+          "rsst|Assumes|reducibility",
+          "rsst|Supersedes|appel-haken",
+          "rsst|Closes|four-color",
+          "FourColor.reducible|Proves|reducibility"
+        ],
+        "state": {
+          "five-color": {
+            "status": "math.proved-informal",
+            "effective_status": "math.proved-informal",
+            "in_question": false
+          },
+          "kempe": {
+            "status": "math.disproved",
+            "effective_status": "math.disproved",
+            "in_question": false
+          },
+          "tait": {
+            "status": "math.disproved",
+            "effective_status": "math.disproved",
+            "in_question": false
+          },
+          "four-color": {
+            "status": "math.axiomatised",
+            "effective_status": "math.axiomatised",
+            "in_question": false
+          },
+          "refute:kempe": {
+            "status": null,
+            "effective_status": null,
+            "in_question": false
+          },
+          "unavoidability": {
+            "status": "math.axiomatised",
+            "effective_status": "math.axiomatised",
+            "in_question": false
+          },
+          "reducibility": {
+            "status": "math.machine-checked",
+            "effective_status": "math.machine-checked",
+            "in_question": false
+          },
+          "kempe-chains": {
+            "status": "math.proved-informal",
+            "effective_status": "math.proved-informal",
+            "in_question": false
+          },
+          "rsst": {
+            "status": "math.axiomatised",
+            "effective_status": "math.axiomatised",
+            "in_question": false
+          },
+          "refute:tait": {
+            "status": null,
+            "effective_status": null,
+            "in_question": false
+          },
+          "FourColor.reducible": {
+            "status": "math.machine-checked",
+            "effective_status": "math.machine-checked",
+            "in_question": false
+          },
+          "appel-haken": {
+            "status": "math.axiomatised",
+            "effective_status": "math.axiomatised",
+            "in_question": false
+          }
+        }
+      },
+      {
+        "i": 12,
+        "hash": null,
+        "date": null,
+        "subject": "formalize(unavoidability): a kernel-checked unavoidable set in Coq",
+        "type": "formalize",
+        "event": "promoted",
+        "focus": "FourColor.unavoidable",
+        "present": [
+          "FourColor.reducible",
+          "FourColor.unavoidable",
+          "appel-haken",
+          "five-color",
+          "four-color",
+          "kempe",
+          "kempe-chains",
+          "reducibility",
+          "refute:kempe",
+          "refute:tait",
+          "rsst",
+          "tait",
+          "unavoidability"
+        ],
+        "edges": [
+          "kempe|Depends-On|kempe-chains",
+          "kempe|Closes|four-color",
+          "tait|Closes|four-color",
+          "refute:kempe|Disproves|kempe",
+          "five-color|Depends-On|kempe-chains",
+          "refute:tait|Disproves|tait",
+          "appel-haken|Assumes|unavoidability",
+          "appel-haken|Assumes|reducibility",
+          "appel-haken|Closes|four-color",
+          "rsst|Assumes|unavoidability",
+          "rsst|Assumes|reducibility",
+          "rsst|Supersedes|appel-haken",
+          "rsst|Closes|four-color",
+          "FourColor.reducible|Proves|reducibility",
+          "FourColor.unavoidable|Proves|unavoidability"
+        ],
+        "state": {
+          "FourColor.unavoidable": {
+            "status": "math.machine-checked",
+            "effective_status": "math.machine-checked",
+            "in_question": false
+          },
+          "five-color": {
+            "status": "math.proved-informal",
+            "effective_status": "math.proved-informal",
+            "in_question": false
+          },
+          "kempe": {
+            "status": "math.disproved",
+            "effective_status": "math.disproved",
+            "in_question": false
+          },
+          "tait": {
+            "status": "math.disproved",
+            "effective_status": "math.disproved",
+            "in_question": false
+          },
+          "four-color": {
+            "status": "math.axiomatised",
+            "effective_status": "math.axiomatised",
+            "in_question": false
+          },
+          "refute:kempe": {
+            "status": null,
+            "effective_status": null,
+            "in_question": false
+          },
+          "unavoidability": {
+            "status": "math.machine-checked",
+            "effective_status": "math.machine-checked",
+            "in_question": false
+          },
+          "reducibility": {
+            "status": "math.machine-checked",
+            "effective_status": "math.machine-checked",
+            "in_question": false
+          },
+          "kempe-chains": {
+            "status": "math.proved-informal",
+            "effective_status": "math.proved-informal",
+            "in_question": false
+          },
+          "rsst": {
+            "status": "math.axiomatised",
+            "effective_status": "math.axiomatised",
+            "in_question": false
+          },
+          "refute:tait": {
+            "status": null,
+            "effective_status": null,
+            "in_question": false
+          },
+          "FourColor.reducible": {
+            "status": "math.machine-checked",
+            "effective_status": "math.machine-checked",
+            "in_question": false
+          },
+          "appel-haken": {
+            "status": "math.axiomatised",
+            "effective_status": "math.axiomatised",
+            "in_question": false
+          }
+        }
+      },
+      {
+        "i": 13,
+        "hash": null,
+        "date": null,
+        "subject": "formalize(four-color): a fully machine-checked Four Colour Theorem in Coq",
+        "type": "formalize",
+        "event": "superseded",
+        "focus": "FourColor.four_color_theorem",
+        "present": [
+          "FourColor.four_color_theorem",
+          "FourColor.reducible",
+          "FourColor.unavoidable",
+          "appel-haken",
+          "five-color",
+          "four-color",
+          "kempe",
+          "kempe-chains",
+          "reducibility",
+          "refute:kempe",
+          "refute:tait",
+          "rsst",
+          "tait",
+          "unavoidability"
+        ],
+        "edges": [
+          "kempe|Depends-On|kempe-chains",
+          "kempe|Closes|four-color",
+          "tait|Closes|four-color",
+          "refute:kempe|Disproves|kempe",
+          "five-color|Depends-On|kempe-chains",
+          "refute:tait|Disproves|tait",
+          "appel-haken|Assumes|unavoidability",
+          "appel-haken|Assumes|reducibility",
+          "appel-haken|Closes|four-color",
+          "rsst|Assumes|unavoidability",
+          "rsst|Assumes|reducibility",
+          "rsst|Supersedes|appel-haken",
+          "rsst|Closes|four-color",
+          "FourColor.reducible|Proves|reducibility",
+          "FourColor.unavoidable|Proves|unavoidability",
+          "FourColor.four_color_theorem|Depends-On|FourColor.reducible",
+          "FourColor.four_color_theorem|Depends-On|FourColor.unavoidable",
+          "FourColor.four_color_theorem|Supersedes|rsst",
+          "FourColor.four_color_theorem|Closes|four-color"
+        ],
+        "state": {
+          "FourColor.unavoidable": {
+            "status": "math.machine-checked",
+            "effective_status": "math.machine-checked",
+            "in_question": false
+          },
+          "FourColor.four_color_theorem": {
+            "status": "math.machine-checked",
+            "effective_status": "math.machine-checked",
+            "in_question": false
+          },
+          "five-color": {
+            "status": "math.proved-informal",
+            "effective_status": "math.proved-informal",
+            "in_question": false
+          },
+          "kempe": {
+            "status": "math.disproved",
+            "effective_status": "math.disproved",
+            "in_question": false
+          },
+          "tait": {
+            "status": "math.disproved",
+            "effective_status": "math.disproved",
+            "in_question": false
+          },
+          "four-color": {
+            "status": "math.machine-checked",
+            "effective_status": "math.machine-checked",
+            "in_question": false
+          },
+          "refute:kempe": {
+            "status": null,
+            "effective_status": null,
+            "in_question": false
+          },
+          "unavoidability": {
+            "status": "math.machine-checked",
+            "effective_status": "math.machine-checked",
+            "in_question": false
+          },
+          "reducibility": {
+            "status": "math.machine-checked",
+            "effective_status": "math.machine-checked",
+            "in_question": false
+          },
+          "kempe-chains": {
+            "status": "math.proved-informal",
+            "effective_status": "math.proved-informal",
+            "in_question": false
+          },
+          "rsst": {
+            "status": "math.axiomatised",
+            "effective_status": "math.axiomatised",
+            "in_question": false
+          },
+          "refute:tait": {
+            "status": null,
+            "effective_status": null,
+            "in_question": false
+          },
+          "FourColor.reducible": {
+            "status": "math.machine-checked",
+            "effective_status": "math.machine-checked",
+            "in_question": false
+          },
+          "appel-haken": {
+            "status": "math.axiomatised",
+            "effective_status": "math.axiomatised",
+            "in_question": false
+          }
+        }
+      }
+    ]
   },
   "nodes": [
     {
@@ -189,12 +1131,6 @@
     },
     {
       "source": "rsst",
-      "target": "appel-haken",
-      "relation": "Supersedes",
-      "breaking": false
-    },
-    {
-      "source": "rsst",
       "target": "unavoidability",
       "relation": "Assumes",
       "breaking": false
@@ -203,6 +1139,12 @@
       "source": "rsst",
       "target": "reducibility",
       "relation": "Assumes",
+      "breaking": false
+    },
+    {
+      "source": "rsst",
+      "target": "appel-haken",
+      "relation": "Supersedes",
       "breaking": false
     },
     {

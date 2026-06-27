@@ -2,7 +2,442 @@
   "$schema": "https://raw.githubusercontent.com/hotherio/claimgraph/main/schema/claimgraph.schema.json",
   "meta": {
     "generator": "claimgraph",
-    "spec_version": "0.1.0"
+    "spec_version": "0.1.0",
+    "timeline": [
+      {
+        "i": 0,
+        "hash": null,
+        "date": null,
+        "subject": "conjecture(pnt): the primes thin out like x over log x",
+        "type": "conjecture",
+        "event": "asserted",
+        "focus": "pnt",
+        "present": [
+          "pnt"
+        ],
+        "edges": [],
+        "state": {
+          "pnt": {
+            "status": "math.conjectured",
+            "effective_status": "math.conjectured",
+            "in_question": false
+          }
+        }
+      },
+      {
+        "i": 1,
+        "hash": null,
+        "date": null,
+        "subject": "proof(chebyshev): the count is of the right order",
+        "type": "proof",
+        "event": "asserted",
+        "focus": "chebyshev",
+        "present": [
+          "chebyshev",
+          "pnt"
+        ],
+        "edges": [],
+        "state": {
+          "pnt": {
+            "status": "math.conjectured",
+            "effective_status": "math.conjectured",
+            "in_question": false
+          },
+          "chebyshev": {
+            "status": "math.proved-informal",
+            "effective_status": "math.proved-informal",
+            "in_question": false
+          }
+        }
+      },
+      {
+        "i": 2,
+        "hash": null,
+        "date": null,
+        "subject": "proof(zeta-nonvanishing): the zeta function has no zero on the line Re(s) = 1",
+        "type": "proof",
+        "event": "asserted",
+        "focus": "zeta-nonvanishing",
+        "present": [
+          "chebyshev",
+          "pnt",
+          "zeta-nonvanishing"
+        ],
+        "edges": [],
+        "state": {
+          "zeta-nonvanishing": {
+            "status": "math.proved-informal",
+            "effective_status": "math.proved-informal",
+            "in_question": false
+          },
+          "pnt": {
+            "status": "math.conjectured",
+            "effective_status": "math.conjectured",
+            "in_question": false
+          },
+          "chebyshev": {
+            "status": "math.proved-informal",
+            "effective_status": "math.proved-informal",
+            "in_question": false
+          }
+        }
+      },
+      {
+        "i": 3,
+        "hash": null,
+        "date": null,
+        "subject": "proof(hadamard): an analytic proof via the zeta function",
+        "type": "proof",
+        "event": "promoted",
+        "focus": "hadamard",
+        "present": [
+          "chebyshev",
+          "hadamard",
+          "pnt",
+          "zeta-nonvanishing"
+        ],
+        "edges": [
+          "hadamard|Depends-On|zeta-nonvanishing",
+          "hadamard|Closes|pnt"
+        ],
+        "state": {
+          "pnt": {
+            "status": "math.proved-informal",
+            "effective_status": "math.proved-informal",
+            "in_question": false
+          },
+          "chebyshev": {
+            "status": "math.proved-informal",
+            "effective_status": "math.proved-informal",
+            "in_question": false
+          },
+          "zeta-nonvanishing": {
+            "status": "math.proved-informal",
+            "effective_status": "math.proved-informal",
+            "in_question": false
+          },
+          "hadamard": {
+            "status": "math.proved-informal",
+            "effective_status": "math.proved-informal",
+            "in_question": false
+          }
+        }
+      },
+      {
+        "i": 4,
+        "hash": null,
+        "date": null,
+        "subject": "proof(de-la-vallee-poussin): an independent analytic proof the same year",
+        "type": "proof",
+        "event": "promoted",
+        "focus": "de-la-vallee-poussin",
+        "present": [
+          "chebyshev",
+          "de-la-vallee-poussin",
+          "hadamard",
+          "pnt",
+          "zeta-nonvanishing"
+        ],
+        "edges": [
+          "hadamard|Depends-On|zeta-nonvanishing",
+          "hadamard|Closes|pnt",
+          "de-la-vallee-poussin|Depends-On|zeta-nonvanishing",
+          "de-la-vallee-poussin|Closes|pnt"
+        ],
+        "state": {
+          "de-la-vallee-poussin": {
+            "status": "math.proved-informal",
+            "effective_status": "math.proved-informal",
+            "in_question": false
+          },
+          "pnt": {
+            "status": "math.proved-informal",
+            "effective_status": "math.proved-informal",
+            "in_question": false
+          },
+          "chebyshev": {
+            "status": "math.proved-informal",
+            "effective_status": "math.proved-informal",
+            "in_question": false
+          },
+          "zeta-nonvanishing": {
+            "status": "math.proved-informal",
+            "effective_status": "math.proved-informal",
+            "in_question": false
+          },
+          "hadamard": {
+            "status": "math.proved-informal",
+            "effective_status": "math.proved-informal",
+            "in_question": false
+          }
+        }
+      },
+      {
+        "i": 5,
+        "hash": null,
+        "date": null,
+        "subject": "proof(erdos-selberg): an elementary proof with no complex analysis",
+        "type": "proof",
+        "event": "promoted",
+        "focus": "erdos-selberg",
+        "present": [
+          "chebyshev",
+          "de-la-vallee-poussin",
+          "erdos-selberg",
+          "hadamard",
+          "pnt",
+          "zeta-nonvanishing"
+        ],
+        "edges": [
+          "hadamard|Depends-On|zeta-nonvanishing",
+          "hadamard|Closes|pnt",
+          "de-la-vallee-poussin|Depends-On|zeta-nonvanishing",
+          "de-la-vallee-poussin|Closes|pnt",
+          "erdos-selberg|Closes|pnt"
+        ],
+        "state": {
+          "erdos-selberg": {
+            "status": "math.proved-informal",
+            "effective_status": "math.proved-informal",
+            "in_question": false
+          },
+          "de-la-vallee-poussin": {
+            "status": "math.proved-informal",
+            "effective_status": "math.proved-informal",
+            "in_question": false
+          },
+          "pnt": {
+            "status": "math.proved-informal",
+            "effective_status": "math.proved-informal",
+            "in_question": false
+          },
+          "chebyshev": {
+            "status": "math.proved-informal",
+            "effective_status": "math.proved-informal",
+            "in_question": false
+          },
+          "zeta-nonvanishing": {
+            "status": "math.proved-informal",
+            "effective_status": "math.proved-informal",
+            "in_question": false
+          },
+          "hadamard": {
+            "status": "math.proved-informal",
+            "effective_status": "math.proved-informal",
+            "in_question": false
+          }
+        }
+      },
+      {
+        "i": 6,
+        "hash": null,
+        "date": null,
+        "subject": "formalize(pnt): a kernel-checked proof in Isabelle",
+        "type": "formalize",
+        "event": "promoted",
+        "focus": "PNT.prime_number_theorem",
+        "present": [
+          "PNT.prime_number_theorem",
+          "chebyshev",
+          "de-la-vallee-poussin",
+          "erdos-selberg",
+          "hadamard",
+          "pnt",
+          "zeta-nonvanishing"
+        ],
+        "edges": [
+          "hadamard|Depends-On|zeta-nonvanishing",
+          "hadamard|Closes|pnt",
+          "de-la-vallee-poussin|Depends-On|zeta-nonvanishing",
+          "de-la-vallee-poussin|Closes|pnt",
+          "erdos-selberg|Closes|pnt",
+          "PNT.prime_number_theorem|Closes|pnt"
+        ],
+        "state": {
+          "erdos-selberg": {
+            "status": "math.proved-informal",
+            "effective_status": "math.proved-informal",
+            "in_question": false
+          },
+          "de-la-vallee-poussin": {
+            "status": "math.proved-informal",
+            "effective_status": "math.proved-informal",
+            "in_question": false
+          },
+          "pnt": {
+            "status": "math.machine-checked",
+            "effective_status": "math.machine-checked",
+            "in_question": false
+          },
+          "chebyshev": {
+            "status": "math.proved-informal",
+            "effective_status": "math.proved-informal",
+            "in_question": false
+          },
+          "zeta-nonvanishing": {
+            "status": "math.proved-informal",
+            "effective_status": "math.proved-informal",
+            "in_question": false
+          },
+          "hadamard": {
+            "status": "math.proved-informal",
+            "effective_status": "math.proved-informal",
+            "in_question": false
+          },
+          "PNT.prime_number_theorem": {
+            "status": "math.machine-checked",
+            "effective_status": "math.machine-checked",
+            "in_question": false
+          }
+        }
+      },
+      {
+        "i": 7,
+        "hash": null,
+        "date": null,
+        "subject": "conjecture(rh): every non-trivial zero of zeta lies on the critical line",
+        "type": "conjecture",
+        "event": "asserted",
+        "focus": "rh",
+        "present": [
+          "PNT.prime_number_theorem",
+          "chebyshev",
+          "de-la-vallee-poussin",
+          "erdos-selberg",
+          "hadamard",
+          "pnt",
+          "rh",
+          "zeta-nonvanishing"
+        ],
+        "edges": [
+          "hadamard|Depends-On|zeta-nonvanishing",
+          "hadamard|Closes|pnt",
+          "de-la-vallee-poussin|Depends-On|zeta-nonvanishing",
+          "de-la-vallee-poussin|Closes|pnt",
+          "erdos-selberg|Closes|pnt",
+          "PNT.prime_number_theorem|Closes|pnt"
+        ],
+        "state": {
+          "erdos-selberg": {
+            "status": "math.proved-informal",
+            "effective_status": "math.proved-informal",
+            "in_question": false
+          },
+          "de-la-vallee-poussin": {
+            "status": "math.proved-informal",
+            "effective_status": "math.proved-informal",
+            "in_question": false
+          },
+          "pnt": {
+            "status": "math.machine-checked",
+            "effective_status": "math.machine-checked",
+            "in_question": false
+          },
+          "chebyshev": {
+            "status": "math.proved-informal",
+            "effective_status": "math.proved-informal",
+            "in_question": false
+          },
+          "zeta-nonvanishing": {
+            "status": "math.proved-informal",
+            "effective_status": "math.proved-informal",
+            "in_question": false
+          },
+          "rh": {
+            "status": "math.conjectured",
+            "effective_status": "math.conjectured",
+            "in_question": false
+          },
+          "hadamard": {
+            "status": "math.proved-informal",
+            "effective_status": "math.proved-informal",
+            "in_question": false
+          },
+          "PNT.prime_number_theorem": {
+            "status": "math.machine-checked",
+            "effective_status": "math.machine-checked",
+            "in_question": false
+          }
+        }
+      },
+      {
+        "i": 8,
+        "hash": null,
+        "date": null,
+        "subject": "proof(pnt-error-rh): on the Riemann hypothesis, a near-optimal error term",
+        "type": "proof",
+        "event": "asserted",
+        "focus": "pnt-error-rh",
+        "present": [
+          "PNT.prime_number_theorem",
+          "chebyshev",
+          "de-la-vallee-poussin",
+          "erdos-selberg",
+          "hadamard",
+          "pnt",
+          "pnt-error-rh",
+          "rh",
+          "zeta-nonvanishing"
+        ],
+        "edges": [
+          "hadamard|Depends-On|zeta-nonvanishing",
+          "hadamard|Closes|pnt",
+          "de-la-vallee-poussin|Depends-On|zeta-nonvanishing",
+          "de-la-vallee-poussin|Closes|pnt",
+          "erdos-selberg|Closes|pnt",
+          "PNT.prime_number_theorem|Closes|pnt",
+          "pnt-error-rh|Assumes|rh",
+          "pnt-error-rh|Depends-On|pnt"
+        ],
+        "state": {
+          "chebyshev": {
+            "status": "math.proved-informal",
+            "effective_status": "math.proved-informal",
+            "in_question": false
+          },
+          "zeta-nonvanishing": {
+            "status": "math.proved-informal",
+            "effective_status": "math.proved-informal",
+            "in_question": false
+          },
+          "hadamard": {
+            "status": "math.proved-informal",
+            "effective_status": "math.proved-informal",
+            "in_question": false
+          },
+          "erdos-selberg": {
+            "status": "math.proved-informal",
+            "effective_status": "math.proved-informal",
+            "in_question": false
+          },
+          "de-la-vallee-poussin": {
+            "status": "math.proved-informal",
+            "effective_status": "math.proved-informal",
+            "in_question": false
+          },
+          "pnt": {
+            "status": "math.machine-checked",
+            "effective_status": "math.machine-checked",
+            "in_question": false
+          },
+          "pnt-error-rh": {
+            "status": "math.proved-informal",
+            "effective_status": "math.conjectured",
+            "in_question": false
+          },
+          "rh": {
+            "status": "math.conjectured",
+            "effective_status": "math.conjectured",
+            "in_question": false
+          },
+          "PNT.prime_number_theorem": {
+            "status": "math.machine-checked",
+            "effective_status": "math.machine-checked",
+            "in_question": false
+          }
+        }
+      }
+    ]
   },
   "nodes": [
     {
@@ -90,18 +525,12 @@
   "edges": [
     {
       "source": "hadamard",
-      "target": "pnt",
-      "relation": "Closes",
+      "target": "zeta-nonvanishing",
+      "relation": "Depends-On",
       "breaking": false
     },
     {
       "source": "hadamard",
-      "target": "zeta-nonvanishing",
-      "relation": "Depends-On",
-      "breaking": false
-    },
-    {
-      "source": "de-la-vallee-poussin",
       "target": "pnt",
       "relation": "Closes",
       "breaking": false
@@ -110,6 +539,12 @@
       "source": "de-la-vallee-poussin",
       "target": "zeta-nonvanishing",
       "relation": "Depends-On",
+      "breaking": false
+    },
+    {
+      "source": "de-la-vallee-poussin",
+      "target": "pnt",
+      "relation": "Closes",
       "breaking": false
     },
     {
