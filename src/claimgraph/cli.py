@@ -9,7 +9,7 @@ import typer
 from . import blueprint as bp
 from . import build as build_view
 from .build import canonical, load_registry, read_git
-from .emit import to_json
+from .emit import to_dict, to_json
 from .graph import affected as compute_affected
 from .graph import status_report
 from .reconcile import audit as audit_graph
@@ -61,6 +61,45 @@ def build(
         typer.echo(f"wrote {out}  ({len(graph.nodes)} nodes, {len(graph.edges)} edges{extra})")
     else:
         typer.echo(payload)
+
+
+@app.command()
+def export(
+    repo: str = RepoArg,
+    out: Optional[Path] = typer.Option(None, "--out", "-o", help="Write the standalone HTML here."),
+    fixture: Optional[str] = FixtureOpt,
+    claims: Optional[str] = ClaimsOpt,
+    shape: str = typer.Option(
+        "page", "--shape",
+        help="page (self-contained file), fragment (paste-in <iframe>), or branded (page + CKC chrome).",
+    ),
+    title: Optional[str] = typer.Option(None, "--title", help="Title shown in the viewer."),
+    no_timeline: bool = typer.Option(
+        False, "--no-timeline", help="Omit the commit-replay timeline (graph + final state only).",
+    ),
+) -> None:
+    """Export a self-contained HTML viewer (ClaimGraph + commit-history timeline) from a CKC repo."""
+    from . import export_html
+    if shape not in export_html.SHAPES:
+        typer.secho(f"unknown --shape {shape!r} (one of {', '.join(export_html.SHAPES)})",
+                    fg=typer.colors.RED)
+        raise typer.Exit(code=2)
+    graph = _load(repo, fixture, claims)
+    frames = None
+    if not no_timeline:
+        from .build import read_fixture_dated, read_git_dated
+        from .timeline import build_timeline
+        dated = read_fixture_dated(fixture) if fixture else read_git_dated(repo)
+        frames = build_timeline(dated, load_registry(claims))
+    payload = to_dict(graph, timeline=frames)
+    name = title or ("ClaimGraph" if fixture else Path(repo).resolve().name)
+    html_str = export_html.render(payload, shape=shape, title=name)
+    if out:
+        out.write_text(html_str, encoding="utf-8")
+        extra = f", {len(frames)} frames" if frames else ""
+        typer.echo(f"wrote {out}  ({len(graph.nodes)} nodes{extra}, shape={shape})")
+    else:
+        typer.echo(html_str)
 
 
 @app.command()
