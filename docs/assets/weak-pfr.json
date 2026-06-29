@@ -1,0 +1,1526 @@
+{
+  "$schema": "https://raw.githubusercontent.com/hotherio/claimgraph/main/schema/claimgraph.schema.json",
+  "meta": {
+    "generator": "claimgraph",
+    "spec_version": "0.1.0",
+    "timeline": [
+      {
+        "i": 0,
+        "hash": null,
+        "date": null,
+        "subject": "conjecture(weak-pfr-symm): weak Polynomial Freiman-Ruzsa, the entropy route",
+        "type": "conjecture",
+        "event": "asserted",
+        "focus": "weak-pfr-symm",
+        "present": [
+          "weak-pfr-symm"
+        ],
+        "edges": [],
+        "state": {
+          "weak-pfr-symm": {
+            "status": "math.conjectured",
+            "effective_status": "math.conjectured",
+            "in_question": false
+          }
+        }
+      },
+      {
+        "i": 1,
+        "hash": null,
+        "date": null,
+        "subject": "formalize(entropy-basic): Shannon entropy and its basic inequalities",
+        "type": "formalize",
+        "event": "asserted",
+        "focus": "entropy-basic",
+        "present": [
+          "entropy-basic",
+          "weak-pfr-symm"
+        ],
+        "edges": [],
+        "state": {
+          "entropy-basic": {
+            "status": "math.machine-checked",
+            "effective_status": "math.machine-checked",
+            "in_question": false
+          },
+          "weak-pfr-symm": {
+            "status": "math.conjectured",
+            "effective_status": "math.conjectured",
+            "in_question": false
+          }
+        }
+      },
+      {
+        "i": 2,
+        "hash": null,
+        "date": null,
+        "subject": "formalize(ruzsa-distance): the entropic Ruzsa distance and its triangle inequality",
+        "type": "formalize",
+        "event": "asserted",
+        "focus": "ruzsa-distance",
+        "present": [
+          "entropy-basic",
+          "ruzsa-distance",
+          "weak-pfr-symm"
+        ],
+        "edges": [
+          "ruzsa-distance|Depends-On|entropy-basic"
+        ],
+        "state": {
+          "ruzsa-distance": {
+            "status": "math.machine-checked",
+            "effective_status": "math.machine-checked",
+            "in_question": false
+          },
+          "entropy-basic": {
+            "status": "math.machine-checked",
+            "effective_status": "math.machine-checked",
+            "in_question": false
+          },
+          "weak-pfr-symm": {
+            "status": "math.conjectured",
+            "effective_status": "math.conjectured",
+            "in_question": false
+          }
+        }
+      },
+      {
+        "i": 3,
+        "hash": null,
+        "date": null,
+        "subject": "formalize(tau-functional): the tau-functional and its minimiser",
+        "type": "formalize",
+        "event": "asserted",
+        "focus": "tau-functional",
+        "present": [
+          "entropy-basic",
+          "ruzsa-distance",
+          "tau-functional",
+          "weak-pfr-symm"
+        ],
+        "edges": [
+          "ruzsa-distance|Depends-On|entropy-basic",
+          "tau-functional|Depends-On|ruzsa-distance"
+        ],
+        "state": {
+          "ruzsa-distance": {
+            "status": "math.machine-checked",
+            "effective_status": "math.machine-checked",
+            "in_question": false
+          },
+          "weak-pfr-symm": {
+            "status": "math.conjectured",
+            "effective_status": "math.conjectured",
+            "in_question": false
+          },
+          "tau-functional": {
+            "status": "math.machine-checked",
+            "effective_status": "math.machine-checked",
+            "in_question": false
+          },
+          "entropy-basic": {
+            "status": "math.machine-checked",
+            "effective_status": "math.machine-checked",
+            "in_question": false
+          }
+        }
+      },
+      {
+        "i": 4,
+        "hash": null,
+        "date": null,
+        "subject": "formalize(pfr-projection): the projection lemma onto a finite-index subgroup",
+        "type": "formalize",
+        "event": "asserted",
+        "focus": "pfr-projection",
+        "present": [
+          "entropy-basic",
+          "pfr-projection",
+          "ruzsa-distance",
+          "tau-functional",
+          "weak-pfr-symm"
+        ],
+        "edges": [
+          "ruzsa-distance|Depends-On|entropy-basic",
+          "tau-functional|Depends-On|ruzsa-distance",
+          "pfr-projection|Depends-On|ruzsa-distance"
+        ],
+        "state": {
+          "ruzsa-distance": {
+            "status": "math.machine-checked",
+            "effective_status": "math.machine-checked",
+            "in_question": false
+          },
+          "weak-pfr-symm": {
+            "status": "math.conjectured",
+            "effective_status": "math.conjectured",
+            "in_question": false
+          },
+          "pfr-projection": {
+            "status": "math.machine-checked",
+            "effective_status": "math.machine-checked",
+            "in_question": false
+          },
+          "tau-functional": {
+            "status": "math.machine-checked",
+            "effective_status": "math.machine-checked",
+            "in_question": false
+          },
+          "entropy-basic": {
+            "status": "math.machine-checked",
+            "effective_status": "math.machine-checked",
+            "in_question": false
+          }
+        }
+      },
+      {
+        "i": 5,
+        "hash": null,
+        "date": null,
+        "subject": "formalize(app-ent-pfr): the approximate-entropy PFR inequality",
+        "type": "formalize",
+        "event": "asserted",
+        "focus": "app-ent-pfr",
+        "present": [
+          "app-ent-pfr",
+          "entropy-basic",
+          "pfr-projection",
+          "ruzsa-distance",
+          "tau-functional",
+          "weak-pfr-symm"
+        ],
+        "edges": [
+          "ruzsa-distance|Depends-On|entropy-basic",
+          "tau-functional|Depends-On|ruzsa-distance",
+          "pfr-projection|Depends-On|ruzsa-distance",
+          "app-ent-pfr|Depends-On|tau-functional"
+        ],
+        "state": {
+          "app-ent-pfr": {
+            "status": "math.machine-checked",
+            "effective_status": "math.machine-checked",
+            "in_question": false
+          },
+          "ruzsa-distance": {
+            "status": "math.machine-checked",
+            "effective_status": "math.machine-checked",
+            "in_question": false
+          },
+          "weak-pfr-symm": {
+            "status": "math.conjectured",
+            "effective_status": "math.conjectured",
+            "in_question": false
+          },
+          "pfr-projection": {
+            "status": "math.machine-checked",
+            "effective_status": "math.machine-checked",
+            "in_question": false
+          },
+          "tau-functional": {
+            "status": "math.machine-checked",
+            "effective_status": "math.machine-checked",
+            "in_question": false
+          },
+          "entropy-basic": {
+            "status": "math.machine-checked",
+            "effective_status": "math.machine-checked",
+            "in_question": false
+          }
+        }
+      },
+      {
+        "i": 6,
+        "hash": null,
+        "date": null,
+        "subject": "formalize(torsion-dist-shrinking): Ruzsa distance shrinks under the torsion quotient",
+        "type": "formalize",
+        "event": "asserted",
+        "focus": "torsion-dist-shrinking",
+        "present": [
+          "app-ent-pfr",
+          "entropy-basic",
+          "pfr-projection",
+          "ruzsa-distance",
+          "tau-functional",
+          "torsion-dist-shrinking",
+          "weak-pfr-symm"
+        ],
+        "edges": [
+          "ruzsa-distance|Depends-On|entropy-basic",
+          "tau-functional|Depends-On|ruzsa-distance",
+          "pfr-projection|Depends-On|ruzsa-distance",
+          "app-ent-pfr|Depends-On|tau-functional",
+          "torsion-dist-shrinking|Depends-On|app-ent-pfr"
+        ],
+        "state": {
+          "app-ent-pfr": {
+            "status": "math.machine-checked",
+            "effective_status": "math.machine-checked",
+            "in_question": false
+          },
+          "torsion-dist-shrinking": {
+            "status": "math.machine-checked",
+            "effective_status": "math.machine-checked",
+            "in_question": false
+          },
+          "ruzsa-distance": {
+            "status": "math.machine-checked",
+            "effective_status": "math.machine-checked",
+            "in_question": false
+          },
+          "weak-pfr-symm": {
+            "status": "math.conjectured",
+            "effective_status": "math.conjectured",
+            "in_question": false
+          },
+          "pfr-projection": {
+            "status": "math.machine-checked",
+            "effective_status": "math.machine-checked",
+            "in_question": false
+          },
+          "tau-functional": {
+            "status": "math.machine-checked",
+            "effective_status": "math.machine-checked",
+            "in_question": false
+          },
+          "entropy-basic": {
+            "status": "math.machine-checked",
+            "effective_status": "math.machine-checked",
+            "in_question": false
+          }
+        }
+      },
+      {
+        "i": 7,
+        "hash": null,
+        "date": null,
+        "subject": "formalize(torsion-free-doubling): the torsion-free doubling bound",
+        "type": "formalize",
+        "event": "asserted",
+        "focus": "torsion-free-doubling",
+        "present": [
+          "app-ent-pfr",
+          "entropy-basic",
+          "pfr-projection",
+          "ruzsa-distance",
+          "tau-functional",
+          "torsion-dist-shrinking",
+          "torsion-free-doubling",
+          "weak-pfr-symm"
+        ],
+        "edges": [
+          "ruzsa-distance|Depends-On|entropy-basic",
+          "tau-functional|Depends-On|ruzsa-distance",
+          "pfr-projection|Depends-On|ruzsa-distance",
+          "app-ent-pfr|Depends-On|tau-functional",
+          "torsion-dist-shrinking|Depends-On|app-ent-pfr",
+          "torsion-free-doubling|Depends-On|torsion-dist-shrinking",
+          "torsion-free-doubling|Depends-On|pfr-projection"
+        ],
+        "state": {
+          "torsion-free-doubling": {
+            "status": "math.machine-checked",
+            "effective_status": "math.machine-checked",
+            "in_question": false
+          },
+          "ruzsa-distance": {
+            "status": "math.machine-checked",
+            "effective_status": "math.machine-checked",
+            "in_question": false
+          },
+          "app-ent-pfr": {
+            "status": "math.machine-checked",
+            "effective_status": "math.machine-checked",
+            "in_question": false
+          },
+          "torsion-dist-shrinking": {
+            "status": "math.machine-checked",
+            "effective_status": "math.machine-checked",
+            "in_question": false
+          },
+          "weak-pfr-symm": {
+            "status": "math.conjectured",
+            "effective_status": "math.conjectured",
+            "in_question": false
+          },
+          "pfr-projection": {
+            "status": "math.machine-checked",
+            "effective_status": "math.machine-checked",
+            "in_question": false
+          },
+          "tau-functional": {
+            "status": "math.machine-checked",
+            "effective_status": "math.machine-checked",
+            "in_question": false
+          },
+          "entropy-basic": {
+            "status": "math.machine-checked",
+            "effective_status": "math.machine-checked",
+            "in_question": false
+          }
+        }
+      },
+      {
+        "i": 8,
+        "hash": null,
+        "date": null,
+        "subject": "formalize(weak-pfr-asymm): the asymmetric weak PFR",
+        "type": "formalize",
+        "event": "asserted",
+        "focus": "weak-pfr-asymm",
+        "present": [
+          "app-ent-pfr",
+          "entropy-basic",
+          "pfr-projection",
+          "ruzsa-distance",
+          "tau-functional",
+          "torsion-dist-shrinking",
+          "torsion-free-doubling",
+          "weak-pfr-asymm",
+          "weak-pfr-symm"
+        ],
+        "edges": [
+          "ruzsa-distance|Depends-On|entropy-basic",
+          "tau-functional|Depends-On|ruzsa-distance",
+          "pfr-projection|Depends-On|ruzsa-distance",
+          "app-ent-pfr|Depends-On|tau-functional",
+          "torsion-dist-shrinking|Depends-On|app-ent-pfr",
+          "torsion-free-doubling|Depends-On|torsion-dist-shrinking",
+          "torsion-free-doubling|Depends-On|pfr-projection",
+          "weak-pfr-asymm|Depends-On|torsion-free-doubling"
+        ],
+        "state": {
+          "torsion-free-doubling": {
+            "status": "math.machine-checked",
+            "effective_status": "math.machine-checked",
+            "in_question": false
+          },
+          "ruzsa-distance": {
+            "status": "math.machine-checked",
+            "effective_status": "math.machine-checked",
+            "in_question": false
+          },
+          "app-ent-pfr": {
+            "status": "math.machine-checked",
+            "effective_status": "math.machine-checked",
+            "in_question": false
+          },
+          "torsion-dist-shrinking": {
+            "status": "math.machine-checked",
+            "effective_status": "math.machine-checked",
+            "in_question": false
+          },
+          "weak-pfr-symm": {
+            "status": "math.conjectured",
+            "effective_status": "math.conjectured",
+            "in_question": false
+          },
+          "pfr-projection": {
+            "status": "math.machine-checked",
+            "effective_status": "math.machine-checked",
+            "in_question": false
+          },
+          "tau-functional": {
+            "status": "math.machine-checked",
+            "effective_status": "math.machine-checked",
+            "in_question": false
+          },
+          "entropy-basic": {
+            "status": "math.machine-checked",
+            "effective_status": "math.machine-checked",
+            "in_question": false
+          },
+          "weak-pfr-asymm": {
+            "status": "math.machine-checked",
+            "effective_status": "math.machine-checked",
+            "in_question": false
+          }
+        }
+      },
+      {
+        "i": 9,
+        "hash": null,
+        "date": null,
+        "subject": "formalize(weak-pfr-symm): weak PFR (symmetric form), everything compiles!",
+        "type": "formalize",
+        "event": "promoted",
+        "focus": "weak-pfr-symm",
+        "present": [
+          "app-ent-pfr",
+          "entropy-basic",
+          "pfr-projection",
+          "ruzsa-distance",
+          "tau-functional",
+          "torsion-dist-shrinking",
+          "torsion-free-doubling",
+          "weak-pfr-asymm",
+          "weak-pfr-symm"
+        ],
+        "edges": [
+          "ruzsa-distance|Depends-On|entropy-basic",
+          "tau-functional|Depends-On|ruzsa-distance",
+          "pfr-projection|Depends-On|ruzsa-distance",
+          "app-ent-pfr|Depends-On|tau-functional",
+          "torsion-dist-shrinking|Depends-On|app-ent-pfr",
+          "torsion-free-doubling|Depends-On|torsion-dist-shrinking",
+          "torsion-free-doubling|Depends-On|pfr-projection",
+          "weak-pfr-asymm|Depends-On|torsion-free-doubling",
+          "weak-pfr-symm|Depends-On|weak-pfr-asymm",
+          "weak-pfr-symm|Closes|weak-pfr-symm"
+        ],
+        "state": {
+          "torsion-free-doubling": {
+            "status": "math.machine-checked",
+            "effective_status": "math.machine-checked",
+            "in_question": false
+          },
+          "ruzsa-distance": {
+            "status": "math.machine-checked",
+            "effective_status": "math.machine-checked",
+            "in_question": false
+          },
+          "app-ent-pfr": {
+            "status": "math.machine-checked",
+            "effective_status": "math.machine-checked",
+            "in_question": false
+          },
+          "torsion-dist-shrinking": {
+            "status": "math.machine-checked",
+            "effective_status": "math.machine-checked",
+            "in_question": false
+          },
+          "weak-pfr-symm": {
+            "status": "math.machine-checked",
+            "effective_status": "math.machine-checked",
+            "in_question": false
+          },
+          "pfr-projection": {
+            "status": "math.machine-checked",
+            "effective_status": "math.machine-checked",
+            "in_question": false
+          },
+          "tau-functional": {
+            "status": "math.machine-checked",
+            "effective_status": "math.machine-checked",
+            "in_question": false
+          },
+          "entropy-basic": {
+            "status": "math.machine-checked",
+            "effective_status": "math.machine-checked",
+            "in_question": false
+          },
+          "weak-pfr-asymm": {
+            "status": "math.machine-checked",
+            "effective_status": "math.machine-checked",
+            "in_question": false
+          }
+        }
+      },
+      {
+        "i": 10,
+        "hash": null,
+        "date": null,
+        "subject": "formalize(weak-pfr-int): weak PFR over the integers",
+        "type": "formalize",
+        "event": "asserted",
+        "focus": "weak-pfr-int",
+        "present": [
+          "app-ent-pfr",
+          "entropy-basic",
+          "pfr-projection",
+          "ruzsa-distance",
+          "tau-functional",
+          "torsion-dist-shrinking",
+          "torsion-free-doubling",
+          "weak-pfr-asymm",
+          "weak-pfr-int",
+          "weak-pfr-symm"
+        ],
+        "edges": [
+          "ruzsa-distance|Depends-On|entropy-basic",
+          "tau-functional|Depends-On|ruzsa-distance",
+          "pfr-projection|Depends-On|ruzsa-distance",
+          "app-ent-pfr|Depends-On|tau-functional",
+          "torsion-dist-shrinking|Depends-On|app-ent-pfr",
+          "torsion-free-doubling|Depends-On|torsion-dist-shrinking",
+          "torsion-free-doubling|Depends-On|pfr-projection",
+          "weak-pfr-asymm|Depends-On|torsion-free-doubling",
+          "weak-pfr-symm|Depends-On|weak-pfr-asymm",
+          "weak-pfr-symm|Closes|weak-pfr-symm",
+          "weak-pfr-int|Depends-On|weak-pfr-symm"
+        ],
+        "state": {
+          "torsion-free-doubling": {
+            "status": "math.machine-checked",
+            "effective_status": "math.machine-checked",
+            "in_question": false
+          },
+          "ruzsa-distance": {
+            "status": "math.machine-checked",
+            "effective_status": "math.machine-checked",
+            "in_question": false
+          },
+          "weak-pfr-int": {
+            "status": "math.machine-checked",
+            "effective_status": "math.machine-checked",
+            "in_question": false
+          },
+          "app-ent-pfr": {
+            "status": "math.machine-checked",
+            "effective_status": "math.machine-checked",
+            "in_question": false
+          },
+          "torsion-dist-shrinking": {
+            "status": "math.machine-checked",
+            "effective_status": "math.machine-checked",
+            "in_question": false
+          },
+          "weak-pfr-symm": {
+            "status": "math.machine-checked",
+            "effective_status": "math.machine-checked",
+            "in_question": false
+          },
+          "pfr-projection": {
+            "status": "math.machine-checked",
+            "effective_status": "math.machine-checked",
+            "in_question": false
+          },
+          "tau-functional": {
+            "status": "math.machine-checked",
+            "effective_status": "math.machine-checked",
+            "in_question": false
+          },
+          "entropy-basic": {
+            "status": "math.machine-checked",
+            "effective_status": "math.machine-checked",
+            "in_question": false
+          },
+          "weak-pfr-asymm": {
+            "status": "math.machine-checked",
+            "effective_status": "math.machine-checked",
+            "in_question": false
+          }
+        }
+      },
+      {
+        "i": 11,
+        "hash": null,
+        "date": null,
+        "subject": "formalize(pfr-int-strong): a downstream corollary that uses weak PFR over Z",
+        "type": "formalize",
+        "event": "asserted",
+        "focus": "pfr-int-strong",
+        "present": [
+          "app-ent-pfr",
+          "entropy-basic",
+          "pfr-int-strong",
+          "pfr-projection",
+          "ruzsa-distance",
+          "tau-functional",
+          "torsion-dist-shrinking",
+          "torsion-free-doubling",
+          "weak-pfr-asymm",
+          "weak-pfr-int",
+          "weak-pfr-symm"
+        ],
+        "edges": [
+          "ruzsa-distance|Depends-On|entropy-basic",
+          "tau-functional|Depends-On|ruzsa-distance",
+          "pfr-projection|Depends-On|ruzsa-distance",
+          "app-ent-pfr|Depends-On|tau-functional",
+          "torsion-dist-shrinking|Depends-On|app-ent-pfr",
+          "torsion-free-doubling|Depends-On|torsion-dist-shrinking",
+          "torsion-free-doubling|Depends-On|pfr-projection",
+          "weak-pfr-asymm|Depends-On|torsion-free-doubling",
+          "weak-pfr-symm|Depends-On|weak-pfr-asymm",
+          "weak-pfr-symm|Closes|weak-pfr-symm",
+          "weak-pfr-int|Depends-On|weak-pfr-symm",
+          "pfr-int-strong|Depends-On|weak-pfr-int"
+        ],
+        "state": {
+          "torsion-free-doubling": {
+            "status": "math.machine-checked",
+            "effective_status": "math.machine-checked",
+            "in_question": false
+          },
+          "ruzsa-distance": {
+            "status": "math.machine-checked",
+            "effective_status": "math.machine-checked",
+            "in_question": false
+          },
+          "weak-pfr-int": {
+            "status": "math.machine-checked",
+            "effective_status": "math.machine-checked",
+            "in_question": false
+          },
+          "app-ent-pfr": {
+            "status": "math.machine-checked",
+            "effective_status": "math.machine-checked",
+            "in_question": false
+          },
+          "torsion-dist-shrinking": {
+            "status": "math.machine-checked",
+            "effective_status": "math.machine-checked",
+            "in_question": false
+          },
+          "weak-pfr-symm": {
+            "status": "math.machine-checked",
+            "effective_status": "math.machine-checked",
+            "in_question": false
+          },
+          "pfr-int-strong": {
+            "status": "math.machine-checked",
+            "effective_status": "math.machine-checked",
+            "in_question": false
+          },
+          "pfr-projection": {
+            "status": "math.machine-checked",
+            "effective_status": "math.machine-checked",
+            "in_question": false
+          },
+          "tau-functional": {
+            "status": "math.machine-checked",
+            "effective_status": "math.machine-checked",
+            "in_question": false
+          },
+          "entropy-basic": {
+            "status": "math.machine-checked",
+            "effective_status": "math.machine-checked",
+            "in_question": false
+          },
+          "weak-pfr-asymm": {
+            "status": "math.machine-checked",
+            "effective_status": "math.machine-checked",
+            "in_question": false
+          }
+        }
+      },
+      {
+        "i": 12,
+        "hash": null,
+        "date": null,
+        "subject": "fix(app-ent-pfr)!: adopt the module system (v4.28-rc1, same Mathlib) -- silent sorryAx",
+        "type": "fix",
+        "event": "asserted",
+        "focus": "app-ent-pfr",
+        "present": [
+          "app-ent-pfr",
+          "entropy-basic",
+          "pfr-int-strong",
+          "pfr-projection",
+          "ruzsa-distance",
+          "tau-functional",
+          "torsion-dist-shrinking",
+          "torsion-free-doubling",
+          "weak-pfr-asymm",
+          "weak-pfr-int",
+          "weak-pfr-symm"
+        ],
+        "edges": [
+          "ruzsa-distance|Depends-On|entropy-basic",
+          "tau-functional|Depends-On|ruzsa-distance",
+          "pfr-projection|Depends-On|ruzsa-distance",
+          "app-ent-pfr|Depends-On|tau-functional",
+          "torsion-dist-shrinking|Depends-On|app-ent-pfr",
+          "torsion-free-doubling|Depends-On|torsion-dist-shrinking",
+          "torsion-free-doubling|Depends-On|pfr-projection",
+          "weak-pfr-asymm|Depends-On|torsion-free-doubling",
+          "weak-pfr-symm|Depends-On|weak-pfr-asymm",
+          "weak-pfr-symm|Closes|weak-pfr-symm",
+          "weak-pfr-int|Depends-On|weak-pfr-symm",
+          "pfr-int-strong|Depends-On|weak-pfr-int"
+        ],
+        "state": {
+          "torsion-free-doubling": {
+            "status": "math.machine-checked",
+            "effective_status": "math.open",
+            "in_question": false
+          },
+          "ruzsa-distance": {
+            "status": "math.machine-checked",
+            "effective_status": "math.machine-checked",
+            "in_question": false
+          },
+          "weak-pfr-int": {
+            "status": "math.machine-checked",
+            "effective_status": "math.open",
+            "in_question": false
+          },
+          "app-ent-pfr": {
+            "status": "math.open",
+            "effective_status": "math.open",
+            "in_question": false
+          },
+          "torsion-dist-shrinking": {
+            "status": "math.machine-checked",
+            "effective_status": "math.open",
+            "in_question": false
+          },
+          "weak-pfr-symm": {
+            "status": "math.machine-checked",
+            "effective_status": "math.open",
+            "in_question": false
+          },
+          "pfr-int-strong": {
+            "status": "math.machine-checked",
+            "effective_status": "math.open",
+            "in_question": false
+          },
+          "pfr-projection": {
+            "status": "math.machine-checked",
+            "effective_status": "math.machine-checked",
+            "in_question": false
+          },
+          "tau-functional": {
+            "status": "math.machine-checked",
+            "effective_status": "math.machine-checked",
+            "in_question": false
+          },
+          "entropy-basic": {
+            "status": "math.machine-checked",
+            "effective_status": "math.machine-checked",
+            "in_question": false
+          },
+          "weak-pfr-asymm": {
+            "status": "math.machine-checked",
+            "effective_status": "math.open",
+            "in_question": false
+          }
+        }
+      },
+      {
+        "i": 13,
+        "hash": null,
+        "date": null,
+        "subject": "fix(torsion-dist-shrinking)!: same module-system migration, same silent sorryAx",
+        "type": "fix",
+        "event": "asserted",
+        "focus": "torsion-dist-shrinking",
+        "present": [
+          "app-ent-pfr",
+          "entropy-basic",
+          "pfr-int-strong",
+          "pfr-projection",
+          "ruzsa-distance",
+          "tau-functional",
+          "torsion-dist-shrinking",
+          "torsion-free-doubling",
+          "weak-pfr-asymm",
+          "weak-pfr-int",
+          "weak-pfr-symm"
+        ],
+        "edges": [
+          "ruzsa-distance|Depends-On|entropy-basic",
+          "tau-functional|Depends-On|ruzsa-distance",
+          "pfr-projection|Depends-On|ruzsa-distance",
+          "app-ent-pfr|Depends-On|tau-functional",
+          "torsion-dist-shrinking|Depends-On|app-ent-pfr",
+          "torsion-free-doubling|Depends-On|torsion-dist-shrinking",
+          "torsion-free-doubling|Depends-On|pfr-projection",
+          "weak-pfr-asymm|Depends-On|torsion-free-doubling",
+          "weak-pfr-symm|Depends-On|weak-pfr-asymm",
+          "weak-pfr-symm|Closes|weak-pfr-symm",
+          "weak-pfr-int|Depends-On|weak-pfr-symm",
+          "pfr-int-strong|Depends-On|weak-pfr-int"
+        ],
+        "state": {
+          "torsion-free-doubling": {
+            "status": "math.machine-checked",
+            "effective_status": "math.open",
+            "in_question": false
+          },
+          "ruzsa-distance": {
+            "status": "math.machine-checked",
+            "effective_status": "math.machine-checked",
+            "in_question": false
+          },
+          "weak-pfr-int": {
+            "status": "math.machine-checked",
+            "effective_status": "math.open",
+            "in_question": false
+          },
+          "app-ent-pfr": {
+            "status": "math.open",
+            "effective_status": "math.open",
+            "in_question": false
+          },
+          "torsion-dist-shrinking": {
+            "status": "math.open",
+            "effective_status": "math.open",
+            "in_question": false
+          },
+          "weak-pfr-symm": {
+            "status": "math.machine-checked",
+            "effective_status": "math.open",
+            "in_question": false
+          },
+          "pfr-int-strong": {
+            "status": "math.machine-checked",
+            "effective_status": "math.open",
+            "in_question": false
+          },
+          "pfr-projection": {
+            "status": "math.machine-checked",
+            "effective_status": "math.machine-checked",
+            "in_question": false
+          },
+          "tau-functional": {
+            "status": "math.machine-checked",
+            "effective_status": "math.machine-checked",
+            "in_question": false
+          },
+          "entropy-basic": {
+            "status": "math.machine-checked",
+            "effective_status": "math.machine-checked",
+            "in_question": false
+          },
+          "weak-pfr-asymm": {
+            "status": "math.machine-checked",
+            "effective_status": "math.open",
+            "in_question": false
+          }
+        }
+      },
+      {
+        "i": 14,
+        "hash": null,
+        "date": null,
+        "subject": "fix(torsion-free-doubling)!: same module-system migration, same silent sorryAx",
+        "type": "fix",
+        "event": "asserted",
+        "focus": "torsion-free-doubling",
+        "present": [
+          "app-ent-pfr",
+          "entropy-basic",
+          "pfr-int-strong",
+          "pfr-projection",
+          "ruzsa-distance",
+          "tau-functional",
+          "torsion-dist-shrinking",
+          "torsion-free-doubling",
+          "weak-pfr-asymm",
+          "weak-pfr-int",
+          "weak-pfr-symm"
+        ],
+        "edges": [
+          "ruzsa-distance|Depends-On|entropy-basic",
+          "tau-functional|Depends-On|ruzsa-distance",
+          "pfr-projection|Depends-On|ruzsa-distance",
+          "app-ent-pfr|Depends-On|tau-functional",
+          "torsion-dist-shrinking|Depends-On|app-ent-pfr",
+          "torsion-free-doubling|Depends-On|torsion-dist-shrinking",
+          "torsion-free-doubling|Depends-On|pfr-projection",
+          "weak-pfr-asymm|Depends-On|torsion-free-doubling",
+          "weak-pfr-symm|Depends-On|weak-pfr-asymm",
+          "weak-pfr-symm|Closes|weak-pfr-symm",
+          "weak-pfr-int|Depends-On|weak-pfr-symm",
+          "pfr-int-strong|Depends-On|weak-pfr-int"
+        ],
+        "state": {
+          "torsion-free-doubling": {
+            "status": "math.open",
+            "effective_status": "math.open",
+            "in_question": false
+          },
+          "ruzsa-distance": {
+            "status": "math.machine-checked",
+            "effective_status": "math.machine-checked",
+            "in_question": false
+          },
+          "weak-pfr-int": {
+            "status": "math.machine-checked",
+            "effective_status": "math.open",
+            "in_question": false
+          },
+          "app-ent-pfr": {
+            "status": "math.open",
+            "effective_status": "math.open",
+            "in_question": false
+          },
+          "torsion-dist-shrinking": {
+            "status": "math.open",
+            "effective_status": "math.open",
+            "in_question": false
+          },
+          "weak-pfr-symm": {
+            "status": "math.machine-checked",
+            "effective_status": "math.open",
+            "in_question": false
+          },
+          "pfr-int-strong": {
+            "status": "math.machine-checked",
+            "effective_status": "math.open",
+            "in_question": false
+          },
+          "pfr-projection": {
+            "status": "math.machine-checked",
+            "effective_status": "math.machine-checked",
+            "in_question": false
+          },
+          "tau-functional": {
+            "status": "math.machine-checked",
+            "effective_status": "math.machine-checked",
+            "in_question": false
+          },
+          "entropy-basic": {
+            "status": "math.machine-checked",
+            "effective_status": "math.machine-checked",
+            "in_question": false
+          },
+          "weak-pfr-asymm": {
+            "status": "math.machine-checked",
+            "effective_status": "math.open",
+            "in_question": false
+          }
+        }
+      },
+      {
+        "i": 15,
+        "hash": null,
+        "date": null,
+        "subject": "fix(pfr-projection)!: same module-system migration, same silent sorryAx",
+        "type": "fix",
+        "event": "asserted",
+        "focus": "pfr-projection",
+        "present": [
+          "app-ent-pfr",
+          "entropy-basic",
+          "pfr-int-strong",
+          "pfr-projection",
+          "ruzsa-distance",
+          "tau-functional",
+          "torsion-dist-shrinking",
+          "torsion-free-doubling",
+          "weak-pfr-asymm",
+          "weak-pfr-int",
+          "weak-pfr-symm"
+        ],
+        "edges": [
+          "ruzsa-distance|Depends-On|entropy-basic",
+          "tau-functional|Depends-On|ruzsa-distance",
+          "pfr-projection|Depends-On|ruzsa-distance",
+          "app-ent-pfr|Depends-On|tau-functional",
+          "torsion-dist-shrinking|Depends-On|app-ent-pfr",
+          "torsion-free-doubling|Depends-On|torsion-dist-shrinking",
+          "torsion-free-doubling|Depends-On|pfr-projection",
+          "weak-pfr-asymm|Depends-On|torsion-free-doubling",
+          "weak-pfr-symm|Depends-On|weak-pfr-asymm",
+          "weak-pfr-symm|Closes|weak-pfr-symm",
+          "weak-pfr-int|Depends-On|weak-pfr-symm",
+          "pfr-int-strong|Depends-On|weak-pfr-int"
+        ],
+        "state": {
+          "torsion-free-doubling": {
+            "status": "math.open",
+            "effective_status": "math.open",
+            "in_question": false
+          },
+          "ruzsa-distance": {
+            "status": "math.machine-checked",
+            "effective_status": "math.machine-checked",
+            "in_question": false
+          },
+          "weak-pfr-int": {
+            "status": "math.machine-checked",
+            "effective_status": "math.open",
+            "in_question": false
+          },
+          "app-ent-pfr": {
+            "status": "math.open",
+            "effective_status": "math.open",
+            "in_question": false
+          },
+          "torsion-dist-shrinking": {
+            "status": "math.open",
+            "effective_status": "math.open",
+            "in_question": false
+          },
+          "weak-pfr-symm": {
+            "status": "math.machine-checked",
+            "effective_status": "math.open",
+            "in_question": false
+          },
+          "pfr-int-strong": {
+            "status": "math.machine-checked",
+            "effective_status": "math.open",
+            "in_question": false
+          },
+          "pfr-projection": {
+            "status": "math.open",
+            "effective_status": "math.open",
+            "in_question": false
+          },
+          "tau-functional": {
+            "status": "math.machine-checked",
+            "effective_status": "math.machine-checked",
+            "in_question": false
+          },
+          "entropy-basic": {
+            "status": "math.machine-checked",
+            "effective_status": "math.machine-checked",
+            "in_question": false
+          },
+          "weak-pfr-asymm": {
+            "status": "math.machine-checked",
+            "effective_status": "math.open",
+            "in_question": false
+          }
+        }
+      },
+      {
+        "i": 16,
+        "hash": null,
+        "date": null,
+        "subject": "fix(weak-pfr-asymm)!: same module-system migration, same silent sorryAx",
+        "type": "fix",
+        "event": "asserted",
+        "focus": "weak-pfr-asymm",
+        "present": [
+          "app-ent-pfr",
+          "entropy-basic",
+          "pfr-int-strong",
+          "pfr-projection",
+          "ruzsa-distance",
+          "tau-functional",
+          "torsion-dist-shrinking",
+          "torsion-free-doubling",
+          "weak-pfr-asymm",
+          "weak-pfr-int",
+          "weak-pfr-symm"
+        ],
+        "edges": [
+          "ruzsa-distance|Depends-On|entropy-basic",
+          "tau-functional|Depends-On|ruzsa-distance",
+          "pfr-projection|Depends-On|ruzsa-distance",
+          "app-ent-pfr|Depends-On|tau-functional",
+          "torsion-dist-shrinking|Depends-On|app-ent-pfr",
+          "torsion-free-doubling|Depends-On|torsion-dist-shrinking",
+          "torsion-free-doubling|Depends-On|pfr-projection",
+          "weak-pfr-asymm|Depends-On|torsion-free-doubling",
+          "weak-pfr-symm|Depends-On|weak-pfr-asymm",
+          "weak-pfr-symm|Closes|weak-pfr-symm",
+          "weak-pfr-int|Depends-On|weak-pfr-symm",
+          "pfr-int-strong|Depends-On|weak-pfr-int"
+        ],
+        "state": {
+          "torsion-free-doubling": {
+            "status": "math.open",
+            "effective_status": "math.open",
+            "in_question": false
+          },
+          "ruzsa-distance": {
+            "status": "math.machine-checked",
+            "effective_status": "math.machine-checked",
+            "in_question": false
+          },
+          "weak-pfr-int": {
+            "status": "math.machine-checked",
+            "effective_status": "math.open",
+            "in_question": false
+          },
+          "app-ent-pfr": {
+            "status": "math.open",
+            "effective_status": "math.open",
+            "in_question": false
+          },
+          "torsion-dist-shrinking": {
+            "status": "math.open",
+            "effective_status": "math.open",
+            "in_question": false
+          },
+          "weak-pfr-symm": {
+            "status": "math.machine-checked",
+            "effective_status": "math.open",
+            "in_question": false
+          },
+          "pfr-int-strong": {
+            "status": "math.machine-checked",
+            "effective_status": "math.open",
+            "in_question": false
+          },
+          "pfr-projection": {
+            "status": "math.open",
+            "effective_status": "math.open",
+            "in_question": false
+          },
+          "tau-functional": {
+            "status": "math.machine-checked",
+            "effective_status": "math.machine-checked",
+            "in_question": false
+          },
+          "entropy-basic": {
+            "status": "math.machine-checked",
+            "effective_status": "math.machine-checked",
+            "in_question": false
+          },
+          "weak-pfr-asymm": {
+            "status": "math.open",
+            "effective_status": "math.open",
+            "in_question": false
+          }
+        }
+      },
+      {
+        "i": 17,
+        "hash": null,
+        "date": null,
+        "subject": "fix(weak-pfr-symm)!: same module-system migration, same silent sorryAx",
+        "type": "fix",
+        "event": "asserted",
+        "focus": "weak-pfr-symm",
+        "present": [
+          "app-ent-pfr",
+          "entropy-basic",
+          "pfr-int-strong",
+          "pfr-projection",
+          "ruzsa-distance",
+          "tau-functional",
+          "torsion-dist-shrinking",
+          "torsion-free-doubling",
+          "weak-pfr-asymm",
+          "weak-pfr-int",
+          "weak-pfr-symm"
+        ],
+        "edges": [
+          "ruzsa-distance|Depends-On|entropy-basic",
+          "tau-functional|Depends-On|ruzsa-distance",
+          "pfr-projection|Depends-On|ruzsa-distance",
+          "app-ent-pfr|Depends-On|tau-functional",
+          "torsion-dist-shrinking|Depends-On|app-ent-pfr",
+          "torsion-free-doubling|Depends-On|torsion-dist-shrinking",
+          "torsion-free-doubling|Depends-On|pfr-projection",
+          "weak-pfr-asymm|Depends-On|torsion-free-doubling",
+          "weak-pfr-symm|Depends-On|weak-pfr-asymm",
+          "weak-pfr-symm|Closes|weak-pfr-symm",
+          "weak-pfr-int|Depends-On|weak-pfr-symm",
+          "pfr-int-strong|Depends-On|weak-pfr-int"
+        ],
+        "state": {
+          "torsion-free-doubling": {
+            "status": "math.open",
+            "effective_status": "math.open",
+            "in_question": false
+          },
+          "ruzsa-distance": {
+            "status": "math.machine-checked",
+            "effective_status": "math.machine-checked",
+            "in_question": false
+          },
+          "weak-pfr-int": {
+            "status": "math.machine-checked",
+            "effective_status": "math.open",
+            "in_question": false
+          },
+          "app-ent-pfr": {
+            "status": "math.open",
+            "effective_status": "math.open",
+            "in_question": false
+          },
+          "torsion-dist-shrinking": {
+            "status": "math.open",
+            "effective_status": "math.open",
+            "in_question": false
+          },
+          "weak-pfr-symm": {
+            "status": "math.open",
+            "effective_status": "math.open",
+            "in_question": false
+          },
+          "pfr-int-strong": {
+            "status": "math.machine-checked",
+            "effective_status": "math.open",
+            "in_question": false
+          },
+          "pfr-projection": {
+            "status": "math.open",
+            "effective_status": "math.open",
+            "in_question": false
+          },
+          "tau-functional": {
+            "status": "math.machine-checked",
+            "effective_status": "math.machine-checked",
+            "in_question": false
+          },
+          "entropy-basic": {
+            "status": "math.machine-checked",
+            "effective_status": "math.machine-checked",
+            "in_question": false
+          },
+          "weak-pfr-asymm": {
+            "status": "math.open",
+            "effective_status": "math.open",
+            "in_question": false
+          }
+        }
+      },
+      {
+        "i": 18,
+        "hash": null,
+        "date": null,
+        "subject": "fix(weak-pfr-int)!: same module-system migration, same silent sorryAx",
+        "type": "fix",
+        "event": "asserted",
+        "focus": "weak-pfr-int",
+        "present": [
+          "app-ent-pfr",
+          "entropy-basic",
+          "pfr-int-strong",
+          "pfr-projection",
+          "ruzsa-distance",
+          "tau-functional",
+          "torsion-dist-shrinking",
+          "torsion-free-doubling",
+          "weak-pfr-asymm",
+          "weak-pfr-int",
+          "weak-pfr-symm"
+        ],
+        "edges": [
+          "ruzsa-distance|Depends-On|entropy-basic",
+          "tau-functional|Depends-On|ruzsa-distance",
+          "pfr-projection|Depends-On|ruzsa-distance",
+          "app-ent-pfr|Depends-On|tau-functional",
+          "torsion-dist-shrinking|Depends-On|app-ent-pfr",
+          "torsion-free-doubling|Depends-On|torsion-dist-shrinking",
+          "torsion-free-doubling|Depends-On|pfr-projection",
+          "weak-pfr-asymm|Depends-On|torsion-free-doubling",
+          "weak-pfr-symm|Depends-On|weak-pfr-asymm",
+          "weak-pfr-symm|Closes|weak-pfr-symm",
+          "weak-pfr-int|Depends-On|weak-pfr-symm",
+          "pfr-int-strong|Depends-On|weak-pfr-int"
+        ],
+        "state": {
+          "torsion-free-doubling": {
+            "status": "math.open",
+            "effective_status": "math.open",
+            "in_question": false
+          },
+          "ruzsa-distance": {
+            "status": "math.machine-checked",
+            "effective_status": "math.machine-checked",
+            "in_question": false
+          },
+          "weak-pfr-int": {
+            "status": "math.open",
+            "effective_status": "math.open",
+            "in_question": false
+          },
+          "app-ent-pfr": {
+            "status": "math.open",
+            "effective_status": "math.open",
+            "in_question": false
+          },
+          "torsion-dist-shrinking": {
+            "status": "math.open",
+            "effective_status": "math.open",
+            "in_question": false
+          },
+          "weak-pfr-symm": {
+            "status": "math.open",
+            "effective_status": "math.open",
+            "in_question": false
+          },
+          "pfr-int-strong": {
+            "status": "math.machine-checked",
+            "effective_status": "math.open",
+            "in_question": false
+          },
+          "pfr-projection": {
+            "status": "math.open",
+            "effective_status": "math.open",
+            "in_question": false
+          },
+          "tau-functional": {
+            "status": "math.machine-checked",
+            "effective_status": "math.machine-checked",
+            "in_question": false
+          },
+          "entropy-basic": {
+            "status": "math.machine-checked",
+            "effective_status": "math.machine-checked",
+            "in_question": false
+          },
+          "weak-pfr-asymm": {
+            "status": "math.open",
+            "effective_status": "math.open",
+            "in_question": false
+          }
+        }
+      }
+    ]
+  },
+  "nodes": [
+    {
+      "id": "app-ent-pfr",
+      "kind": "theorem",
+      "statement": "The approximate-entropy PFR inequality. Its proof unfolds the tau-functional minimiser's definition body.",
+      "status": "math.open",
+      "effective_status": "math.open",
+      "in_question": false,
+      "weakest_dep": null
+    },
+    {
+      "id": "entropy-basic",
+      "kind": "definition",
+      "statement": "Shannon entropy and its basic inequalities.",
+      "status": "math.machine-checked",
+      "effective_status": "math.machine-checked",
+      "in_question": false,
+      "weakest_dep": null
+    },
+    {
+      "id": "pfr-int-strong",
+      "kind": "theorem",
+      "statement": "A downstream corollary that uses weak PFR over the integers (own proof clean, but it rests on the contaminated strand).",
+      "status": "math.machine-checked",
+      "effective_status": "math.open",
+      "in_question": false,
+      "weakest_dep": "torsion-free-doubling"
+    },
+    {
+      "id": "pfr-projection",
+      "kind": "theorem",
+      "statement": "The projection lemma onto a finite-index subgroup.",
+      "status": "math.open",
+      "effective_status": "math.open",
+      "in_question": false,
+      "weakest_dep": null
+    },
+    {
+      "id": "ruzsa-distance",
+      "kind": "definition",
+      "statement": "The entropic Ruzsa distance and its triangle inequality.",
+      "status": "math.machine-checked",
+      "effective_status": "math.machine-checked",
+      "in_question": false,
+      "weakest_dep": null
+    },
+    {
+      "id": "tau-functional",
+      "kind": "definition",
+      "statement": "The tau-functional and its minimiser.",
+      "status": "math.machine-checked",
+      "effective_status": "math.machine-checked",
+      "in_question": false,
+      "weakest_dep": null
+    },
+    {
+      "id": "torsion-dist-shrinking",
+      "kind": "theorem",
+      "statement": "The entropic Ruzsa distance shrinks under the torsion quotient.",
+      "status": "math.open",
+      "effective_status": "math.open",
+      "in_question": false,
+      "weakest_dep": null
+    },
+    {
+      "id": "torsion-free-doubling",
+      "kind": "theorem",
+      "statement": "The torsion-free doubling bound.",
+      "status": "math.open",
+      "effective_status": "math.open",
+      "in_question": false,
+      "weakest_dep": null
+    },
+    {
+      "id": "weak-pfr-asymm",
+      "kind": "theorem",
+      "statement": "The asymmetric weak PFR.",
+      "status": "math.open",
+      "effective_status": "math.open",
+      "in_question": false,
+      "weakest_dep": null
+    },
+    {
+      "id": "weak-pfr-int",
+      "kind": "theorem",
+      "statement": "Weak PFR over the integers.",
+      "status": "math.open",
+      "effective_status": "math.open",
+      "in_question": false,
+      "weakest_dep": null
+    },
+    {
+      "id": "weak-pfr-symm",
+      "kind": "theorem",
+      "statement": "Weak Polynomial Freiman-Ruzsa (symmetric form): a set with small doubling is covered by few translates of a coset of a subgroup.",
+      "status": "math.open",
+      "effective_status": "math.open",
+      "in_question": false,
+      "weakest_dep": null
+    }
+  ],
+  "edges": [
+    {
+      "source": "ruzsa-distance",
+      "target": "entropy-basic",
+      "relation": "Depends-On",
+      "breaking": false
+    },
+    {
+      "source": "tau-functional",
+      "target": "ruzsa-distance",
+      "relation": "Depends-On",
+      "breaking": false
+    },
+    {
+      "source": "pfr-projection",
+      "target": "ruzsa-distance",
+      "relation": "Depends-On",
+      "breaking": false
+    },
+    {
+      "source": "app-ent-pfr",
+      "target": "tau-functional",
+      "relation": "Depends-On",
+      "breaking": false
+    },
+    {
+      "source": "torsion-dist-shrinking",
+      "target": "app-ent-pfr",
+      "relation": "Depends-On",
+      "breaking": false
+    },
+    {
+      "source": "torsion-free-doubling",
+      "target": "torsion-dist-shrinking",
+      "relation": "Depends-On",
+      "breaking": false
+    },
+    {
+      "source": "torsion-free-doubling",
+      "target": "pfr-projection",
+      "relation": "Depends-On",
+      "breaking": false
+    },
+    {
+      "source": "weak-pfr-asymm",
+      "target": "torsion-free-doubling",
+      "relation": "Depends-On",
+      "breaking": false
+    },
+    {
+      "source": "weak-pfr-symm",
+      "target": "weak-pfr-asymm",
+      "relation": "Depends-On",
+      "breaking": false
+    },
+    {
+      "source": "weak-pfr-symm",
+      "target": "weak-pfr-symm",
+      "relation": "Closes",
+      "breaking": false
+    },
+    {
+      "source": "weak-pfr-int",
+      "target": "weak-pfr-symm",
+      "relation": "Depends-On",
+      "breaking": false
+    },
+    {
+      "source": "pfr-int-strong",
+      "target": "weak-pfr-int",
+      "relation": "Depends-On",
+      "breaking": false
+    }
+  ]
+}

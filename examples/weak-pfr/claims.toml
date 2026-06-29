@@ -1,0 +1,83 @@
+# claims.toml: the CKC claim registry for the WeakPFR silent-contamination example.
+#
+# A curated reconstruction of teorth/pfr's WeakPFR strand, grounded in the T4 proof-rot
+# measurement: at the commit adopting Lean's module system, all seven WeakPFR results regress
+# from machine-checked to a silent sorryAx (open) behind green CI, while the entropy/Ruzsa
+# foundations stay clean and the downstream corollary falls into the blast radius.
+#
+# The slug (table key) is what commit footers reference. `status` is a CACHE of the effective
+# status computed from the commit graph by `claimgraph build`; regenerate it, do not treat it as
+# the source of truth.
+
+[claims.weak-pfr-symm]
+kind      = "theorem"
+statement = "Weak Polynomial Freiman-Ruzsa (symmetric form): a set with small doubling is covered by few translates of a coset of a subgroup."
+lean      = "weak_PFR"
+status    = "math.open"
+created   = "2023-11-01"
+
+[claims.entropy-basic]
+kind      = "definition"
+statement = "Shannon entropy and its basic inequalities."
+status    = "math.machine-checked"
+created   = "2023-11-01"
+
+[claims.ruzsa-distance]
+kind      = "definition"
+statement = "The entropic Ruzsa distance and its triangle inequality."
+status    = "math.machine-checked"
+created   = "2023-11-05"
+
+[claims.tau-functional]
+kind      = "definition"
+statement = "The tau-functional and its minimiser."
+status    = "math.machine-checked"
+created   = "2023-11-10"
+
+[claims.pfr-projection]
+kind      = "theorem"
+statement = "The projection lemma onto a finite-index subgroup."
+lean      = "PFR_projection"
+status    = "math.open"
+created   = "2023-11-20"
+
+[claims.app-ent-pfr]
+kind      = "theorem"
+statement = "The approximate-entropy PFR inequality. Its proof unfolds the tau-functional minimiser's definition body."
+lean      = "app_ent_PFR"
+status    = "math.open"
+created   = "2023-12-01"
+
+[claims.torsion-dist-shrinking]
+kind      = "theorem"
+statement = "The entropic Ruzsa distance shrinks under the torsion quotient."
+lean      = "torsion_dist_shrinking"
+status    = "math.open"
+created   = "2023-12-05"
+
+[claims.torsion-free-doubling]
+kind      = "theorem"
+statement = "The torsion-free doubling bound."
+lean      = "torsion_free_doubling"
+status    = "math.open"
+created   = "2023-12-10"
+
+[claims.weak-pfr-asymm]
+kind      = "theorem"
+statement = "The asymmetric weak PFR."
+lean      = "weak_PFR_asymm"
+status    = "math.open"
+created   = "2023-12-15"
+
+[claims.weak-pfr-int]
+kind      = "theorem"
+statement = "Weak PFR over the integers."
+lean      = "weak_PFR_int"
+status    = "math.open"
+created   = "2023-12-20"
+
+[claims.pfr-int-strong]
+kind      = "theorem"
+statement = "A downstream corollary that uses weak PFR over the integers (own proof clean, but it rests on the contaminated strand)."
+status    = "math.open"
+created   = "2024-01-10"

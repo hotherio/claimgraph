@@ -352,6 +352,7 @@
     "assets/kepler.json": "The Kepler conjecture: Hsiang's refuted 1993 attempt, Hales's computer-assisted proof the referees could only certify 99% certain, and the Flyspeck formal proof that made it machine-checked.",
     "assets/fundamental-algebra.json": "The Fundamental Theorem of Algebra: d'Alembert's and Gauss's gapped early proofs, several independent rigorous routes to the same theorem, and a kernel-checked Coq formalization.",
     "assets/prime-number-theorem.json": "The Prime Number Theorem: Chebyshev's bounds, two independent 1896 proofs over the same zeta lemma, the 1949 elementary proof, an Isabelle formalization, and a sharper error term still resting on the open Riemann hypothesis.",
+    "assets/weak-pfr.json": "PFR's WeakPFR strand: built to machine-checked, then a 2026 module-system migration silently turned all seven results to a sorryAx behind green CI, leaving a downstream corollary in the blast radius. A curated reconstruction of a measured proof-rot finding.",
   };
   const INSTRUCTIONS = "Node colour is the <b>effective status</b>, the weakest status in a claim's <code>Depends-On</code>/<code>Assumes</code> closure. Click a claim to trace what it rests on; click a broken claim to highlight the <b>claims it affects</b>.";
 

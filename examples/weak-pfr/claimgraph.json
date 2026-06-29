@@ -1,0 +1,182 @@
+{
+  "$schema": "https://raw.githubusercontent.com/hotherio/claimgraph/main/schema/claimgraph.schema.json",
+  "meta": {
+    "generator": "claimgraph",
+    "spec_version": "0.1.0"
+  },
+  "nodes": [
+    {
+      "id": "app-ent-pfr",
+      "kind": "theorem",
+      "statement": "The approximate-entropy PFR inequality. Its proof unfolds the tau-functional minimiser's definition body.",
+      "status": "math.open",
+      "effective_status": "math.open",
+      "in_question": false,
+      "weakest_dep": null
+    },
+    {
+      "id": "entropy-basic",
+      "kind": "definition",
+      "statement": "Shannon entropy and its basic inequalities.",
+      "status": "math.machine-checked",
+      "effective_status": "math.machine-checked",
+      "in_question": false,
+      "weakest_dep": null
+    },
+    {
+      "id": "pfr-int-strong",
+      "kind": "theorem",
+      "statement": "A downstream corollary that uses weak PFR over the integers (own proof clean, but it rests on the contaminated strand).",
+      "status": "math.machine-checked",
+      "effective_status": "math.open",
+      "in_question": false,
+      "weakest_dep": "weak-pfr-int"
+    },
+    {
+      "id": "pfr-projection",
+      "kind": "theorem",
+      "statement": "The projection lemma onto a finite-index subgroup.",
+      "status": "math.open",
+      "effective_status": "math.open",
+      "in_question": false,
+      "weakest_dep": null
+    },
+    {
+      "id": "ruzsa-distance",
+      "kind": "definition",
+      "statement": "The entropic Ruzsa distance and its triangle inequality.",
+      "status": "math.machine-checked",
+      "effective_status": "math.machine-checked",
+      "in_question": false,
+      "weakest_dep": null
+    },
+    {
+      "id": "tau-functional",
+      "kind": "definition",
+      "statement": "The tau-functional and its minimiser.",
+      "status": "math.machine-checked",
+      "effective_status": "math.machine-checked",
+      "in_question": false,
+      "weakest_dep": null
+    },
+    {
+      "id": "torsion-dist-shrinking",
+      "kind": "theorem",
+      "statement": "The entropic Ruzsa distance shrinks under the torsion quotient.",
+      "status": "math.open",
+      "effective_status": "math.open",
+      "in_question": false,
+      "weakest_dep": null
+    },
+    {
+      "id": "torsion-free-doubling",
+      "kind": "theorem",
+      "statement": "The torsion-free doubling bound.",
+      "status": "math.open",
+      "effective_status": "math.open",
+      "in_question": false,
+      "weakest_dep": null
+    },
+    {
+      "id": "weak-pfr-asymm",
+      "kind": "theorem",
+      "statement": "The asymmetric weak PFR.",
+      "status": "math.open",
+      "effective_status": "math.open",
+      "in_question": false,
+      "weakest_dep": null
+    },
+    {
+      "id": "weak-pfr-int",
+      "kind": "theorem",
+      "statement": "Weak PFR over the integers.",
+      "status": "math.open",
+      "effective_status": "math.open",
+      "in_question": false,
+      "weakest_dep": null
+    },
+    {
+      "id": "weak-pfr-symm",
+      "kind": "theorem",
+      "statement": "Weak Polynomial Freiman-Ruzsa (symmetric form): a set with small doubling is covered by few translates of a coset of a subgroup.",
+      "status": "math.open",
+      "effective_status": "math.open",
+      "in_question": false,
+      "weakest_dep": null
+    }
+  ],
+  "edges": [
+    {
+      "source": "ruzsa-distance",
+      "target": "entropy-basic",
+      "relation": "Depends-On",
+      "breaking": false
+    },
+    {
+      "source": "tau-functional",
+      "target": "ruzsa-distance",
+      "relation": "Depends-On",
+      "breaking": false
+    },
+    {
+      "source": "pfr-projection",
+      "target": "ruzsa-distance",
+      "relation": "Depends-On",
+      "breaking": false
+    },
+    {
+      "source": "app-ent-pfr",
+      "target": "tau-functional",
+      "relation": "Depends-On",
+      "breaking": false
+    },
+    {
+      "source": "torsion-dist-shrinking",
+      "target": "app-ent-pfr",
+      "relation": "Depends-On",
+      "breaking": false
+    },
+    {
+      "source": "torsion-free-doubling",
+      "target": "torsion-dist-shrinking",
+      "relation": "Depends-On",
+      "breaking": false
+    },
+    {
+      "source": "torsion-free-doubling",
+      "target": "pfr-projection",
+      "relation": "Depends-On",
+      "breaking": false
+    },
+    {
+      "source": "weak-pfr-asymm",
+      "target": "torsion-free-doubling",
+      "relation": "Depends-On",
+      "breaking": false
+    },
+    {
+      "source": "weak-pfr-symm",
+      "target": "weak-pfr-symm",
+      "relation": "Closes",
+      "breaking": false
+    },
+    {
+      "source": "weak-pfr-symm",
+      "target": "weak-pfr-asymm",
+      "relation": "Depends-On",
+      "breaking": false
+    },
+    {
+      "source": "weak-pfr-int",
+      "target": "weak-pfr-symm",
+      "relation": "Depends-On",
+      "breaking": false
+    },
+    {
+      "source": "pfr-int-strong",
+      "target": "weak-pfr-int",
+      "relation": "Depends-On",
+      "breaking": false
+    }
+  ]
+}

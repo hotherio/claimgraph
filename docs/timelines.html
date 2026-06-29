@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Timelines · ClaimGraph · CKC</title>
+<meta name="description" content="Compact, self-contained SVG timelines produced by claimgraph svg-timeline: each claim's status replayed over the commit history.">
+<link rel="icon" type="image/png" href="assets/favicon.png">
+<link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="ClaimGraph">
+<meta property="og:title" content="ClaimGraph timelines">
+<meta property="og:description" content="Replay each claim's status over the commit history. Watch where the red stops, and where the silent sorryAx spreads.">
+<meta property="og:url" content="https://claimgraph.conventional-knowledge-commits.org/timelines.html">
+<link rel="stylesheet" href="assets/claimgraph.css">
+<style>
+  .tl-gallery { max-width: 1040px; margin: 0 auto; padding: 8px 20px 56px; }
+  .tl-item { margin: 0 0 40px; }
+  .tl-item h2 { font-size: 19px; margin: 0 0 4px; color: #2A2927; }
+  .tl-item p.cap { font-size: 13.5px; color: #64748b; margin: 0 0 12px; max-width: 76ch; }
+  .tl-frame { width: 100%; height: 560px; border: 1px solid #ece8df; border-radius: 12px; background: #fff; }
+  .tl-note { max-width: 76ch; margin: 0 auto 22px; color: #64748b; font-size: 13.5px; }
+  .tl-note code { font-family: "SF Mono", Menlo, monospace; font-size: 12.5px; }
+</style>
+</head>
+<body>
+<nav class="nav"><div class="wrap">
+  <a class="home" href="index.html"><img class="brand" src="assets/logo.png" width="384" height="343" alt="">ClaimGraph</a>
+  <span class="sp"></span>
+  <a href="graph.html">Live graph</a>
+  <a href="timelines.html" class="here">Timelines</a>
+  <a href="how-it-works.html">How it works</a>
+  <a href="blueprint.html">Lean Blueprint</a>
+  <a class="ext" href="https://conventional-knowledge-commits.org/">Spec &#8599;</a>
+  <span class="navsep"></span>
+  <a class="gh" href="https://github.com/hotherio/claimgraph" aria-label="GitHub repository" title="GitHub repository"><svg viewBox="0 0 16 16" width="17" height="17" aria-hidden="true"><path fill="currentColor" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82a7.6 7.6 0 0 1 2-.27c.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg></a>
+</div></nav>
+
+<header class="hero"><div class="wrap">
+  <div class="tag">Conventional Knowledge Commits</div>
+  <h1>Timelines</h1>
+  <p class="lede">Each figure replays a project's history one commit at a time: drag the slider and watch
+  every claim's status move from conjecture to machine-checked, where a refutation drops a result back to
+  unproven, and where a silent <code>sorryAx</code> spreads through a dependency closure. These are
+  produced by <code>claimgraph svg-timeline</code>: a few KB of self-contained SVG, laid out
+  automatically from the claim graph, with no viewer bundle. (For the full interactive graph with
+  dependency closures and blast radius, see the <a href="graph.html">Live graph</a>.)</p>
+</div></header>
+
+<main class="tl-gallery">
+  <p class="tl-note">Generated with <code>claimgraph svg-timeline --from-fixture examples/&lt;name&gt;/&lt;name&gt;.commits</code>.
+  The same command runs against a real CKC repository.</p>
+
+  <div class="tl-item">
+    <h2>The Four Colour Theorem</h2>
+    <p class="cap">Guthrie's 1852 conjecture, Kempe's 1879 proof refuted by Heawood in 1890, the 1976 computer-assisted proof, and Gonthier's 2005 Coq formalisation. A refuted result only ever drops back to unproven, never to false.</p>
+    <iframe class="tl-frame" src="timelines/four-color.html" title="Four Colour Theorem timeline" loading="lazy"></iframe>
+  </div>
+
+  <div class="tl-item">
+    <h2>PFR: the WeakPFR silent contamination</h2>
+    <p class="cap">PFR's WeakPFR strand builds to machine-checked, then the 2026 module-system migration silently turns all seven results to <code>sorryAx</code> behind a green build; the downstream corollary becomes the blast radius (own proof intact, but effectively open). A curated reconstruction grounded in a measured proof-rot finding.</p>
+    <iframe class="tl-frame" src="timelines/weak-pfr.html" title="PFR WeakPFR silent contamination timeline" loading="lazy"></iframe>
+  </div>
+
+  <div class="tl-item">
+    <h2>Fermat's Last Theorem</h2>
+    <p class="cap">From the 1637 margin to Wiles' 1994 proof via the modularity theorem.</p>
+    <iframe class="tl-frame" src="timelines/fermat.html" title="Fermat's Last Theorem timeline" loading="lazy"></iframe>
+  </div>
+
+  <div class="tl-item">
+    <h2>The Kepler Conjecture</h2>
+    <p class="cap">Hales' 1998 proof and the Flyspeck machine-checked formalisation.</p>
+    <iframe class="tl-frame" src="timelines/kepler.html" title="Kepler Conjecture timeline" loading="lazy"></iframe>
+  </div>
+</main>
+
+<footer><div class="wrap">
+  Generated by <a href="https://github.com/hotherio/claimgraph">claimgraph</a> &middot;
+  part of <a href="https://conventional-knowledge-commits.org/">Conventional Knowledge Commits</a>.
+</div></footer>
+</body>
+</html>
