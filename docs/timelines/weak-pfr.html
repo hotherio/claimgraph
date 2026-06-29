@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html><head><meta charset="utf-8"><style>
+  .cg-wrap{position:relative;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;color:#2A2927;}
+  .cg-legend{display:flex;flex-wrap:wrap;gap:13px;align-items:center;font-size:12px;color:#64748b;margin-bottom:12px;}
+  .cg-sw{display:inline-block;width:13px;height:13px;border-radius:3px;vertical-align:-2px;margin-right:5px;border:1px solid rgba(0,0,0,0.15);}
+  .cg-controls{display:flex;align-items:center;gap:10px;margin-bottom:6px;}
+  .cg-btn{font:600 13px/1 -apple-system,sans-serif;padding:6px 11px;border:1px solid #d7d3ca;background:#f7f5f0;color:#44403c;border-radius:7px;cursor:pointer;}
+  .cg-btn:hover{background:#efece5;}
+  .cg-slider{flex:1;accent-color:#5b8c6e;}
+  .cg-read{display:flex;align-items:baseline;gap:9px;flex-wrap:wrap;min-height:22px;margin:4px 0 12px;padding:8px 10px;background:#faf8f4;border:1px solid #ece8df;border-radius:8px;}
+  .cg-read.ref{background:#fbf1ef;border-color:#e3bbb4;}
+  .cg-year{font-family:"SF Mono",Menlo,monospace;font-size:12px;font-weight:700;color:#57534e;}
+  .cg-badge{font-family:"SF Mono",Menlo,monospace;font-size:11px;padding:2px 7px;border-radius:5px;border:1px solid;white-space:nowrap;}
+  .b-conj{background:#eef0f3;color:#475569;border-color:#cbd5e1;}
+  .b-form{background:#e7f0ea;color:#3f6b51;border-color:#9bc1a8;}
+  .b-ref{background:#f6e3e1;color:#8f342d;border-color:#d9a39c;}
+  .cg-subj{font-size:12.5px;color:#44403c;flex:1 1 280px;}
+  .cg-svg{width:100%;height:auto;display:block;}
+  .cg-svg rect{transition:fill .3s,stroke .3s,opacity .3s;} .cg-svg text{transition:opacity .3s,fill .3s;}
+  .cg-edge{fill:none;transition:opacity .3s,stroke .3s;}
+  .cg-hint{font-size:12px;color:#94a3b8;margin-top:8px;font-style:italic;}
+</style></head><body>
+<div class="cg-wrap">
+  <div class="cg-legend">
+    <span><span class="cg-sw" style="background:#f6f5f2;border:1px dashed #cdc8bd"></span>not yet stated</span>
+    <span><span class="cg-sw" style="background:#eef0f3;border-color:#94a3b8"></span>conjectured / open</span>
+    <span><span class="cg-sw" style="background:#e7f0ea;border-color:#3f6b51"></span>machine-checked</span>
+    <span><span class="cg-sw" style="background:#fdf3e2;border:1px dashed #c2722b"></span>blast radius (effective open)</span>
+    <span><span class="cg-sw" style="background:#f6e3e1;border-color:#9c3a34"></span>refuted</span>
+  </div>
+  <div class="cg-controls">
+    <button class="cg-btn" id="btnPlay">&#9658; Play</button>
+    <button class="cg-btn" id="btnPrev">&#8249;</button>
+    <input class="cg-slider" id="slider" type="range" min="0" max="18" value="18" step="1">
+    <button class="cg-btn" id="btnNext">&#8250;</button>
+  </div>
+  <div class="cg-read" id="readout"></div>
+  <svg class="cg-svg" id="g" viewBox="0 0 1008 455" preserveAspectRatio="xMidYMid meet"></svg>
+  <div class="cg-hint">The WeakPFR strand builds to machine-checked, then the 2026 module-system migration silently turns all seven results to sorryAx behind green CI; the downstream corollary becomes the blast radius (effective open).</div>
+</div>
+<script>
+var DATA={"nodes": {"weak-pfr-symm": {"label": "weak-pfr-symm", "x": 96, "y": 336, "hero": false}, "entropy-basic": {"label": "entropy-basic", "x": 96, "y": 96, "hero": false}, "ruzsa-distance": {"label": "ruzsa-distance", "x": 336, "y": 96, "hero": false}, "tau-functional": {"label": "tau-functional", "x": 816, "y": 96, "hero": false}, "pfr-projection": {"label": "pfr-projection", "x": 576, "y": 96, "hero": false}, "app-ent-pfr": {"label": "app-ent-pfr", "x": 96, "y": 216, "hero": false}, "torsion-dist-shrinking": {"label": "torsion-dist-shrinking", "x": 336, "y": 216, "hero": false}, "torsion-free-doubling": {"label": "torsion-free-doubling", "x": 576, "y": 216, "hero": false}, "weak-pfr-asymm": {"label": "weak-pfr-asymm", "x": 816, "y": 216, "hero": false}, "weak-pfr-int": {"label": "weak-pfr-int", "x": 336, "y": 336, "hero": false}, "pfr-int-strong": {"label": "pfr-int-strong", "x": 576, "y": 336, "hero": true}}, "order": ["weak-pfr-symm", "entropy-basic", "ruzsa-distance", "tau-functional", "pfr-projection", "app-ent-pfr", "torsion-dist-shrinking", "torsion-free-doubling", "weak-pfr-asymm", "weak-pfr-int", "pfr-int-strong"], "edges": [{"s": "ruzsa-distance", "t": "entropy-basic"}, {"s": "tau-functional", "t": "ruzsa-distance"}, {"s": "pfr-projection", "t": "ruzsa-distance"}, {"s": "app-ent-pfr", "t": "tau-functional"}, {"s": "torsion-dist-shrinking", "t": "app-ent-pfr"}, {"s": "torsion-free-doubling", "t": "torsion-dist-shrinking"}, {"s": "torsion-free-doubling", "t": "pfr-projection"}, {"s": "weak-pfr-asymm", "t": "torsion-free-doubling"}, {"s": "weak-pfr-symm", "t": "weak-pfr-asymm"}, {"s": "weak-pfr-int", "t": "weak-pfr-symm"}, {"s": "pfr-int-strong", "t": "weak-pfr-int"}], "steps": [{"y": "", "badge": "b-conj", "blab": "conjecture", "ref": false, "s": "conjecture(weak-pfr-symm): weak Polynomial Freiman-Ruzsa, the entropy route", "set": {"weak-pfr-symm": "conj", "entropy-basic": "absent", "ruzsa-distance": "absent", "tau-functional": "absent", "pfr-projection": "absent", "app-ent-pfr": "absent", "torsion-dist-shrinking": "absent", "torsion-free-doubling": "absent", "weak-pfr-asymm": "absent", "weak-pfr-int": "absent", "pfr-int-strong": "absent"}}, {"y": "", "badge": "b-form", "blab": "formalize", "ref": false, "s": "formalize(entropy-basic): Shannon entropy and its basic inequalities", "set": {"weak-pfr-symm": "conj", "entropy-basic": "checked", "ruzsa-distance": "absent", "tau-functional": "absent", "pfr-projection": "absent", "app-ent-pfr": "absent", "torsion-dist-shrinking": "absent", "torsion-free-doubling": "absent", "weak-pfr-asymm": "absent", "weak-pfr-int": "absent", "pfr-int-strong": "absent"}}, {"y": "", "badge": "b-form", "blab": "formalize", "ref": false, "s": "formalize(ruzsa-distance): the entropic Ruzsa distance and its triangle inequality", "set": {"weak-pfr-symm": "conj", "entropy-basic": "checked", "ruzsa-distance": "checked", "tau-functional": "absent", "pfr-projection": "absent", "app-ent-pfr": "absent", "torsion-dist-shrinking": "absent", "torsion-free-doubling": "absent", "weak-pfr-asymm": "absent", "weak-pfr-int": "absent", "pfr-int-strong": "absent"}}, {"y": "", "badge": "b-form", "blab": "formalize", "ref": false, "s": "formalize(tau-functional): the tau-functional and its minimiser", "set": {"weak-pfr-symm": "conj", "entropy-basic": "checked", "ruzsa-distance": "checked", "tau-functional": "checked", "pfr-projection": "absent", "app-ent-pfr": "absent", "torsion-dist-shrinking": "absent", "torsion-free-doubling": "absent", "weak-pfr-asymm": "absent", "weak-pfr-int": "absent", "pfr-int-strong": "absent"}}, {"y": "", "badge": "b-form", "blab": "formalize", "ref": false, "s": "formalize(pfr-projection): the projection lemma onto a finite-index subgroup", "set": {"weak-pfr-symm": "conj", "entropy-basic": "checked", "ruzsa-distance": "checked", "tau-functional": "checked", "pfr-projection": "checked", "app-ent-pfr": "absent", "torsion-dist-shrinking": "absent", "torsion-free-doubling": "absent", "weak-pfr-asymm": "absent", "weak-pfr-int": "absent", "pfr-int-strong": "absent"}}, {"y": "", "badge": "b-form", "blab": "formalize", "ref": false, "s": "formalize(app-ent-pfr): the approximate-entropy PFR inequality", "set": {"weak-pfr-symm": "conj", "entropy-basic": "checked", "ruzsa-distance": "checked", "tau-functional": "checked", "pfr-projection": "checked", "app-ent-pfr": "checked", "torsion-dist-shrinking": "absent", "torsion-free-doubling": "absent", "weak-pfr-asymm": "absent", "weak-pfr-int": "absent", "pfr-int-strong": "absent"}}, {"y": "", "badge": "b-form", "blab": "formalize", "ref": false, "s": "formalize(torsion-dist-shrinking): Ruzsa distance shrinks under the torsion quotient", "set": {"weak-pfr-symm": "conj", "entropy-basic": "checked", "ruzsa-distance": "checked", "tau-functional": "checked", "pfr-projection": "checked", "app-ent-pfr": "checked", "torsion-dist-shrinking": "checked", "torsion-free-doubling": "absent", "weak-pfr-asymm": "absent", "weak-pfr-int": "absent", "pfr-int-strong": "absent"}}, {"y": "", "badge": "b-form", "blab": "formalize", "ref": false, "s": "formalize(torsion-free-doubling): the torsion-free doubling bound", "set": {"weak-pfr-symm": "conj", "entropy-basic": "checked", "ruzsa-distance": "checked", "tau-functional": "checked", "pfr-projection": "checked", "app-ent-pfr": "checked", "torsion-dist-shrinking": "checked", "torsion-free-doubling": "checked", "weak-pfr-asymm": "absent", "weak-pfr-int": "absent", "pfr-int-strong": "absent"}}, {"y": "", "badge": "b-form", "blab": "formalize", "ref": false, "s": "formalize(weak-pfr-asymm): the asymmetric weak PFR", "set": {"weak-pfr-symm": "conj", "entropy-basic": "checked", "ruzsa-distance": "checked", "tau-functional": "checked", "pfr-projection": "checked", "app-ent-pfr": "checked", "torsion-dist-shrinking": "checked", "torsion-free-doubling": "checked", "weak-pfr-asymm": "checked", "weak-pfr-int": "absent", "pfr-int-strong": "absent"}}, {"y": "", "badge": "b-form", "blab": "formalize", "ref": false, "s": "formalize(weak-pfr-symm): weak PFR (symmetric form), everything compiles!", "set": {"weak-pfr-symm": "checked", "entropy-basic": "checked", "ruzsa-distance": "checked", "tau-functional": "checked", "pfr-projection": "checked", "app-ent-pfr": "checked", "torsion-dist-shrinking": "checked", "torsion-free-doubling": "checked", "weak-pfr-asymm": "checked", "weak-pfr-int": "absent", "pfr-int-strong": "absent"}}, {"y": "", "badge": "b-form", "blab": "formalize", "ref": false, "s": "formalize(weak-pfr-int): weak PFR over the integers", "set": {"weak-pfr-symm": "checked", "entropy-basic": "checked", "ruzsa-distance": "checked", "tau-functional": "checked", "pfr-projection": "checked", "app-ent-pfr": "checked", "torsion-dist-shrinking": "checked", "torsion-free-doubling": "checked", "weak-pfr-asymm": "checked", "weak-pfr-int": "checked", "pfr-int-strong": "absent"}}, {"y": "", "badge": "b-form", "blab": "formalize", "ref": false, "s": "formalize(pfr-int-strong): a downstream corollary that uses weak PFR over Z", "set": {"weak-pfr-symm": "checked", "entropy-basic": "checked", "ruzsa-distance": "checked", "tau-functional": "checked", "pfr-projection": "checked", "app-ent-pfr": "checked", "torsion-dist-shrinking": "checked", "torsion-free-doubling": "checked", "weak-pfr-asymm": "checked", "weak-pfr-int": "checked", "pfr-int-strong": "checked"}}, {"y": "", "badge": "b-form", "blab": "fix", "ref": false, "s": "fix(app-ent-pfr)!: adopt the module system (v4.28-rc1, same Mathlib) -- silent sorryAx", "set": {"weak-pfr-symm": "blast", "entropy-basic": "checked", "ruzsa-distance": "checked", "tau-functional": "checked", "pfr-projection": "checked", "app-ent-pfr": "open", "torsion-dist-shrinking": "blast", "torsion-free-doubling": "blast", "weak-pfr-asymm": "blast", "weak-pfr-int": "blast", "pfr-int-strong": "blast"}}, {"y": "", "badge": "b-form", "blab": "fix", "ref": false, "s": "fix(torsion-dist-shrinking)!: same module-system migration, same silent sorryAx", "set": {"weak-pfr-symm": "blast", "entropy-basic": "checked", "ruzsa-distance": "checked", "tau-functional": "checked", "pfr-projection": "checked", "app-ent-pfr": "open", "torsion-dist-shrinking": "open", "torsion-free-doubling": "blast", "weak-pfr-asymm": "blast", "weak-pfr-int": "blast", "pfr-int-strong": "blast"}}, {"y": "", "badge": "b-form", "blab": "fix", "ref": false, "s": "fix(torsion-free-doubling)!: same module-system migration, same silent sorryAx", "set": {"weak-pfr-symm": "blast", "entropy-basic": "checked", "ruzsa-distance": "checked", "tau-functional": "checked", "pfr-projection": "checked", "app-ent-pfr": "open", "torsion-dist-shrinking": "open", "torsion-free-doubling": "open", "weak-pfr-asymm": "blast", "weak-pfr-int": "blast", "pfr-int-strong": "blast"}}, {"y": "", "badge": "b-form", "blab": "fix", "ref": false, "s": "fix(pfr-projection)!: same module-system migration, same silent sorryAx", "set": {"weak-pfr-symm": "blast", "entropy-basic": "checked", "ruzsa-distance": "checked", "tau-functional": "checked", "pfr-projection": "open", "app-ent-pfr": "open", "torsion-dist-shrinking": "open", "torsion-free-doubling": "open", "weak-pfr-asymm": "blast", "weak-pfr-int": "blast", "pfr-int-strong": "blast"}}, {"y": "", "badge": "b-form", "blab": "fix", "ref": false, "s": "fix(weak-pfr-asymm)!: same module-system migration, same silent sorryAx", "set": {"weak-pfr-symm": "blast", "entropy-basic": "checked", "ruzsa-distance": "checked", "tau-functional": "checked", "pfr-projection": "open", "app-ent-pfr": "open", "torsion-dist-shrinking": "open", "torsion-free-doubling": "open", "weak-pfr-asymm": "open", "weak-pfr-int": "blast", "pfr-int-strong": "blast"}}, {"y": "", "badge": "b-form", "blab": "fix", "ref": false, "s": "fix(weak-pfr-symm)!: same module-system migration, same silent sorryAx", "set": {"weak-pfr-symm": "open", "entropy-basic": "checked", "ruzsa-distance": "checked", "tau-functional": "checked", "pfr-projection": "open", "app-ent-pfr": "open", "torsion-dist-shrinking": "open", "torsion-free-doubling": "open", "weak-pfr-asymm": "open", "weak-pfr-int": "blast", "pfr-int-strong": "blast"}}, {"y": "", "badge": "b-form", "blab": "fix", "ref": false, "s": "fix(weak-pfr-int)!: same module-system migration, same silent sorryAx", "set": {"weak-pfr-symm": "open", "entropy-basic": "checked", "ruzsa-distance": "checked", "tau-functional": "checked", "pfr-projection": "open", "app-ent-pfr": "open", "torsion-dist-shrinking": "open", "torsion-free-doubling": "open", "weak-pfr-asymm": "open", "weak-pfr-int": "open", "pfr-int-strong": "blast"}}]};
+var SVGNS="http://www.w3.org/2000/svg",HW=96,HH=23;
+var STYLE={absent:{f:"#f6f5f2",s:"#cdc8bd",o:0.5,d:"4 4",t:""},conj:{f:"#eef0f3",s:"#94a3b8",o:1,d:"",t:"CONJECTURED"},
+ open:{f:"#eef0f3",s:"#94a3b8",o:1,d:"",t:"OPEN"},proved:{f:"#eef3ea",s:"#7fae8f",o:1,d:"",t:"PROVED"},
+ checked:{f:"#e7f0ea",s:"#3f6b51",o:1,d:"",t:"MACHINE-CHECKED"},axiom:{f:"#fbf3e2",s:"#c2972b",o:1,d:"",t:"AXIOMATISED"},
+ blast:{f:"#fdf3e2",s:"#c2722b",o:1,d:"5 3",t:"EFFECTIVE: OPEN"},ref:{f:"#f6e3e1",s:"#9c3a34",o:1,d:"",t:"REFUTED"}};
+var TC={conj:"#64748b",open:"#64748b",proved:"#4e7a5e",checked:"#3f6b51",axiom:"#a9791f",blast:"#b5651d",ref:"#a34a43",absent:"#a8a29e"};
+var nodes=DATA.nodes,order=DATA.order,edges=DATA.edges,steps=DATA.steps;
+var statusAt=steps.map(function(st){return st.set;});
+var svg=document.getElementById("g");
+function box(cx,cy,ux,uy){var tx=ux===0?1e9:HW/Math.abs(ux),ty=uy===0?1e9:HH/Math.abs(uy),tt=Math.min(tx,ty);return [cx+ux*tt,cy+uy*tt];}
+function txt(x,y,s,size,sp,fill){var e=document.createElementNS(SVGNS,"text");e.setAttribute("x",x);e.setAttribute("y",y);
+ e.setAttribute("text-anchor","middle");e.setAttribute("font-size",size);e.setAttribute("font-family","'SF Mono',Menlo,monospace");
+ if(sp)e.setAttribute("letter-spacing",sp);e.setAttribute("fill",fill);e.textContent=s;svg.appendChild(e);return e;}
+var edgeEls=[];
+edges.forEach(function(ed){var a=nodes[ed.t],b=nodes[ed.s];  // arrow prereq(t) -> dependent(s)
+ var dx=b.x-a.x,dy=b.y-a.y,L=Math.sqrt(dx*dx+dy*dy)||1,ux=dx/L,uy=dy/L;
+ var p0=box(a.x,a.y,ux,uy),p1=box(b.x,b.y,-ux,-uy),sx=p0[0],sy=p0[1],ex=p1[0],ey=p1[1];
+ var p=document.createElementNS(SVGNS,"path");p.setAttribute("d","M "+sx+" "+sy+" L "+ex+" "+ey);
+ p.setAttribute("class","cg-edge");p.setAttribute("stroke","#bdb8ad");p.setAttribute("stroke-width","1.5");svg.appendChild(p);
+ var bx=ux*9,by=uy*9,px=-uy*4.5,py=ux*4.5,ah=document.createElementNS(SVGNS,"path");
+ ah.setAttribute("d","M "+(ex-bx+px)+" "+(ey-by+py)+" L "+ex+" "+ey+" L "+(ex-bx-px)+" "+(ey-by-py));
+ ah.setAttribute("class","cg-edge");ah.setAttribute("stroke","#bdb8ad");ah.setAttribute("stroke-width","1.5");ah.setAttribute("fill","none");svg.appendChild(ah);
+ edgeEls.push({d:ed,p:p,ah:ah});});
+var nodeEls={};
+order.forEach(function(id){var n=nodes[id],r=document.createElementNS(SVGNS,"rect");
+ r.setAttribute("x",n.x-HW);r.setAttribute("y",n.y-HH);r.setAttribute("width",HW*2);r.setAttribute("height",HH*2);
+ r.setAttribute("rx",9);r.setAttribute("stroke-width",n.hero?2.4:1.4);r.setAttribute("fill","#f6f5f2");r.setAttribute("stroke","#cdc8bd");svg.appendChild(r);
+ var tg=txt(n.x,n.y-7,"",8.5,1.3,"#94a3b8"),nm=txt(n.x,n.y+13,n.label,12.5,0,"#2A2927");
+ nm.setAttribute("font-weight",n.hero?"700":"500");nodeEls[id]={r:r,tg:tg,nm:nm};});
+function render(i){var st=statusAt[i];
+ order.forEach(function(id){var ne=nodeEls[id],k=st[id]||"absent",y=STYLE[k];
+  ne.r.setAttribute("fill",y.f);ne.r.setAttribute("stroke",y.s);ne.r.setAttribute("opacity",y.o);
+  if(y.d)ne.r.setAttribute("stroke-dasharray",y.d);else ne.r.removeAttribute("stroke-dasharray");
+  ne.tg.textContent=y.t;ne.tg.setAttribute("fill",TC[k]);ne.nm.setAttribute("opacity",k==="absent"?0.5:1);});
+ edgeEls.forEach(function(ee){var ss=st[ee.d.s],ts=st[ee.d.t],live=ss!=="absent"&&ts!=="absent";
+  var hot=[ss,ts].some(function(z){return z==="ref"||z==="blast";}),col=hot?"#c2722b":"#bdb8ad",op=live?1:0.12;
+  if([ss,ts].indexOf("ref")>=0)col="#9c3a34";ee.p.setAttribute("stroke",col);ee.ah.setAttribute("stroke",col);
+  ee.p.setAttribute("opacity",op);ee.ah.setAttribute("opacity",op);
+  ee.p.setAttribute("stroke-width",hot?2:1.5);ee.ah.setAttribute("stroke-width",hot?2:1.5);});
+ var sp=steps[i];readout.innerHTML='<span class="cg-year">'+sp.y+'</span><span class="cg-badge '+sp.badge+'">'+sp.blab+'</span><span class="cg-subj">'+sp.s.replace(/</g,"&lt;")+'</span>';
+ readout.className="cg-read"+(sp.ref?" ref":"");}
+var slider=document.getElementById("slider"),readout=document.getElementById("readout"),timer=null;
+var bP=document.getElementById("btnPlay"),bPr=document.getElementById("btnPrev"),bN=document.getElementById("btnNext");
+function set(i){i=Math.max(0,Math.min(steps.length-1,i));slider.value=i;render(i);}
+slider.addEventListener("input",function(){render(parseInt(slider.value,10));});
+bPr.addEventListener("click",function(){stop();set(parseInt(slider.value,10)-1);});
+bN.addEventListener("click",function(){stop();set(parseInt(slider.value,10)+1);});
+function stop(){if(timer){clearInterval(timer);timer=null;bP.textContent="\u25B6 Play";}}
+bP.addEventListener("click",function(){if(timer){stop();return;}if(parseInt(slider.value,10)>=steps.length-1)set(0);
+ bP.textContent="\u275A\u275A Pause";timer=setInterval(function(){var n=parseInt(slider.value,10)+1;if(n>=steps.length){stop();return;}set(n);},1200);});
+render(parseInt(slider.value,10));
+</script></body></html>
