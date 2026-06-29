@@ -147,6 +147,35 @@ def export(
         typer.echo(html_str)
 
 
+@app.command(name="svg-timeline")
+def svg_timeline_cmd(
+    repo: str = RepoArg,
+    out: Optional[Path] = typer.Option(None, "--out", "-o", help="Write the standalone HTML here."),
+    fixture: Optional[str] = FixtureOpt,
+    claims: Optional[str] = ClaimsOpt,
+    title: Optional[str] = typer.Option(None, "--title", help="Title for the figure."),
+    hint: Optional[str] = typer.Option(None, "--hint", help="Italic caption under the figure."),
+) -> None:
+    """Export a compact, dependency-free SVG timeline figure (the lean counterpart to `export`).
+
+    Auto-lays-out the claim DAG and animates each claim's status over the commit history in a few KB of
+    self-contained HTML, with no Cytoscape bundle, suitable for embedding in a blog or paper.
+    """
+    from . import svg_timeline as svgtl
+    from .build import read_fixture_dated, read_git_dated
+    from .timeline import build_timeline
+    graph = _load(repo, fixture, claims)
+    dated = read_fixture_dated(fixture) if fixture else read_git_dated(repo)
+    frames = build_timeline(dated, load_registry(claims))
+    name = title or ("ClaimGraph timeline" if fixture else Path(repo).resolve().name)
+    html_str = svgtl.render(graph, frames, title=name, hint=hint)
+    if out:
+        out.write_text(html_str, encoding="utf-8")
+        typer.echo(f"wrote {out}  ({len(graph.nodes)} nodes, {len(frames)} frames, svg-timeline)")
+    else:
+        typer.echo(html_str)
+
+
 @app.command()
 def status(
     repo: str = RepoArg,
