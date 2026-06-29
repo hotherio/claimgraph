@@ -1,0 +1,96 @@
+conjecture(weak-pfr-symm): weak Polynomial Freiman-Ruzsa, the entropy route
+
+A set with small doubling is efficiently covered by a coset of a subgroup. PFR's
+weak / entropic form, the WeakPFR strand of teorth/pfr.
+
+Status: math.conjectured
+---
+formalize(entropy-basic): Shannon entropy and its basic inequalities
+
+Status: math.machine-checked
+---
+formalize(ruzsa-distance): the entropic Ruzsa distance and its triangle inequality
+
+Status: math.machine-checked
+Depends-On: entropy-basic
+---
+formalize(tau-functional): the tau-functional and its minimiser
+
+Status: math.machine-checked
+Depends-On: ruzsa-distance
+---
+formalize(pfr-projection): the projection lemma onto a finite-index subgroup
+
+Status: math.machine-checked
+Depends-On: ruzsa-distance
+---
+formalize(app-ent-pfr): the approximate-entropy PFR inequality
+
+The proof unfolds the tau-functional minimiser's definition body.
+
+Status: math.machine-checked
+Depends-On: tau-functional
+---
+formalize(torsion-dist-shrinking): Ruzsa distance shrinks under the torsion quotient
+
+Status: math.machine-checked
+Depends-On: app-ent-pfr
+---
+formalize(torsion-free-doubling): the torsion-free doubling bound
+
+Status: math.machine-checked
+Depends-On: torsion-dist-shrinking, pfr-projection
+---
+formalize(weak-pfr-asymm): the asymmetric weak PFR
+
+Status: math.machine-checked
+Depends-On: torsion-free-doubling
+---
+formalize(weak-pfr-symm): weak PFR (symmetric form), everything compiles!
+
+Status: math.machine-checked
+Depends-On: weak-pfr-asymm
+Closes: conjecture:weak-pfr-symm
+---
+formalize(weak-pfr-int): weak PFR over the integers
+
+Status: math.machine-checked
+Depends-On: weak-pfr-symm
+---
+formalize(pfr-int-strong): a downstream corollary that uses weak PFR over Z
+
+Status: math.machine-checked
+Depends-On: weak-pfr-int
+---
+fix(app-ent-pfr)!: adopt the module system (v4.28-rc1, same Mathlib) -- silent sorryAx
+
+The proof unfolds a definition body the module system now leaves unexposed across
+the public-import boundary, so it silently elaborates to sorryAx. lake build still
+succeeds; an out-of-module #print axioms shows the hole. No literal token in source.
+
+Status: math.open
+BREAKING CHANGE: app-ent-pfr rests on sorryAx behind green CI.
+---
+fix(torsion-dist-shrinking)!: same module-system migration, same silent sorryAx
+
+Status: math.open
+---
+fix(torsion-free-doubling)!: same module-system migration, same silent sorryAx
+
+Status: math.open
+---
+fix(pfr-projection)!: same module-system migration, same silent sorryAx
+
+Status: math.open
+---
+fix(weak-pfr-asymm)!: same module-system migration, same silent sorryAx
+
+Status: math.open
+---
+fix(weak-pfr-symm)!: same module-system migration, same silent sorryAx
+
+Status: math.open
+---
+fix(weak-pfr-int)!: same module-system migration, same silent sorryAx
+
+Status: math.open
