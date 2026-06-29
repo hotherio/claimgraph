@@ -8,6 +8,7 @@ from pathlib import Path
 from claimgraph import svg_timeline
 from claimgraph.build import build_graph, load_registry, read_fixture, read_fixture_dated
 from claimgraph.graph import compute, compute_coverage
+from claimgraph.model import Edge, Node
 from claimgraph.timeline import build_timeline
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -69,3 +70,43 @@ def test_weak_pfr_contamination_and_blast_radius():
     assert all(final[n] == "open" for n in strand)
     assert final["pfr-int-strong"] == "blast"
     assert final["entropy-basic"] == "checked"  # foundations stay clean
+
+
+# --- edge cases (regressions for issues found in adversarial review) ----------------------------
+
+class _G:
+    """A minimal graph stub: only what render() reads from a ClaimGraph (nodes, edges)."""
+
+    def __init__(self, ids, edges):
+        self.nodes = {i: Node(id=i) for i in ids}
+        self.edges = edges
+
+
+def _frames(ids, k):
+    state = {i: {"status": "math.machine-checked", "effective_status": "math.machine-checked",
+                 "in_question": False} for i in ids}
+    return [{"date": "2026-01-01", "subject": f"commit {j}", "type": "formalize", "event": "asserted",
+             "state": state} for j in range(k)]
+
+
+def test_deep_chain_does_not_recurse():
+    # a long Depends-On chain must not overflow the stack: the layout is iterative, not recursive.
+    ids = [f"n{i}" for i in range(1500)]
+    edges = [Edge(source=f"n{i + 1}", target=f"n{i}", relation="Depends-On") for i in range(1499)]
+    assert "<svg" in svg_timeline.render(_G(ids, edges), _frames(ids, 4))
+
+
+def test_downsample_bounds_frame_count():
+    assert len(svg_timeline._downsample(list(range(119)), 60)) <= 61
+    assert len(svg_timeline._downsample(list(range(1000)), 60)) <= 61
+
+
+def test_empty_frames_is_guarded():
+    # zero commits must render a guarded figure, not a viewer whose JS throws on load.
+    html = svg_timeline.render(_G(["a", "b"], []), [])
+    assert "(no commit history)" in html and "<svg" in html
+
+
+def test_readout_fields_are_escaped():
+    html = svg_timeline.render(_G(["a"], []), _frames(["a"], 2))
+    assert "function esc(" in html and "esc(sp.s)" in html and "esc(sp.blab)" in html
