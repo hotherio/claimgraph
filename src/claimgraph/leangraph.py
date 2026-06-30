@@ -15,7 +15,7 @@ from pathlib import Path
 
 from .blueprint import _KERNEL_STATUS, run_axiom_report
 from .graph import compute
-from .leandeps import extract_lean_deps
+from .leandeps import _root_modules, extract_lean_deps
 from .model import ClaimGraph, Edge
 
 
@@ -57,7 +57,7 @@ def lean_graph_from_project(
     ``None`` if the project cannot be probed (not built, no ``lake``, wrong namespace).
     """
     project = Path(project)
-    prefixes = namespaces or sorted(p.stem for p in project.glob("*.lean"))
+    prefixes = namespaces or _root_modules(project)
     if not prefixes:
         return None
     # one probe discovers every decl under the prefixes (the names just set the namespace).

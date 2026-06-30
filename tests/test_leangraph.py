@@ -65,3 +65,39 @@ def test_offline_cli(tmp_path):
     d = json.loads(out.read_text())
     assert d["nodes"] and any(n.get("kernel") for n in d["nodes"])
     assert d["meta"]["sources"] == ["lean", "kernel"]
+
+
+# --- module-system support (issue #28): root resolution + moduleData enumeration -----------------
+
+def test_root_modules_skips_scratch_scripts(tmp_path):
+    # a top-level `X.lean` is a library root only if a sibling `X/` module dir exists; a scratch
+    # script (e.g. `Final.lean` with no `Final/` dir) must be skipped, else `import Final` breaks the
+    # probe with `unknown module prefix`.
+    from claimgraph.leandeps import _root_modules
+
+    (tmp_path / "Foundation").mkdir()
+    (tmp_path / "Foundation.lean").write_text("-- aggregator\n")
+    (tmp_path / "Final.lean").write_text("import Foundation\n")
+    assert _root_modules(tmp_path) == ["Foundation"]
+
+
+def test_root_modules_fallback_when_no_sibling_dir(tmp_path):
+    # if no stem has a sibling dir, fall back to every stem (never return empty).
+    from claimgraph.leandeps import _root_modules
+
+    (tmp_path / "A.lean").write_text("")
+    (tmp_path / "B.lean").write_text("")
+    assert _root_modules(tmp_path) == ["A", "B"]
+
+
+def test_probe_enumerates_via_moduledata():
+    # the extractor metaprogram must read `env.header.moduleData` (module-system safe), not
+    # `env.constants`, and must not use the `arr[i]!` getElem! notation.
+    from claimgraph.leandeps import render_probe
+
+    probe = render_probe(["Foundation"], ["Foundation"])
+    assert "env.header.moduleData" in probe and "mods.zip modData" in probe
+    # the old, module-system-unsafe constructs must be gone from the actual code (the explanatory
+    # comment may still name `env.constants`, so match the call, not the bare word).
+    assert "env.constants.toList" not in probe and "getModuleIdxFor?" not in probe
+    assert "import Foundation" in probe and "`Foundation" in probe
