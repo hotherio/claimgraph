@@ -39,31 +39,51 @@ run_cmd do
   let env ← getEnv
   let prefixes : List Name := [{prefixes}]
   let mods := env.header.moduleNames
-  -- A "project" declaration is one whose defining MODULE lies under a project namespace, not one
-  -- whose own name does: a root-namespace decl like PFR's `weak_PFR` (defined in module
-  -- `PFR.WeakPFR`) is a project decl even though its name has no `PFR.` prefix.
-  let isProj (n : Name) : Bool :=
-    match env.getModuleIdxFor? n with
-    | some idx => prefixes.any (fun p => p.isPrefixOf mods[idx.toNat]!)
-    | none => false
+  let modData := env.header.moduleData
+  -- Enumerate declarations from each project module's stored constants (`env.header.moduleData`),
+  -- zipped with module names, rather than iterating `env.constants` or indexing with `arr[i]!`.
+  -- After importing a module-system project the `SMap` / getElem! surface API those need is not
+  -- re-exported into the elaboration scope (after `import Foundation`, even `Array.get!` / `SMap.size`
+  -- are unresolvable), so the old probe fails to elaborate. The constants themselves are still present
+  -- (every project decl resolves via `env.find?`); only that surface API is missing. The `moduleData`
+  -- + `Array` path used here stays available. A "project" declaration is one whose defining MODULE
+  -- lies under a project namespace, so a root-namespace decl like PFR's `weak_PFR` (defined in module
+  -- `PFR.WeakPFR`) still counts.
+  let isProjMod (m : Name) : Bool := prefixes.any (fun p => p.isPrefixOf m)
+  let mut projNames : NameSet := {{}}
+  for (m, md) in mods.zip modData do
+    if isProjMod m then
+      for ci in md.constants do
+        if !ci.name.isInternalDetail then projNames := projNames.insert ci.name
   let mut count := 0
-  for (n, ci) in env.constants.toList do
-    if isProj n && !n.isInternalDetail then
-      let mut s : NameSet := {{}}
-      for c in ci.type.getUsedConstants do
-        if isProj c && c != n then s := s.insert c
-      if let some v := ci.value? then
-        for c in v.getUsedConstants do
-          if isProj c && c != n then s := s.insert c
-      count := count + 1
-      IO.println (s!"{{n}} :: " ++ String.intercalate " " (s.toList.map (·.toString)))
+  for (m, md) in mods.zip modData do
+    if isProjMod m then
+      for ci in md.constants do
+        let n := ci.name
+        if !n.isInternalDetail then
+          let mut s : NameSet := {{}}
+          for c in ci.type.getUsedConstants do
+            if projNames.contains c && c != n then s := s.insert c
+          if let some v := ci.value? then
+            for c in v.getUsedConstants do
+              if projNames.contains c && c != n then s := s.insert c
+          count := count + 1
+          IO.println (s!"{{n}} :: " ++ String.intercalate " " (s.toList.map (·.toString)))
   IO.eprintln s!"[claimgraph dep-report] {{count}} declarations"
 """
 
 
 def _root_modules(project: Path) -> list[str]:
-    """Top-level ``*.lean`` files are the project's root modules (same rule as ``axiom-report``)."""
-    return sorted(p.stem for p in project.glob("*.lean"))
+    """The project's importable library roots: a top-level ``X.lean`` that has a sibling ``X/`` module
+    directory (Lake's convention for a library named ``X``).
+
+    This skips top-level scratch scripts -- e.g. a ``Final.lean`` that just ``import``s the library and
+    prints axioms -- which are not importable library modules and would break the probe with
+    ``unknown module prefix``. Falls back to every top-level stem if none has a sibling directory.
+    """
+    stems = sorted(p.stem for p in project.glob("*.lean"))
+    roots = [s for s in stems if (project / s).is_dir()]
+    return roots or stems
 
 
 def _namespace_prefixes(lean_names: list[str]) -> list[str]:
