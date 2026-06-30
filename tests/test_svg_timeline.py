@@ -102,11 +102,12 @@ def test_downsample_bounds_frame_count():
 
 
 def test_empty_frames_is_guarded():
-    # zero commits must render a guarded figure, not a viewer whose JS throws on load.
+    # zero commits must render a valid figure (empty graph + empty log), not JS that throws on load.
     html = svg_timeline.render(_G(["a", "b"], []), [])
-    assert "(no commit history)" in html and "<svg" in html
+    assert "<svg" in html and 'id="log"' in html
 
 
-def test_readout_fields_are_escaped():
+def test_commit_log_uses_safe_text():
+    # the commit log builds rows with textContent (DOM-safe), never innerHTML string concatenation.
     html = svg_timeline.render(_G(["a"], []), _frames(["a"], 2))
-    assert "function esc(" in html and "esc(sp.s)" in html and "esc(sp.blab)" in html
+    assert "textContent=sp.s" in html and "innerHTML" not in html

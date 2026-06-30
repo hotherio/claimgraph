@@ -13,6 +13,7 @@ from __future__ import annotations
 
 import html
 import json
+import re
 from collections import deque
 
 from .model import DEPENDENCY_RELATIONS, status_key
@@ -114,11 +115,28 @@ def _style_of(entry: dict | None) -> str:
     }.get(s, "open")
 
 
-_BADGE = {  # frame event/type -> (css class, label)
-    "refute": ("b-ref", "refute!"), "retract": ("b-ref", "retract!"),
-    "conjecture": ("b-conj", "conjecture"), "assume": ("b-conj", "assume"),
-    "formalize": ("b-form", "formalize"), "proof": ("b-form", "prove"), "prove": ("b-form", "prove"),
-}
+# Parse the conventional-commit type badge from a commit subject: the type token (with a trailing `~`)
+# plus a breaking `!`, e.g. `axiomatize~`, `refute!`, `formalize`. Returns (label, colour category).
+_TYPE_RE = re.compile(r"^\s*([A-Za-z]+~?)(?:\([^)]*\))?(!)?")
+
+
+def _commit_badge(subject: str | None) -> tuple[str, str]:
+    m = _TYPE_RE.match(subject or "")
+    if not m:
+        return "commit", "other"
+    label = m.group(1) + (m.group(2) or "")
+    base = m.group(1).rstrip("~").lower()
+    if base.startswith("conj"):
+        cat = "conj"
+    elif base.startswith("axiom"):
+        cat = "axiom"
+    elif base in ("refute", "retract"):
+        cat = "ref"
+    elif base in ("formalize", "proof", "prove", "result", "replicate", "experiment", "feat"):
+        cat = "form"
+    else:
+        cat = "other"
+    return label, cat
 
 
 def _downsample(frames: list[dict], cap: int) -> list[dict]:
@@ -133,18 +151,18 @@ def _downsample(frames: list[dict], cap: int) -> list[dict]:
 
 
 def _steps(frames: list[dict], node_ids: list[str], cap: int) -> list[dict]:
-    """One step per (downsampled) frame: the full status snapshot plus the readout fields."""
+    """One step per (downsampled) frame: the status snapshot plus the commit-log fields (hash, badge)."""
     steps = []
-    for f in _downsample(frames, cap):
+    for k, f in enumerate(_downsample(frames, cap)):
         state = f.get("state") or {}
         snap = {n: _style_of(state.get(n)) for n in node_ids}
         ev = (f.get("event") or "").lower()
-        ty = (f.get("type") or "").lower()
-        badge = _BADGE.get(ev) or _BADGE.get(ty) or ("b-form", ty or "commit")
+        clab, cat = _commit_badge(f.get("subject"))
         steps.append({
             "y": (f.get("date") or "")[:10],
-            "badge": badge[0], "blab": badge[1],
-            "ref": ev in ("refute", "retract"),
+            "hash": ((f.get("hash") or "")[:7] or f"#{k}"),
+            "clab": clab, "cat": cat,
+            "ref": ev in ("refute", "retract") or cat == "ref",
             "s": f.get("subject") or "",
             "set": snap,
         })
@@ -169,11 +187,23 @@ _TEMPLATE = """<!DOCTYPE html>
   .b-conj{background:#eef0f3;color:#475569;border-color:#cbd5e1;}
   .b-form{background:#e7f0ea;color:#3f6b51;border-color:#9bc1a8;}
   .b-ref{background:#f6e3e1;color:#8f342d;border-color:#d9a39c;}
+  .b-axiom{background:#fbf3e2;color:#92510f;border-color:#d9a86a;}
+  .b-other{background:#f1f0ec;color:#6b675f;border-color:#cdc8bd;}
   .cg-subj{font-size:12.5px;color:#44403c;flex:1 1 280px;}
   .cg-svg{width:100%;height:auto;display:block;}
   .cg-svg rect{transition:fill .3s,stroke .3s,opacity .3s;} .cg-svg text{transition:opacity .3s,fill .3s;}
   .cg-edge{fill:none;transition:opacity .3s,stroke .3s;}
   .cg-hint{font-size:12px;color:#94a3b8;margin-top:8px;font-style:italic;}
+  .cg-cols{display:flex;gap:16px;align-items:flex-start;flex-wrap:wrap;}
+  .cg-left{flex:1 1 440px;min-width:300px;}
+  .cg-log{flex:1 1 340px;min-width:260px;max-height:520px;overflow-y:auto;border:1px solid #ece8df;border-radius:10px;padding:4px;background:#fcfbf8;}
+  .cg-row{display:flex;align-items:center;gap:8px;padding:6px 8px;border-radius:7px;cursor:pointer;border:1px solid transparent;}
+  .cg-row:hover{background:#f3f1ec;}
+  .cg-row.cur{background:#eef3ec;border-color:#cfe0d3;}
+  .cg-dot{width:9px;height:9px;border-radius:50%;border:2px solid #cdc8bd;flex:none;box-sizing:border-box;}
+  .cg-hash{font-family:"SF Mono",Menlo,monospace;font-size:11px;color:#94a3b8;flex:none;width:50px;}
+  .cg-rb{font-family:"SF Mono",Menlo,monospace;font-size:10.5px;padding:1px 6px;border-radius:5px;border:1px solid;white-space:nowrap;flex:none;}
+  .cg-rs{font-size:12px;color:#44403c;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
 </style></head><body>
 <div class="cg-wrap">
   <div class="cg-legend">
@@ -189,8 +219,10 @@ _TEMPLATE = """<!DOCTYPE html>
     <input class="cg-slider" id="slider" type="range" min="0" max="{MAX}" value="{MAX}" step="1">
     <button class="cg-btn" id="btnNext">&#8250;</button>
   </div>
-  <div class="cg-read" id="readout"></div>
-  <svg class="cg-svg" id="g" viewBox="0 0 {VBOX}" preserveAspectRatio="xMidYMid meet"></svg>
+  <div class="cg-cols">
+    <div class="cg-left"><svg class="cg-svg" id="g" viewBox="0 0 {VBOX}" preserveAspectRatio="xMidYMid meet"></svg></div>
+    <div class="cg-log" id="log" aria-label="Commit history"></div>
+  </div>
   <div class="cg-hint">{HINT}</div>
 </div>
 <script>
@@ -203,7 +235,6 @@ var STYLE={absent:{f:"#f6f5f2",s:"#cdc8bd",o:0.5,d:"4 4",t:""},conj:{f:"#eef0f3"
 var TC={conj:"#64748b",open:"#64748b",proved:"#4e7a5e",checked:"#3f6b51",axiom:"#a9791f",blast:"#b5651d",ref:"#a34a43",absent:"#a8a29e"};
 var nodes=DATA.nodes,order=DATA.order,edges=DATA.edges,steps=DATA.steps;
 var statusAt=steps.map(function(st){return st.set;});
-function esc(s){return String(s==null?"":s).replace(/[&<>"']/g,function(c){return ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"})[c];});}
 var svg=document.getElementById("g");
 function box(cx,cy,ux,uy){var tx=ux===0?1e9:HW/Math.abs(ux),ty=uy===0?1e9:HH/Math.abs(uy),tt=Math.min(tx,ty);return [cx+ux*tt,cy+uy*tt];}
 function txt(x,y,s,size,sp,fill){var e=document.createElementNS(SVGNS,"text");e.setAttribute("x",x);e.setAttribute("y",y);
@@ -225,7 +256,16 @@ order.forEach(function(id){var n=nodes[id],r=document.createElementNS(SVGNS,"rec
  r.setAttribute("rx",9);r.setAttribute("stroke-width",n.hero?2.4:1.4);r.setAttribute("fill","#f6f5f2");r.setAttribute("stroke","#cdc8bd");svg.appendChild(r);
  var tg=txt(n.x,n.y-7,"",8.5,1.3,"#94a3b8"),nm=txt(n.x,n.y+13,n.label,12.5,0,"#2A2927");
  nm.setAttribute("font-weight",n.hero?"700":"500");nodeEls[id]={r:r,tg:tg,nm:nm};});
-function render(i){if(!steps.length){readout.textContent="(no commit history)";return;}var st=statusAt[i];
+var CATCOL={conj:"#94a3b8",form:"#5b8c6e",axiom:"#c2972b",ref:"#9c3a34",other:"#cdc8bd"};
+var log=document.getElementById("log"),rowEls=[];
+steps.forEach(function(sp,idx){var row=document.createElement("div");row.className="cg-row";
+ var dot=document.createElement("span");dot.className="cg-dot";dot.style.borderColor=CATCOL[sp.cat]||CATCOL.other;
+ var h=document.createElement("span");h.className="cg-hash";h.textContent=sp.hash;
+ var b=document.createElement("span");b.className="cg-rb b-"+sp.cat;b.textContent=sp.clab;
+ var s=document.createElement("span");s.className="cg-rs";s.textContent=sp.s;s.title=sp.s;
+ row.appendChild(dot);row.appendChild(h);row.appendChild(b);row.appendChild(s);
+ row.addEventListener("click",function(){stop();set(idx);});log.appendChild(row);rowEls.push(row);});
+function render(i){if(!steps.length){return;}var st=statusAt[i];
  order.forEach(function(id){var ne=nodeEls[id],k=st[id]||"absent",y=STYLE[k];
   ne.r.setAttribute("fill",y.f);ne.r.setAttribute("stroke",y.s);ne.r.setAttribute("opacity",y.o);
   if(y.d)ne.r.setAttribute("stroke-dasharray",y.d);else ne.r.removeAttribute("stroke-dasharray");
@@ -235,9 +275,9 @@ function render(i){if(!steps.length){readout.textContent="(no commit history)";r
   if([ss,ts].indexOf("ref")>=0)col="#9c3a34";ee.p.setAttribute("stroke",col);ee.ah.setAttribute("stroke",col);
   ee.p.setAttribute("opacity",op);ee.ah.setAttribute("opacity",op);
   ee.p.setAttribute("stroke-width",hot?2:1.5);ee.ah.setAttribute("stroke-width",hot?2:1.5);});
- var sp=steps[i];readout.innerHTML='<span class="cg-year">'+esc(sp.y)+'</span><span class="cg-badge '+sp.badge+'">'+esc(sp.blab)+'</span><span class="cg-subj">'+esc(sp.s)+'</span>';
- readout.className="cg-read"+(sp.ref?" ref":"");}
-var slider=document.getElementById("slider"),readout=document.getElementById("readout"),timer=null;
+ rowEls.forEach(function(r,j){if(j===i)r.classList.add("cur");else r.classList.remove("cur");});
+ if(rowEls[i])rowEls[i].scrollIntoView({block:"nearest"});}
+var slider=document.getElementById("slider"),timer=null;
 var bP=document.getElementById("btnPlay"),bPr=document.getElementById("btnPrev"),bN=document.getElementById("btnNext");
 function set(i){i=Math.max(0,Math.min(steps.length-1,i));slider.value=i;render(i);}
 slider.addEventListener("input",function(){render(parseInt(slider.value,10));});
