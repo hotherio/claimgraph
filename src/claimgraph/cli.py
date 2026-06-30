@@ -7,7 +7,7 @@ from typing import Optional
 import typer
 
 from . import blueprint as bp
-from . import build as build_view
+from . import build_view
 from .build import canonical, load_registry, read_git
 from .emit import to_dict, to_json
 from .graph import affected as compute_affected
