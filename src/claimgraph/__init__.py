@@ -2,6 +2,15 @@
 from __future__ import annotations
 
 from .build import build_graph, load_registry, read_fixture, read_git
+from .curriculum import (
+    levels,
+    reproof_order,
+    reproof_set,
+    schedule,
+    topo_order,
+    unlock_power,
+)
+from .emit import load
 from .graph import affected, compute, status_report
 from .model import ClaimGraph, Edge, Node
 
@@ -18,6 +27,13 @@ __all__ = [
     "compute",
     "affected",
     "status_report",
+    "topo_order",
+    "levels",
+    "unlock_power",
+    "schedule",
+    "reproof_set",
+    "reproof_order",
+    "load",
     "__version__",
 ]
 
