@@ -71,3 +71,40 @@ def to_json(
     return json.dumps(
         to_dict(graph, sources=sources, timeline=timeline), indent=indent, ensure_ascii=False
     )
+
+
+def from_dict(d: dict) -> ClaimGraph:
+    """Reconstruct a ClaimGraph from a ``claimgraph.json`` dict (the inverse of :func:`to_dict`).
+
+    Fills each node's source-of-truth and stored computed fields; recomputed views can be refreshed
+    with ``graph.compute`` / ``compute_coverage`` afterwards if needed. This is the missing half of the
+    round-trip: a saved graph re-loads without re-running the (slow) lake probe.
+    """
+    from .model import Edge
+
+    g = ClaimGraph()
+    for nd in d.get("nodes", []):
+        n = g.node(nd["id"])
+        for fld in ("kind", "statement", "status", "effective_status", "in_question", "weakest_dep",
+                    "blueprint_complete", "uses_gap", "claimed", "asserted", "kernel", "agreement"):
+            if fld in nd:
+                setattr(n, fld, nd[fld])
+        n.lean = list(nd.get("lean", []))
+        n.aliases = list(nd.get("aliases", []))
+    for ed in d.get("edges", []):
+        g.edges.append(
+            Edge(
+                source=ed["source"],
+                target=ed["target"],
+                relation=ed["relation"],
+                breaking=ed.get("breaking", False),
+            )
+        )
+    return g
+
+
+def load(path) -> ClaimGraph:
+    """Load a ClaimGraph from a ``claimgraph.json`` file."""
+    from pathlib import Path
+
+    return from_dict(json.loads(Path(path).read_text()))

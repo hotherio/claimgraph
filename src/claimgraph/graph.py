@@ -44,10 +44,20 @@ def _closure(start: str, adj: dict[str, set[str]]) -> set[str]:
     return seen
 
 
-def compute(graph: ClaimGraph) -> ClaimGraph:
-    """Fill in ``effective_status``, ``weakest_dep`` and ``in_question`` for every node."""
+def compute(graph: ClaimGraph, only: set[str] | None = None) -> ClaimGraph:
+    """Fill in ``effective_status``, ``weakest_dep`` and ``in_question`` for every node.
+
+    ``only`` restricts the recompute to a subset of node ids (e.g. an impact-scoped regression set):
+    the dependency closure still reads the whole graph, only the *written* nodes are limited. This is
+    the scoped recompute a re-proof loop wants -- recompute the blast radius, not the world.
+    """
     adj = _dependency_adjacency(graph)
-    for nid, node in graph.nodes.items():
+    targets = (
+        graph.nodes.items()
+        if only is None
+        else [(nid, graph.nodes[nid]) for nid in only if nid in graph.nodes]
+    )
+    for nid, node in targets:
         closure = _closure(nid, adj)
 
         # effective status = the weakest status across {self} ∪ dependency closure. A *broken*
