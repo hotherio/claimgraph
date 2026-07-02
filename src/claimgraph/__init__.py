@@ -1,6 +1,13 @@
 """claimgraph: build and visualize the CKC ClaimGraph from git history."""
 from __future__ import annotations
 
+from .blackboard import (
+    Finding,
+    build_pre_audit,
+    findings_from_commits,
+    post_findings,
+    run_audit,
+)
 from .build import build_graph, load_registry, read_fixture, read_git
 from .curriculum import (
     levels,
@@ -33,6 +40,11 @@ __all__ = [
     "schedule",
     "reproof_set",
     "reproof_order",
+    "run_audit",
+    "post_findings",
+    "findings_from_commits",
+    "build_pre_audit",
+    "Finding",
     "load",
     "__version__",
 ]
