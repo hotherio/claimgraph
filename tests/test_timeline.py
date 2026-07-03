@@ -6,7 +6,7 @@ from pathlib import Path
 
 import pytest
 
-from claimgraph import build
+from claimgraph import build_view
 from claimgraph.build import load_registry, read_fixture_dated
 from claimgraph.emit import to_dict
 from claimgraph.timeline import build_timeline
@@ -55,7 +55,7 @@ def test_nodes_appear_progressively(fct_frames):
 
 def test_final_frame_equals_the_static_build(fct_frames):
     """Timeline end == the non-timeline snapshot: same effective status for every node."""
-    g = build(
+    g = build_view(
         fixture=str(EXAMPLES / "four-color" / "four-color.commits"),
         claims=str(EXAMPLES / "four-color" / "claims.toml"),
     )
@@ -85,7 +85,7 @@ def test_in_question_propagates_over_time():
 
 def test_timeline_is_opt_in_and_additive():
     """Without a timeline the output is unchanged; with one it rides in meta.timeline only."""
-    g = build(
+    g = build_view(
         fixture=str(EXAMPLES / "four-color" / "four-color.commits"),
         claims=str(EXAMPLES / "four-color" / "claims.toml"),
     )
@@ -100,7 +100,7 @@ def test_timeline_is_opt_in_and_additive():
 
 def test_timeline_output_validates_against_schema():
     jsonschema = pytest.importorskip("jsonschema")
-    g = build(
+    g = build_view(
         fixture=str(EXAMPLES / "four-color" / "four-color.commits"),
         claims=str(EXAMPLES / "four-color" / "claims.toml"),
     )

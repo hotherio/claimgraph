@@ -6,7 +6,7 @@ from pathlib import Path
 
 import pytest
 
-from claimgraph import affected, build
+from claimgraph import affected, build_view
 from claimgraph.emit import to_dict
 
 EXAMPLES = Path(__file__).resolve().parent.parent / "examples" / "igl"
@@ -15,7 +15,7 @@ SCHEMA = Path(__file__).resolve().parent.parent / "schema" / "claimgraph.schema.
 
 @pytest.fixture(scope="module")
 def graph():
-    return build(
+    return build_view(
         fixture=str(EXAMPLES / "igl.commits"),
         claims=str(EXAMPLES / "claims.toml"),
     )
@@ -99,7 +99,7 @@ FOUR_COLOR = Path(__file__).resolve().parent.parent / "examples" / "four-color"
 
 @pytest.fixture(scope="module")
 def fct():
-    return build(
+    return build_view(
         fixture=str(FOUR_COLOR / "four-color.commits"),
         claims=str(FOUR_COLOR / "claims.toml"),
     )
