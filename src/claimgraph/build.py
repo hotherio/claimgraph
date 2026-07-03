@@ -153,12 +153,21 @@ def _fidelity(value) -> dict | None:
 
 
 def seed_registry(g: ClaimGraph, registry: dict | None) -> None:
-    """Seed registry claims so they carry their human statement and kind even before a commit."""
+    """Seed registry claims so they carry their human statement and kind even before a commit.
+
+    The entry's ``lean`` field (one FQN, or a comma-separated list) is kept as node aliases so
+    reconciliation can unify the registry slug with the blueprint node carrying the same
+    ``\\lean{}`` name -- without it a registry-only record (statement, fidelity) floats as a
+    separate ``paper-only`` node and never reaches the reconciled claim.
+    """
     for slug, entry in (registry or {}).items():
         node = g.node(slug)
         node.kind = entry.get("kind")
         node.statement = entry.get("statement")
         node.fidelity = _fidelity(entry.get("fidelity"))
+        lean = entry.get("lean")
+        if isinstance(lean, str) and lean.strip():
+            node.lean = sorted({s.strip() for s in lean.split(",") if s.strip()})
 
 
 def build_graph(commits: list[Commit], registry: dict | None = None) -> ClaimGraph:

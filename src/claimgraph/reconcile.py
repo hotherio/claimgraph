@@ -70,6 +70,13 @@ def reconcile(blueprint: ClaimGraph, commits: ClaimGraph) -> ClaimGraph:
     for n in blueprint.nodes.values():
         for fqn in n.lean:
             union(n.id, fqn)
+    # ... and a commit/registry node likewise (a claims.toml `lean = "..."` seeded by
+    # seed_registry). This unifies a registry slug (`lem-3-2`) with the blueprint label
+    # (`lem:32`) that names the same declaration, so registry-side records (statement,
+    # fidelity) reach the reconciled claim instead of floating as a paper-only node.
+    for n in commits.nodes.values():
+        for fqn in n.lean:
+            union(n.id, fqn)
 
     # Canonical display id per component: prefer a blueprint label, then a Lean FQN, then the id.
     members: dict[str, list[str]] = {}

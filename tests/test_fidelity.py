@@ -180,3 +180,36 @@ def test_cli_audit_require_fidelity_passes_with_the_record(repo_files):
     res = _audit(repo_files, "claims-fidelity.toml", "--require-fidelity")
     assert res.exit_code == 0, res.output
     assert "fidelity gaps" in res.output  # the ok message names what was checked
+
+
+def test_registry_lean_field_unifies_with_blueprint(tmp_path):
+    """A registry entry's `lean` field must alias its slug onto the blueprint node with the
+    same \\lean{} declaration, so the fidelity record reaches the reconciled claim."""
+    from claimgraph.build import build_graph, seed_registry
+    from claimgraph.model import ClaimGraph
+    from claimgraph.reconcile import compute_agreement, reconcile
+
+    # Blueprint: one axiomatised node labelled lem:32 with a Lean FQN.
+    bp = ClaimGraph()
+    n = bp.node("lem:32")
+    n.lean = ["Proj.lemma_3_2"]
+    n.kernel = "math.axiomatised"
+
+    # Registry: slug lem-3-2 carrying fidelity + the same Lean FQN.
+    commits = ClaimGraph()
+    seed_registry(commits, {
+        "lem-3-2": {
+            "kind": "conjecture",
+            "statement": "s",
+            "lean": "Proj.lemma_3_2",
+            "fidelity": {"reviewed": "2026-07-03", "paper": "p.15", "evidence": "F12"},
+        }
+    })
+
+    g = reconcile(bp, commits)
+    compute_agreement(g, with_commits=True)
+    assert "lem:32" in g.nodes, sorted(g.nodes)
+    node = g.nodes["lem:32"]
+    assert node.fidelity, "fidelity record did not reach the reconciled claim"
+    assert node.agreement != "axiom-without-fidelity"
+    assert "lem-3-2" not in g.nodes or not g.nodes["lem-3-2"].kernel
