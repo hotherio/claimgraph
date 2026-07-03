@@ -27,7 +27,8 @@ def _node_dict(n) -> dict:
         d["lean"] = n.lean
     if n.aliases:
         d["aliases"] = n.aliases
-    for fld in ("claimed", "asserted", "kernel", "agreement", "blueprint_complete", "uses_gap"):
+    for fld in ("claimed", "asserted", "kernel", "agreement", "blueprint_complete", "uses_gap",
+                "fidelity"):
         val = getattr(n, fld)
         if val is not None:
             d[fld] = val
@@ -86,7 +87,8 @@ def from_dict(d: dict) -> ClaimGraph:
     for nd in d.get("nodes", []):
         n = g.node(nd["id"])
         for fld in ("kind", "statement", "status", "effective_status", "in_question", "weakest_dep",
-                    "blueprint_complete", "uses_gap", "claimed", "asserted", "kernel", "agreement"):
+                    "blueprint_complete", "uses_gap", "claimed", "asserted", "kernel", "agreement",
+                    "fidelity"):
             if fld in nd:
                 setattr(n, fld, nd[fld])
         n.lean = list(nd.get("lean", []))

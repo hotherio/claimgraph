@@ -255,8 +255,9 @@ def _ground(tex: str, project: Optional[str], axiom_report: Optional[str], axiom
 
 
 _GAP_COLOR = {
-    "kernel-refutes-claim": typer.colors.RED,     # a real validity gap
-    "blueprint-incomplete": typer.colors.YELLOW,  # a coverage warning, not a validity gap
+    "kernel-refutes-claim": typer.colors.RED,       # a real validity gap
+    "axiom-without-fidelity": typer.colors.YELLOW,  # a fidelity gap (failing under --require-fidelity)
+    "blueprint-incomplete": typer.colors.YELLOW,    # a coverage warning, not a validity gap
 }
 
 
@@ -334,6 +335,11 @@ def audit(
     strict: bool = typer.Option(
         False, "--strict", help="Also fail on blueprint-incomplete (uses unformalized concepts)."
     ),
+    require_fidelity: bool = typer.Option(
+        False, "--require-fidelity",
+        help="Also fail on axiom-without-fidelity (rests on a cited axiom whose statement has no "
+             "fidelity review record in claims.toml).",
+    ),
     fixture: Optional[str] = FixtureOpt,
     claims: Optional[str] = ClaimsOpt,
     project: Optional[str] = ProjectOpt,
@@ -343,7 +349,10 @@ def audit(
     """Honesty gate: fail if a claim is shown proved but the kernel refutes it (a validity gap).
 
     With --strict, also fail on coverage gaps (blueprint-incomplete: a machine-checked claim whose
-    \\uses closure includes an unformalized concept).
+    \\uses closure includes an unformalized concept). With --require-fidelity, also fail on
+    fidelity gaps (axiom-without-fidelity: a claim resting on a cited axiom whose STATEMENT was
+    never fidelity-reviewed against its source paper -- record the review under
+    [claims.<slug>.fidelity] in claims.toml).
     """
     bp_graph, _ = _ground(tex, project, axiom_report, axioms_file)
     if repo or fixture:
@@ -353,15 +362,20 @@ def audit(
         compute_agreement(graph, with_commits=True)
     else:
         graph = compute_agreement(bp_graph, with_commits=False)
-    gaps = audit_graph(graph, strict=strict)
+    gaps = audit_graph(graph, strict=strict, require_fidelity=require_fidelity)
     if not gaps:
-        msg = "ok: no honesty gaps" + (" or coverage gaps" if strict else "") + "."
+        msg = ("ok: no honesty gaps"
+               + (" or coverage gaps" if strict else "")
+               + (" or fidelity gaps" if require_fidelity else "") + ".")
         typer.secho(msg, fg=typer.colors.GREEN)
         raise typer.Exit()
     typer.secho(f"{len(gaps)} gap(s):", bold=True, fg=typer.colors.RED)
     for n in gaps:
         if n.agreement == "kernel-refutes-claim":
             typer.echo(f"    {n.agreement}: {n.id}  (claimed proved, kernel says {n.kernel})")
+        elif n.agreement == "axiom-without-fidelity":
+            typer.echo(f"    {n.agreement}: {n.id}  (rests on a cited axiom; no fidelity review "
+                       f"record for its statement)")
         else:
             via = f"  ← {n.uses_gap}" if n.uses_gap else ""
             typer.echo(f"    {n.agreement}: {n.id}  (machine-checked, but uses an unformalized concept){via}")

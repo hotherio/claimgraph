@@ -85,8 +85,18 @@
         },
         "agreement": {
           "type": ["string", "null"],
-          "enum": ["consistent", "kernel-refutes-claim", "blueprint-incomplete", "undocumented", "stale-blueprint", "paper-only", "ungrounded", null],
-          "description": "Cross-history reconciliation category. kernel-refutes-claim is a validity gap; blueprint-incomplete is a coverage gap (machine-checked but uses an unformalized concept)."
+          "enum": ["consistent", "kernel-refutes-claim", "axiom-without-fidelity", "blueprint-incomplete", "undocumented", "stale-blueprint", "paper-only", "ungrounded", null],
+          "description": "Cross-history reconciliation category. kernel-refutes-claim is a validity gap; axiom-without-fidelity is a fidelity gap (rests on a cited axiom whose statement carries no fidelity review record); blueprint-incomplete is a coverage gap (machine-checked but uses an unformalized concept)."
+        },
+        "fidelity": {
+          "type": ["object", "null"],
+          "description": "Statement-fidelity review record (from claims.toml): a human reviewed this claim's STATEMENT against its source paper. Required (via `claimgraph audit --require-fidelity`) for claims whose kernel reading is axiomatised.",
+          "properties": {
+            "reviewed": { "type": "string", "description": "Date of the review (YYYY-MM-DD)." },
+            "paper": { "type": "string", "description": "Source reference with a page anchor." },
+            "evidence": { "type": "string", "description": "Free text or an artifact path." }
+          },
+          "additionalProperties": true
         },
         "blueprint_complete": {
           "type": ["boolean", "null"],
