@@ -148,7 +148,15 @@ def run_axiom_report(
         cmd += ["--tex", str(tex)]
     cmd += list(names or [])
     try:
-        proc = subprocess.run(cmd, capture_output=True, text=True, check=False)
+        # Scrub GIT_* from the environment: when invoked from a git hook in a worktree, the leaked
+        # GIT_DIR/GIT_WORK_TREE/... make lake resolve the wrong repo and wipe .lake/packages.
+        proc = subprocess.run(
+            cmd,
+            capture_output=True,
+            text=True,
+            check=False,
+            env={k: v for k, v in os.environ.items() if not k.startswith("GIT_")},
+        )
     except (FileNotFoundError, OSError):
         return None
     if not proc.stdout.strip():
