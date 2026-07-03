@@ -1,6 +1,7 @@
 """Tests for the Lean Blueprint importer and kernel grounding."""
 from __future__ import annotations
 
+import subprocess
 from pathlib import Path
 
 from claimgraph import blueprint as bp
@@ -48,3 +49,27 @@ def test_kernel_status_mapping():
     assert bp.kernel_status_for(mk("b"), kernel) == bp.AXIOMATISED
     assert bp.kernel_status_for(mk("c"), kernel) == bp.OPEN
     assert bp.kernel_status_for(mk("missing"), kernel) is None
+
+
+def test_run_axiom_report_scrubs_git_env(monkeypatch):
+    """Regression: GIT_* leaked from a git worktree hook makes lake resolve the wrong repo and
+    wipe .lake/packages; run_axiom_report must invoke axiom-report with a GIT_*-free environment."""
+    captured = {}
+
+    def fake_run(cmd, **kwargs):
+        captured["cmd"] = cmd
+        captured["kwargs"] = kwargs
+        return subprocess.CompletedProcess(cmd, 0, stdout="Demo.base  clean\n", stderr="")
+
+    monkeypatch.setattr(bp.subprocess, "run", fake_run)
+    monkeypatch.setenv("GIT_DIR", "/elsewhere/.git")
+    monkeypatch.setenv("GIT_WORK_TREE", "/elsewhere")
+    monkeypatch.setenv("GIT_INDEX_FILE", "/elsewhere/.git/index")
+
+    out = bp.run_axiom_report(".", names=["Demo.base"])
+
+    env = captured["kwargs"]["env"]
+    assert env is not None
+    assert not any(k.startswith("GIT_") for k in env)
+    assert "PATH" in env  # the rest of the environment is preserved
+    assert out == {"Demo.base": "clean"}

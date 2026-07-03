@@ -87,6 +87,11 @@ class Node:
     asserted: str | None = None  # commit-history reading (latest commit Status:)
     kernel: str | None = None  # kernel reading (#print axioms, via axiom-report)
     agreement: str | None = None  # reconciliation category (see reconcile.py)
+    # Statement-fidelity review record (from claims.toml). The kernel checks the PROOF; nothing
+    # checks that an axiom's STATEMENT matches its source paper -- this record says a human did.
+    # Shape (a plain dict, validated lightly): {"reviewed": "YYYY-MM-DD",
+    # "paper": "<ref with page anchor>", "evidence": "<free text / artifact path>"}.
+    fidelity: dict | None = None
 
     @property
     def broken(self) -> bool:

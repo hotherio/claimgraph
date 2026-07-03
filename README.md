@@ -102,6 +102,36 @@ claimgraph depcheck examples/blueprint-igl/content.tex \
   --lean-deps examples/blueprint-igl/leandeps.txt
 ```
 
+## Fidelity records for cited axioms
+
+`#print axioms` checks the PROOF; nothing checks that a cited axiom's STATEMENT matches its source
+paper — an axiom false-as-stated passes every kernel gate. A per-claim **fidelity record** in
+`claims.toml` says a human reviewed the statement against the source:
+
+```toml
+[claims.expsum-rank-bound]
+kind      = "theorem"
+statement = "The exponential-sum rank obeys the cited log bound."
+
+[claims.expsum-rank-bound.fidelity]
+reviewed = "2026-07-01"                     # date of the review (YYYY-MM-DD)
+paper    = "Doe & Roe 2024, Thm 3.2, p.14"  # source reference with a page anchor
+evidence = "audits/expsum-fidelity.md"      # free text or an artifact path
+```
+
+A claim whose kernel reading is *axiomatised* and that carries no record is classified
+`axiom-without-fidelity` in the reconciled graph. The audit gate treats those as failures only when
+asked:
+
+```bash
+claimgraph audit blueprint/src/content.tex --repo . --claims claims.toml \
+  --project lean/ --require-fidelity
+```
+
+`--require-fidelity` is off by default, so existing repos keep passing until their registries carry
+the records. The record rides on the node as a `fidelity` object in `claimgraph.json`
+(emitted only when set).
+
 ## The web viewer
 
 [`docs/`](docs/) is a static, dependency-free viewer (vendored

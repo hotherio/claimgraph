@@ -6,6 +6,7 @@ edge construction.
 """
 from __future__ import annotations
 
+import datetime
 import subprocess
 import tomllib
 from dataclasses import dataclass, field
@@ -140,12 +141,24 @@ def _apply_commit(g: ClaimGraph, commit: Commit) -> CommitEffect:
     return CommitEffect(touched=touched, focus=focus, event=event)
 
 
+def _fidelity(value) -> dict | None:
+    """Light validation of a claims.toml fidelity record: keep it a plain dict (anything else is
+    dropped), with TOML-native date values coerced to ISO strings so the record stays JSON-safe."""
+    if not isinstance(value, dict):
+        return None
+    return {
+        k: (v.isoformat() if isinstance(v, (datetime.date, datetime.datetime)) else v)
+        for k, v in value.items()
+    }
+
+
 def seed_registry(g: ClaimGraph, registry: dict | None) -> None:
     """Seed registry claims so they carry their human statement and kind even before a commit."""
     for slug, entry in (registry or {}).items():
         node = g.node(slug)
         node.kind = entry.get("kind")
         node.statement = entry.get("statement")
+        node.fidelity = _fidelity(entry.get("fidelity"))
 
 
 def build_graph(commits: list[Commit], registry: dict | None = None) -> ClaimGraph:

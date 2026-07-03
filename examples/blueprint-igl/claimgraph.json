@@ -240,7 +240,7 @@
       ],
       "asserted": "math.axiomatised",
       "kernel": "math.axiomatised",
-      "agreement": "consistent",
+      "agreement": "axiom-without-fidelity",
       "blueprint_complete": true
     },
     {

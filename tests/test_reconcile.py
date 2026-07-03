@@ -62,13 +62,17 @@ def test_reconcile_unifies_label_fqn_and_commit():
     assert mf.agreement == "consistent"
 
 
-def test_reconcile_honest_axiom_is_consistent():
-    """prop:expsum: no \\leanok, commit axiomatised, kernel axiom -> all agree, not a gap."""
+def test_reconcile_honest_axiom_is_not_a_default_gap():
+    """prop:expsum: no \\leanok, commit axiomatised, kernel axiom -> the readings agree, so it is
+    never a validity gap. But nothing says its STATEMENT was reviewed against the paper, so it is
+    classified axiom-without-fidelity -- failing only under the opt-in --require-fidelity gate."""
     bp_nodes = bp.read_blueprint(str(IGL / "content.tex"))
     kernel = bp.parse_axiom_report((IGL / "axioms.txt").read_text())
     g = compute_agreement(bp.blueprint_graph(bp_nodes, kernel), with_commits=False)
     assert g.nodes["prop:expsum"].kernel == bp.AXIOMATISED
-    assert g.nodes["prop:expsum"].agreement == "consistent"
+    assert g.nodes["prop:expsum"].agreement == "axiom-without-fidelity"
+    assert "prop:expsum" not in {n.id for n in audit(g)}  # honest axiom: not a validity gap
+    assert "prop:expsum" in {n.id for n in audit(g, require_fidelity=True)}
 
 
 def test_kernel_clean_theorem_using_prose_def_is_not_a_validity_gap():

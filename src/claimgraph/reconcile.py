@@ -7,7 +7,7 @@ kernel), compute the transitive effective status, and classify where the reading
 """
 from __future__ import annotations
 
-from .blueprint import MC
+from .blueprint import AXIOMATISED, MC
 from .graph import compute, compute_coverage
 from .model import ClaimGraph, Edge, Node
 
@@ -15,6 +15,7 @@ from .model import ClaimGraph, Edge, Node
 CATEGORIES = (
     "consistent",            # the readings agree and the claim is effectively machine-checked
     "kernel-refutes-claim",  # a human source claims proved, but #print axioms says sorryAx / axiom
+    "axiom-without-fidelity",  # rests on a cited axiom, but its STATEMENT has no fidelity review
     "blueprint-incomplete",  # kernel-clean & claimed proved, but it \\uses an UNFORMALIZED concept
     "undocumented",          # kernel-clean & blueprint-proved, but no commit ever recorded it
     "stale-blueprint",       # commit machine-checked & kernel clean, but not \\leanok
@@ -27,6 +28,11 @@ CATEGORIES = (
 # the theorem is machine-checked; the blueprint just links it to an unformalized concept.
 GAP_CATEGORIES = frozenset({"kernel-refutes-claim"})
 COVERAGE_CATEGORIES = frozenset({"blueprint-incomplete"})
+# A *fidelity* gap: the kernel says the claim rests on a cited axiom, and no fidelity record in
+# claims.toml says a human reviewed the axiom's STATEMENT against its source paper. The kernel
+# checks proofs, never statements -- an axiom false-as-stated passes every kernel gate, so this is
+# a failing set of its own, opted into with ``claimgraph audit --require-fidelity``.
+FIDELITY_CATEGORIES = frozenset({"axiom-without-fidelity"})
 
 
 def _union_find(ids: set[str]):
@@ -88,13 +94,15 @@ def reconcile(blueprint: ClaimGraph, commits: ClaimGraph) -> ClaimGraph:
         m.claimed = n.claimed
         m.kernel = n.kernel
         m.status = n.status
-    # commit reading (asserted)
+    # commit reading (asserted) + the registry's fidelity record
     for n in commits.nodes.values():
         m = g.node(cid(n.id))
         m.kind = m.kind or n.kind
         m.statement = m.statement or n.statement
         m.asserted = n.status
         m.commits = n.commits
+        if n.fidelity:
+            m.fidelity = n.fidelity
     # working status precedence: kernel reality > recorded history > blueprint claim
     for m in g.nodes.values():
         m.status = m.kernel or m.asserted or m.status
@@ -118,8 +126,10 @@ def reconcile(blueprint: ClaimGraph, commits: ClaimGraph) -> ClaimGraph:
 def classify(n: Node, with_commits: bool) -> str:
     """Assign one discrepancy category to a reconciled node.
 
-    Validity and coverage are kept apart. ``kernel-refutes-claim`` is the only *validity* gap (a
-    claim shown proved that ``#print axioms`` contradicts). ``blueprint-incomplete`` is a *coverage*
+    Validity, fidelity, and coverage are kept apart. ``kernel-refutes-claim`` is the only *validity*
+    gap (a claim shown proved that ``#print axioms`` contradicts). ``axiom-without-fidelity`` is a
+    *fidelity* signal: the kernel reads the node as resting on a cited axiom, and no fidelity record
+    says its statement was reviewed against the source paper. ``blueprint-incomplete`` is a *coverage*
     signal: the node is machine-checked, but its ``\\uses`` closure includes an unformalized concept
     (``blueprint_complete is False``). It is driven by coverage, never by ``effective_status`` -- so a
     kernel-clean theorem is never reported as a validity gap merely for citing a prose definition.
@@ -138,6 +148,10 @@ def classify(n: Node, with_commits: bool) -> str:
     kernel_mc = n.kernel == MC
     if (claimed_mc or asserted_mc) and not kernel_mc:
         return "kernel-refutes-claim"
+    # An honest cited axiom (kernel says `axiom`, nobody claims proved) whose STATEMENT was never
+    # fidelity-reviewed against its source. The kernel cannot catch an axiom false-as-stated.
+    if n.kernel == AXIOMATISED and not n.fidelity:
+        return "axiom-without-fidelity"
     if kernel_mc and claimed_mc and n.blueprint_complete is False:
         return "blueprint-incomplete"
     if with_commits and kernel_mc and claimed_mc and n.asserted is None:
@@ -156,14 +170,20 @@ def compute_agreement(graph: ClaimGraph, with_commits: bool) -> ClaimGraph:
     return graph
 
 
-def audit(graph: ClaimGraph, strict: bool = False) -> list[Node]:
+def audit(graph: ClaimGraph, strict: bool = False, require_fidelity: bool = False) -> list[Node]:
     """Nodes whose readings disagree in a way that matters.
 
     By default this is the *validity* gaps only (``kernel-refutes-claim``): a claim shown proved
     that the kernel refutes. With ``strict=True`` it also returns ``blueprint-incomplete`` coverage
-    gaps (claims that ``\\uses`` unformalized concepts).
+    gaps (claims that ``\\uses`` unformalized concepts). With ``require_fidelity=True`` it also
+    returns ``axiom-without-fidelity`` fidelity gaps (claims resting on a cited axiom whose
+    statement carries no fidelity review record).
     """
-    gate = GAP_CATEGORIES | COVERAGE_CATEGORIES if strict else GAP_CATEGORIES
+    gate = set(GAP_CATEGORIES)
+    if strict:
+        gate |= COVERAGE_CATEGORIES
+    if require_fidelity:
+        gate |= FIDELITY_CATEGORIES
     return sorted(
         (n for n in graph.nodes.values() if n.agreement in gate),
         key=lambda n: n.id,
