@@ -12,10 +12,12 @@ import tomllib
 from dataclasses import dataclass, field
 from pathlib import Path
 
-from ckc_lint.data import breaking_tokens, relation_tokens
+from ckc_lint.data import breaking_tokens, relation_tokens, trusted_base_tokens
 from ckc_lint.parse import Commit, parse
 
-from .model import BROKEN, ClaimGraph, Edge, namespace_of
+from .model import BROKEN, DEPENDENCY_RELATIONS, ClaimGraph, Edge, namespace_of
+
+KERNEL_STATUS = "math.machine-checked"
 
 # Reference prefixes that are cosmetic and stripped to reach the canonical id.
 SCIENCE_PREFIXES = {"conjecture", "claim", "result", "def", "definition", "hypothesis", "finding"}
@@ -41,9 +43,17 @@ def canonical(ref: str) -> str:
 
 
 def _values(commit: Commit, token: str) -> list[str]:
-    """All canonical ids referenced by a (possibly comma-listed, repeatable) footer token."""
+    """All canonical ids referenced by a (possibly comma-listed, repeatable) footer token.
+
+    Relation tokens match case-insensitively, but an uppercase trusted-base marker (``ASSUMES:``,
+    ``AXIOM:``, ...) is prose about the commit's own trusted base, never a relation: ``ASSUMES:``
+    must not be read as ``Assumes:``.
+    """
+    markers = trusted_base_tokens()
     out: list[str] = []
     for f in commit.footers:
+        if f.token in markers:
+            continue
         if f.token.lower() == token.lower():
             out.extend(canonical(p) for p in f.value.replace("\n", ",").split(",") if p.strip())
     return out
@@ -168,6 +178,18 @@ def _apply_commit(g: ClaimGraph, commit: Commit) -> CommitEffect:
             ev.statement = commit.description
             ev.kind = commit.type
     touched.add(source)
+
+    # A clean kernel proof does not rest on the informal argument it replaces: the claims this
+    # commit makes machine-checked (its subjects and what it Closes/Proves) drop the dependency
+    # edges of earlier records and keep only those this commit lists. Other updates accumulate.
+    # The dependencies it lists attach to its subjects, as for any commit; a closed claim rests on
+    # the kernel proof, whose own axioms are already clean (otherwise it is not machine-checked).
+    if status == KERNEL_STATUS:
+        replaced = set(subjects) | set(promote_targets)
+        g.edges = [
+            e for e in g.edges
+            if not (e.source in replaced and e.relation in DEPENDENCY_RELATIONS)
+        ]
 
     breaking = _is_breaking(commit)
     for tok in relation_tokens():
