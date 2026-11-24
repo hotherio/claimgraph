@@ -15,7 +15,7 @@ from pathlib import Path
 from ckc_lint.data import breaking_tokens, relation_tokens
 from ckc_lint.parse import Commit, parse
 
-from .model import ClaimGraph, Edge
+from .model import BROKEN, ClaimGraph, Edge, namespace_of
 
 # Reference prefixes that are cosmetic and stripped to reach the canonical id.
 SCIENCE_PREFIXES = {"conjecture", "claim", "result", "def", "definition", "hypothesis", "finding"}
@@ -65,6 +65,45 @@ def _subjects(commit: Commit, is_break_event: bool) -> list[str]:
     return subs
 
 
+# Kinds (a registry `kind`, or the type of the commit that first asserted the node) that place a
+# claim in the science domain; anything else defaults to mathematics.
+SCIENCE_KINDS = frozenset(
+    {"hypothesis", "finding", "experiment", "result", "replicate", "null", "data", "protocol",
+     "method", "analysis", "repro-fix", "observation"}
+)
+# The broken status of each domain for a refutation-like relation.
+BROKEN_BY_DOMAIN = {"math": "math.disproved", "sci": "sci.falsified"}
+
+
+def _domain(node, commit_status: str | None) -> str:
+    """The domain (``math`` or ``sci``) of a claim: from its current status, else its kind, else
+    the namespace of the commit that refers to it, else ``math``."""
+    ns = namespace_of(node.status)
+    if ns in BROKEN_BY_DOMAIN:
+        return ns
+    if node.kind:
+        return "sci" if node.kind.lower() in SCIENCE_KINDS else "math"
+    ns = namespace_of(commit_status)
+    return ns if ns in BROKEN_BY_DOMAIN else "math"
+
+
+def _broken_status(node, relation: str, commit_status: str | None) -> str | None:
+    """The status a breaking relation gives its target.
+
+    A broken status the commit states itself (``Status: math.disproved`` on a ``refute!``,
+    ``sci.not-replicated`` on a failed ``replicate``) is kept when it belongs to the target's
+    domain. Otherwise the target takes its domain's broken status. ``Retracts`` withdraws a claim
+    without showing it false, and CKC has no retracted status, so it only changes the target's
+    status when the commit states a broken one.
+    """
+    domain = _domain(node, commit_status)
+    if commit_status in BROKEN and namespace_of(commit_status) == domain:
+        return commit_status
+    if relation == "Retracts":
+        return None
+    return BROKEN_BY_DOMAIN[domain]
+
+
 def _is_breaking(commit: Commit) -> bool:
     toks = {t.lower() for t in breaking_tokens()}
     return commit.bang or any(f.token.lower() in toks for f in commit.footers)
@@ -106,10 +145,19 @@ def _apply_commit(g: ClaimGraph, commit: Commit) -> CommitEffect:
             node.status = status
         touched.add(sid)
 
-    # A discharged claim inherits the status; a broken claim takes the breaking status.
+    # A discharged claim inherits the status. A broken claim takes the broken status of its own
+    # domain (spec, Breakage: "math.disproved, sci.falsified, or retracted, as appropriate"), not
+    # the commit's: a science commit's `Status: sci.measured` is the status of the experiment it
+    # records, not of the claim it refutes.
     if status:
-        for tid in promote_targets + break_targets:
+        for tid in promote_targets:
             g.node(tid).status = status
+    for tok in BREAK_RELATIONS:
+        for tid in _values(commit, tok):
+            node = g.node(tid)
+            broken = _broken_status(node, tok, status)
+            if broken is not None:
+                node.status = broken
 
     # Edges from every relation footer. Source is the subject; a pure event (e.g. a refute with
     # no Lean subject) gets a synthetic source node so the event is still visible in the graph.
